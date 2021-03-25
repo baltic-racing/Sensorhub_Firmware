@@ -1,2 +1,2 @@
-# SH_100
-Code for the Sensor Hub 100Hz (AT90CAN128 mcu)
+# SH
+Code for the Sensor Hub of teh TY20 (AT90CAN128 mcu)
