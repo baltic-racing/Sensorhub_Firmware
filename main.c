@@ -51,25 +51,25 @@ int main(void)
 			
 			if (sys_time_10 >= 10){  
 			
-			SH_databytes1[0] = adc_get_1() && 0xff;
+			SH_databytes1[0] = adc_get_1() & 0xff;
 			SH_databytes1[1] = adc_get_1() >> 8;
-			SH_databytes1[2] = adc_get_2() && 0xff;
+			SH_databytes1[2] = adc_get_2() & 0xff;
 			SH_databytes1[3] = adc_get_2() >> 8;
-			SH_databytes1[4] = adc_get_3() && 0xff;
+			SH_databytes1[4] = adc_get_3() & 0xff;
 			SH_databytes1[5] = adc_get_3() >> 8;
-			SH_databytes1[6] = adc_get_4() && 0xff;
+			SH_databytes1[6] = adc_get_4() & 0xff;
 			SH_databytes1[7] = adc_get_4() >> 8;
 
 			can_tx(&can_SH_mob1, SH_databytes1); //send the CAN Message		
 						
-			SH_databytes2[0] = adc_get_5() && 0xff;
+			SH_databytes2[0] = adc_get_5() & 0xff;
 			SH_databytes2[1] = adc_get_5() >> 8;
-			SH_databytes2[2] = 42;
-			SH_databytes2[3] = 42;
-			SH_databytes2[4] = 42;
+			SH_databytes2[2] = 12;
+			SH_databytes2[3] = 22;
+			SH_databytes2[4] = 32;
 			SH_databytes2[5] = 42;
-			SH_databytes2[6] = 42;
-			SH_databytes2[7] = 42;
+			SH_databytes2[6] = 52;
+			SH_databytes2[7] = 2;
 						
 			can_tx(&can_SH_mob2, SH_databytes2); //send the CAN Message	
 			
