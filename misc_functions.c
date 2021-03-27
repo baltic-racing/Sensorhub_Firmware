@@ -38,6 +38,6 @@ void sys_timer_config(){
 ISR(TIMER0_COMP_vect){
 	
 	sys_time++; //system time generation
-	//for every time the timer equals 249 an interrupt is generated resulting in invreasing the SYStime
+	//for every time the timer equals 249 an interrupt is generated resulting in increasing the SYStime
 
 }

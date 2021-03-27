@@ -9,12 +9,14 @@
 #include "canlib.h"
 #include "misc_functions.h"
 #include "adc_functions.h"
+#include "SPI.h"
 #include <avr/interrupt.h>
 
 extern unsigned long sys_time;
 volatile unsigned long time_old = 0;
 volatile uint8_t sys_time_10 = 0;
 volatile uint8_t sys_time_50 = 0;
+volatile uint8_t sys_time_500 = 0;
 
 int main(void)
 {
@@ -22,6 +24,7 @@ int main(void)
 	sys_timer_config();
 	port_config();
 	adc_config();
+	SPI_config();
 	
 	// Struct for the CAN Message that contains the sampled Sensor Data
 
@@ -64,8 +67,8 @@ int main(void)
 						
 			SH_databytes2[0] = adc_get_5() & 0xff;
 			SH_databytes2[1] = adc_get_5() >> 8;
-			SH_databytes2[2] = 12;
-			SH_databytes2[3] = 22;
+			SH_databytes2[2] = TYPK_getdata() & 0xff;;
+			SH_databytes2[3] = TYPK_getdata() >> 8;
 			SH_databytes2[4] = 32;
 			SH_databytes2[5] = 42;
 			SH_databytes2[6] = 52;
@@ -80,9 +83,15 @@ int main(void)
 		}
 		//50ms loop
 		
-		if(sys_time_50 >= 10){
+		if(sys_time_50 >= 5){
 			sys_tick();
 			sys_time_50 = 0;
+			sys_time_500++;
+			}
+		//500ms loop	
+		if(sys_time_500 >= 20){
+			TYPK_read();
+			sys_time_500 = 0;
 			}
 			
 		}
