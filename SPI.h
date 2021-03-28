@@ -14,7 +14,8 @@
 //creating Prototypes of the functions used in the SPI.c
 void SPI_config();
 void TYPK_read();
-uint16_t TYPK_getdata();
+uint16_t TYPK_getdata1();
+uint16_t TYPK_getdata2();
 ISR(SPI_STC_vect);
 
 #endif // SPI_H 

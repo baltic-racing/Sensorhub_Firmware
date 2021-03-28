@@ -11,7 +11,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-uint8_t SPIdata[2];
+uint8_t SPIdata[4];
 uint8_t SPIcount = 0;
 
 void SPI_config(){
@@ -36,23 +36,32 @@ void TYPK_read(){
 	//Then we need to go into the interrupt when the transmission of the first byte is finished
 }
 
-uint16_t TYPK_getdata(){
+uint16_t TYPK_getdata1(){
 	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
-	uint16_t TYPkDATA =  ((SPIdata[0] << 8) | SPIdata[1]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	uint16_t TYPkDATA1 =  ((SPIdata[0] << 8) | SPIdata[1]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
 	//sei(); // enable Interrupts again
-	return TYPkDATA;	
+	return TYPkDATA1;	
 }
-													
-	
+
+uint16_t TYPK_getdata2(){
+	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
+	uint16_t TYPkDATA2 =  ((SPIdata[2] << 8) | SPIdata[3]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	//sei(); // enable Interrupts again
+	return TYPkDATA2;										
+}
 
 	ISR(SPI_STC_vect){
 		//Store the data that has been pushed into SPDR via the Slave
 		SPIdata[SPIcount] = SPDR;
 		SPIcount++; //incrementing the counter that indicates the number of bytes that has been transmitted
 		//If the entire message has been transmitted terminate the SPI data transfer by pulling Chip Select low
-		if (SPIcount>=2){
-			PORTB |= (1<<PB0);//Switch SS off, High=off, Low=on
+		if (SPIcount==2){
 			PORTE |= (1<<PE0);//Switch CS_TYPK_1 off
+			PORTE &= ~(1<<PE1);//Switch CS_TYPK_2 on
+		}
+		if (SPIcount>=4){
+			PORTB |= (1<<PB0);//Switch SS off, High=off, Low=on
+			PORTE |= (1<<PE1);//Switch CS_TYPK_2 off
 
 			SPIcount=0;//Resetting counter for next SPI transmission
 		}

@@ -67,10 +67,10 @@ int main(void)
 						
 			SH_databytes2[0] = adc_get_5() & 0xff;
 			SH_databytes2[1] = adc_get_5() >> 8;
-			SH_databytes2[2] = TYPK_getdata() & 0xff;;
-			SH_databytes2[3] = TYPK_getdata() >> 8;
-			SH_databytes2[4] = 32;
-			SH_databytes2[5] = 42;
+			SH_databytes2[2] = TYPK_getdata1() & 0xff;
+			SH_databytes2[3] = TYPK_getdata1() >> 8;
+			SH_databytes2[4] = TYPK_getdata2() & 0xff;;
+			SH_databytes2[5] = TYPK_getdata2() >> 8;
 			SH_databytes2[6] = 52;
 			SH_databytes2[7] = 2;
 						
