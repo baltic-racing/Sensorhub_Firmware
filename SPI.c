@@ -65,9 +65,9 @@ ISR(SPI_STC_vect){
 				PORTE |= (1<<PE3);				//Switch CS_TYPK_2 off
 				SPIcount=0;						//Resetting counter for next SPI transmission
 				if (TKTF==1){					//check whether the flag for the TYPK transmission has been set 
-					PORTE &= ~(1<<PE0);			//Switch CS_TYPK_1 on
-					SPDR = 0x11;				//send empty byte to initiate data Transmission
-					TKTFISR = 1;				//Indicate that in the next iteration of the ISR we have to switch differently between the CS
+					//PORTE &= ~(1<<PE0);			//Switch CS_TYPK_1 on
+					//SPDR = 0x11;				//send empty byte to initiate data Transmission
+					//TKTFISR = 1;				//Indicate that in the next iteration of the ISR we have to switch differently between the CS
 				}
 				else{							//IF no TYPK Transmission is requested simply terminate the SPI Transmission
 					PORTB |= (1<<PB0);			//Switch SS off, High=off, Low=on terminate the SPI data transfer by pulling SS low
@@ -97,14 +97,14 @@ uint16_t TYPK_getdata2(){
 
 uint16_t Speed_getdata1(){
 	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
-	uint16_t SpeedDATA1 =  ((SPI_Speed_data[0] << 8) | SPI_Speed_data[1]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	uint16_t SpeedDATA1 =  (SPI_Speed_data[0] << 8) | SPI_Speed_data[1];//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
 	//sei(); // enable Interrupts again
 	return SpeedDATA1;	
 }
 
 uint16_t Speed_getdata2(){
 	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
-	uint16_t SpeedDATA2 =  ((SPI_Speed_data[2] << 8) | SPI_Speed_data[3]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	uint16_t SpeedDATA2 =  (SPI_Speed_data[2] << 8) | SPI_Speed_data[3];//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
 	//sei(); // enable Interrupts again
 	return SpeedDATA2;										
 }
