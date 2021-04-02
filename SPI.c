@@ -65,9 +65,9 @@ ISR(SPI_STC_vect){
 				PORTE |= (1<<PE3);				//Switch CS_TYPK_2 off
 				SPIcount=0;						//Resetting counter for next SPI transmission
 				if (TKTF==1){					//check whether the flag for the TYPK transmission has been set 
-					//PORTE &= ~(1<<PE0);			//Switch CS_TYPK_1 on
-					//SPDR = 0x11;				//send empty byte to initiate data Transmission
-					//TKTFISR = 1;				//Indicate that in the next iteration of the ISR we have to switch differently between the CS
+					PORTE &= ~(1<<PE0);			//Switch CS_TYPK_1 on
+					SPDR = 0x11;				//send empty byte to initiate data Transmission
+					TKTFISR = 1;				//Indicate that in the next iteration of the ISR we have to switch differently between the CS
 				}
 				else{							//IF no TYPK Transmission is requested simply terminate the SPI Transmission
 					PORTB |= (1<<PB0);			//Switch SS off, High=off, Low=on terminate the SPI data transfer by pulling SS low
