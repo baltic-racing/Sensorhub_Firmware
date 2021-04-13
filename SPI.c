@@ -97,14 +97,14 @@ uint16_t TYPK_getdata2(){
 
 uint16_t Speed_getdata1(){
 	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
-	uint16_t SpeedDATA1 =  ((SPI_Speed_data[0] << 8) | SPI_Speed_data[1]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	uint16_t SpeedDATA1 =  (SPI_Speed_data[0] << 8) | SPI_Speed_data[1];//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
 	//sei(); // enable Interrupts again
 	return SpeedDATA1;	
 }
 
 uint16_t Speed_getdata2(){
 	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
-	uint16_t SpeedDATA2 =  ((SPI_Speed_data[2] << 8) | SPI_Speed_data[3]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	uint16_t SpeedDATA2 =  (SPI_Speed_data[2] << 8) | SPI_Speed_data[3];//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
 	//sei(); // enable Interrupts again
 	return SpeedDATA2;										
 }
