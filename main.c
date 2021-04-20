@@ -30,19 +30,19 @@ int main(void)
 	// Struct for the CAN Message that contains the sampled Sensor Data
 
 	struct CAN_MOB can_SH_mob1;
-	can_SH_mob1.mob_id = 0x600;
+	can_SH_mob1.mob_id = 0x500;
 	can_SH_mob1.mob_idmask = 0; //We are sending this CAN Message Object (MOB) therefore we do not need an ID MASK
 	can_SH_mob1.mob_number = 1;
 	uint8_t SH_databytes1[8];
 	
 	struct CAN_MOB can_SH_mob2;
-	can_SH_mob2.mob_id = 0x601;
+	can_SH_mob2.mob_id = 0x501;
 	can_SH_mob2.mob_idmask = 0; //We are sending this CAN Message Object (MOB) therefore we do not need an ID MASK
 	can_SH_mob2.mob_number = 2;
 	uint8_t SH_databytes2[8];
 		
 	struct CAN_MOB can_SH_mob3;
-	can_SH_mob3.mob_id = 0x602;
+	can_SH_mob3.mob_id = 0x502;
 	can_SH_mob3.mob_idmask = 0; //We are sending this CAN Message Object (MOB) therefore we do not need an ID MASK
 	can_SH_mob3.mob_number = 3;
 	uint8_t SH_databytes3[8];
