@@ -1,0 +1,9 @@
+DIC_irgendwie/Debug/*
+*.o
+*.elf
+*.hex
+*.lss
+*.srec
+
+#User Specific Files
+*.atsuo
