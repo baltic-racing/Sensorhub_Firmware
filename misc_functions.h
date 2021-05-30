@@ -18,4 +18,10 @@ void sys_timer_config();
 ISR(TIMER0_COMP_vect);
 void sys_tick();
 
+uint16_t ADC2NTCtemp(uint16_t data, uint16_t bfactor, uint16_t R_NTC, uint16_t ADC_Volt, uint16_t R_Teiler);
+uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision);
+
+//defines for NTC calc with Thermashop MSW-20328
+#define T_norm 298.15 //K
+
 #endif /* MISC_FUNCTIONS_H_ */
