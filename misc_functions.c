@@ -8,6 +8,8 @@
  */ 
 #include "misc_functions.h"
 volatile unsigned long sys_time = 0;
+#include <math.h>
+#include "adc_functions.h"
 
 void port_config(){
 	DDRA = 0;												//All not used
@@ -40,4 +42,26 @@ ISR(TIMER0_COMP_vect){
 	sys_time++; //system time generation
 	//for every time the timer equals 249 an interrupt is generated resulting in increasing the SYStime
 
+}
+
+uint16_t ADC2NTCtemp(uint16_t data, uint16_t bfactor, uint16_t R_NTC, uint16_t ADC_Volt, uint16_t R_Teiler){
+
+		uint16_t temperature = 0;
+		double ln = 0;
+		
+		ln = logf(((R_Teiler/ADC_Volt-data)*data)/R_NTC);
+		temperature = (1/((1/T_norm)+(1/bfactor)*ln))*10;
+		return temperature;
+}
+
+uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision){
+	uint16_t start_ADC = (pow(2,ADC_bit))/ADC_Volt*start_Volt;
+	uint16_t end_ADC = (pow(2,ADC_bit))/ADC_Volt*end_Volt ;
+	float ADC_range = end_ADC - start_ADC;
+	float sensor_factor = sensor_max/ADC_range;
+	uint16_t Sensor_Data = (data-start_ADC)*precision*sensor_factor;
+	if (data<start_ADC){
+		Sensor_Data = 0;
+	}
+	return Sensor_Data;
 }
