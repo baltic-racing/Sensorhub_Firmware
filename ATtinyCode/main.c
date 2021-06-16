@@ -11,31 +11,33 @@
 uint8_t sys_time_10 = 0;
 uint8_t SPIdata[2];
 uint8_t SPIcount = 0;
+uint16_t Ticks = 0;
 
 unsigned long int time_old = 0;
 unsigned long int sys_time = 0;
-volatile unsigned long int timestepdiff = 0;
-volatile unsigned long int timediff[10] = 0;
+//volatile unsigned long int timestepdiff = 0;
+//volatile unsigned long int timediff[10] = 0;
 volatile unsigned long int sys_time_old = 0;
-volatile uint16_t Wheelspeed  = 0; //in km/h
-volatile float RPS = 0; //Wheel Revolutions per second
-volatile float ideal_measurement_angle = 0;
-volatile float possible_measurement_angle = 0;
-volatile uint8_t interval_width = 0;
-volatile float timediffinterval = 0;
-volatile uint8_t n = 9 ; //Durchlaufvariable für timestepdiff mit den letzten 10 werten
+volatile uint8_t PB5_state_old = 0;
+//volatile uint16_t Wheelspeed  = 0; //in km/h
+//volatile float RPS = 0; //Wheel Revolutions per second
+//volatile float ideal_measurement_angle = 0;
+//volatile float possible_measurement_angle = 0;
+//volatile uint8_t interval_width = 0;
+//volatile float timediffinterval = 0;
+//volatile uint8_t n = 9 ; //Durchlaufvariable für timestepdiff mit den letzten 10 werten
 //Volatile:	 Variable can change within an interrupt
 //long:		 32Bit
 //Unsigned:	 only positive numbers are allowed
 
-#define trigger_angle = 11.25 ; //Trigger Angle in degree both high & low are the same
-#define Tcirc = 1476,5485 ; //Tire circumference in mm
-#define desired_update_frequency = 100; //Update frequency for the floating calculation of the Wheelspeed
+//#define trigger_angle = 11.25 ; //Trigger Angle in degree both high & low are the same
+//#define Tcirc = 1476.5485 ; //Tire circumference in mm
+//#define desired_update_frequency = 100; //Update frequency for the floating calculation of the Wheelspeed
 
 void sys_timer_config();
 void SPI_USI_config();
 void PORT_Config();
-void calc_wheelspeed_floating();
+//void calc_wheelspeed_floating();
 
 int main(void)
 {
@@ -73,21 +75,24 @@ ISR(TIM0_COMPA_vect){
 }
 
 ISR(USI_OVF_vect){
-	USIDR = SPIdata[1];	//Write LSB into Buffer for send to Master
+	USIDR = 5;	//Write LSB into Buffer for send to Master
 	USISR = (1 << USIOIF);;// Clear Overflow bit
 }
 
 ISR(PCINT0_vect){ //Pin Change Interrupt on Chip Select
-	if((PINB & (1 << PB0))== 0){	// If edge is falling, the SPI Comm should be activated
-		USIDR = SPIdata[0];			//Write MSB into Buffer for send to Master
+	if((PINB & (1 << PB0)) == 0){	// If edge is falling, the SPI Comm should be activated
+		USIDR = 3;			//Write MSB into Buffer for send to Master
 		DDRB |= (1 << DDB1);		//Configure MISO as Output
 		USISR = (1 << USIOIF);      // Clear Overflow bit
 		USICR |= (1 << USIOIE);		// 4-bit overflow counter of the USI communication shall be activated
 	}
-	else{ // If edge is rising, turn the 4-bit overflow interrupt off:
+	else if((PINB & (1 << PB0)) == 1){ // If edge is rising, turn the 4-bit overflow interrupt off:
 		USICR &= ~(1 << USIOIE);
 		DDRB &= ~(1 << DDB1);		//Configure as Hi Z so MISO does not influence other data traffic
 		PORTB &= ~(1 << PB1);		//Configure as Hi Z so MISO does not influence other data traffic		
+	}else if ((PINB & (1 << PB5)) != PB5_state_old){
+		PB5_state_old = (1 << PB5);
+		Ticks++; //Increments this variable for every pin change on PB5 (Wheelspeed trigger)
 	}
 }
 
@@ -105,15 +110,12 @@ void SPI_USI_config(){
 	//selecting external clock and toggling the 4bit timer on both edges = 8bit per Interrupt  (SPI mode 1)
 	USIDR = 0; //Initialization of the first message the Master receives from the ATtiny
 	USISR = (1 << USIOIF);// Clear Overflow bit
-	//some test data
-	SPIdata[1] = 0b10000000;
-	SPIdata[0] = 0b00000001;
 }
 
-void PORT_Config{
+void PORT_Config(){
 	PCMSK = (1 << PCINT5);					//enable Pin change Interrupt on Digital in pin PB5
 	}
-
+/*
 ISR(PCINT5){
 	if(n>=1){
 		timestepdiff = sys_time - sys_time_old;
@@ -130,8 +132,11 @@ ISR(PCINT5){
 		timestepdiff[0] = sys_time - sys_time_old; //Timer overflow? Timer Resolution in contrast to angular speed
 	}
 	calc_wheelspeed_floating()
+	
 }
+*/
 
+/*
 void calc_wheelspeed_floating(){
 
 
@@ -153,3 +158,4 @@ void calc_wheelspeed_floating(){
 	SPIdata[0]= Wheelspeed << 8; //MSB
 	SPIdata[1] = Wheelspeed & 0xff;	//LSB
 }
+*/
