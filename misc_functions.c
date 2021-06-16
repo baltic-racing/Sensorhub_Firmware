@@ -10,6 +10,29 @@
 volatile unsigned long sys_time = 0;
 #include <math.h>
 #include "adc_functions.h"
+#include "SPI.h"
+
+volatile uint16_t spi_transmissions = 0;//for debugging
+volatile uint8_t PB5_state_old = 0;
+volatile uint8_t cs_state_old = 0;
+volatile uint16_t ticks = 0;
+
+extern uint16_t SpeedDATA2;
+
+volatile float angular_velocity = 0;
+volatile uint16_t timestepdiff = 0;
+volatile float Wheelspeed_mps = 0; //in m/s
+volatile uint16_t Wheelspeed_kmh = 0; //
+volatile float RPS = 0; //Wheel Revolutions per second
+
+
+//Volatile:	 Variable can change within an interrupt
+//long:		 32Bit
+//Unsigned:	 only positive numbers are allowed
+
+#define trigger_angle 11.25//Trigger Angle in degree both high & low are the same
+#define Tcirc 1476.5485 //Tire circumference in mm
+#define desired_update_frequency 100//Update frequency for the floating calculation of the Wheelspeed
 
 void port_config(){
 	DDRA = 0;												//All not used
@@ -65,3 +88,44 @@ uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sen
 	}
 	return Sensor_Data;
 }
+
+uint16_t ticks2speed(){
+	timestepdiff = SpeedDATA2;
+	angular_velocity = 1/(timestepdiff/11.25);
+	RPS = (angular_velocity/360)*1000; //°/ms-> Rev/s
+	Wheelspeed_mps = RPS*(Tcirc/1000);
+	Wheelspeed_kmh = Wheelspeed_mps*100*3.6;//Speed in 0,1Km/h
+	return Wheelspeed_kmh;
+}
+	/*
+	volatile float timediff[10];
+	volatile float ideal_measurement_angle = 0;
+	volatile float possible_measurement_angle = 0;
+	volatile uint8_t interval_width = 0;
+	volatile float timediffinterval = 0;
+	volatile uint8_t n = 9 ; //Durchlaufvariable für timestepdiff mit den letzten 10 werten
+	if(n>=1){
+		timediff[n] = timestepdiff; //timediff according to 10Khz clock so we divide timesteps by 10 to get timediff in ms
+		n--;
+		}else{
+		for (uint8_t i = 9; i <= 1;i--){
+			timediff[i]=timediff[i+1];
+		}
+		timediff[0] = timestepdiff; //Timer overflow? Timer Resolution in contrast to angular speed
+	}
+	
+	ideal_measurement_angle = RPS * 360 / desired_update_frequency;
+	interval_width = ideal_measurement_angle / trigger_angle;
+	possible_measurement_angle = interval_width * trigger_angle;
+	if (possible_measurement_angle == 0){
+		possible_measurement_angle = trigger_angle;
+	}
+	for (uint8_t i = interval_width ; i <= 1;i--){
+		timediffinterval += timediff[i];
+	}
+	RPS = 1 / ((timediffinterval / interval_width) * (360 / 1000));
+	Wheelspeed = RPS * (Tcirc / 1000*1000) * 60*60;
+	return Wheelspeed;
+	*/
+
+		
