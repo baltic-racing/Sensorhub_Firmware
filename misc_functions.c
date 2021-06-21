@@ -43,13 +43,14 @@ ISR(TIMER0_COMP_vect){
 
 }
 
-uint16_t ADC2NTCtemp(uint16_t data, uint16_t bfactor, uint16_t R_NTC, uint16_t ADC_Volt, uint16_t R_Teiler){
-
+uint16_t ADC2NTCtemp(uint16_t data, uint16_t bfactor, uint16_t R_NTC_norm, uint16_t ADC_Volt, uint16_t ADC_acc, uint16_t R_Teiler){
 	uint16_t temperature = 0;
-	double ln = 0;
-	
-	ln = logf(((R_Teiler/ADC_Volt-data)*data)/R_NTC);
-	temperature = (1/((1/T_norm)+(1/bfactor)*ln))*10;
+	data=1024-data;
+	double NTC_Volt = ((double)ADC_Volt/(double)ADC_acc)*(double)data; //in 0,1mv
+	double R_NTC = ((double)NTC_Volt*(double)R_Teiler)/((double)ADC_Volt-(double)NTC_Volt);
+	double ln = logf((double)R_NTC/(double)R_NTC_norm);
+
+	temperature = (1/((1/T_norm)+(1/(double)bfactor)*(double)ln))*10; //in 0,1K
 	return temperature;
 }
 

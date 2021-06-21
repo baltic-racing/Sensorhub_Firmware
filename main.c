@@ -94,10 +94,10 @@ int main(void)
 		
 		if(sys_time_50 >= 5){
 			sys_time_50 = 0;
-			SH_databytes2[0] = ADC2NTCtemp(adc_data_3,3450,10000,5,2200)	& 0xff;	//CLTRR
-			SH_databytes2[1] = ADC2NTCtemp(adc_data_3,3450,10000,5,2200)	>> 8;
-			SH_databytes2[2] = ADC2NTCtemp(adc_data_4,3450,10000,5,2200)	& 0xff;	//CLTVR
-			SH_databytes2[3] = ADC2NTCtemp(adc_data_4,3450,10000,5,2200)	>> 8;
+			SH_databytes2[0] = ADC2NTCtemp(adc_data_3,3450,10000,5,1024,1500)	& 0xff;	//CLTRR
+			SH_databytes2[1] = ADC2NTCtemp(adc_data_3,3450,10000,5,1024,1500)	>> 8;
+			SH_databytes2[2] = ADC2NTCtemp(adc_data_4,3450,10000,5,1024,1500)	& 0xff;	//CLTVR
+			SH_databytes2[3] = ADC2NTCtemp(adc_data_4,3450,10000,5,1024,1500)	>> 8;
 			SH_databytes2[4] = 1;
 			SH_databytes2[5] = 2;
 			SH_databytes2[6] = 3;
