@@ -18,6 +18,7 @@ volatile uint8_t sys_time_10 = 0;
 volatile uint8_t sys_time_50 = 0;
 volatile uint8_t sys_time_200 = 0;
 extern volatile TKTF;
+extern uint16_t SpeedDATA2;
 
 uint16_t adc_data_1;
 uint16_t adc_data_2;
@@ -56,28 +57,28 @@ int main(void)
     while (1) {
 		
 		//1ms loop 1000Hz
+		
 		if((sys_time - time_old) >= 1){ 
+			
 			time_old = sys_time;
 			adc_start_conversion();
 			sys_time_10++;
-			
-		//10ms loop 100Hz
-			
-			if (sys_time_10 >= 10){  
-				
+			SpeedDATA2 = Speed_getdata2();
 			SPI_read(); //Starts the SPI Procedure
 			
+		//10ms loop 100Hz
+		
+		if (sys_time_10 >= 10){  
 			
 			adc_data_1 = adc_get_1();
-			
 			SH_databytes1[0] = ADC2Sensor(adc_data_1,0,5,100,10,5,10) & 0xff; //Brake Pressure Front
 			SH_databytes1[1] = ADC2Sensor(adc_data_1,0,5,100,10,5,10) >> 8;
-			SH_databytes1[2] = Speed_getdata1()	& 0xff;
-			SH_databytes1[3] = Speed_getdata1()	>> 8;
-			SH_databytes1[4] = Speed_getdata2()	& 0xff;
-			SH_databytes1[5] = Speed_getdata2()	>> 8;
-			SH_databytes1[6] = 0;
-			SH_databytes1[7] = 0;
+			SH_databytes1[2] = ticks2speed(SpeedDATA2)	& 0xff;
+			SH_databytes1[3] = ticks2speed(SpeedDATA2)	>> 8;
+			SH_databytes1[4] = SpeedDATA2	& 0xff;
+			SH_databytes1[5] = SpeedDATA2	>> 8;
+			SH_databytes1[6] = 5;
+			SH_databytes1[7] = 6;
 
 			can_tx(&can_SH_mob1, SH_databytes1); //send the CAN Message		
 						
@@ -91,11 +92,12 @@ int main(void)
 		adc_data_3 = adc_get_3();
 		
 		if(sys_time_50 >= 5){
+			
 			sys_time_50 = 0;
-			SH_databytes2[0] = ADC2NTCtemp(adc_data_2,3450,10000,5,2200)	& 0xff;	//CLTRR
-			SH_databytes2[1] = ADC2NTCtemp(adc_data_2,3450,10000,5,2200)	>> 8;
-			SH_databytes2[2] = ADC2NTCtemp(adc_data_3,3450,10000,5,2200)	& 0xff;	//CLTVR
-			SH_databytes2[3] = ADC2NTCtemp(adc_data_3,3450,10000,5,2200)	>> 8;
+			SH_databytes2[0] = ADC2NTCtemp(adc_data_2,3450,10000,5,1024,1500)	& 0xff;	//CLTRR
+			SH_databytes2[1] = ADC2NTCtemp(adc_data_2,3450,10000,5,1024,1500)	>> 8;
+			SH_databytes2[2] = ADC2NTCtemp(adc_data_3,3450,10000,5,1024,1500)	& 0xff;	//CLTVR
+			SH_databytes2[3] = ADC2NTCtemp(adc_data_3,3450,10000,5,1024,1500)	>> 8;
 			SH_databytes2[4] = adc_get_4;
 			SH_databytes2[5] = adc_get_4;
 			SH_databytes2[6] = adc_get_5;

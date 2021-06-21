@@ -7,9 +7,20 @@
  *  Author: Lukas Deeken
  */ 
 #include "misc_functions.h"
+#include <stdio.h>
+#include <float.h>
 volatile unsigned long sys_time = 0;
 #include <math.h>
 #include "adc_functions.h"
+#include "SPI.h"
+
+//Volatile:	 Variable can change within an interrupt
+//long:		 32Bit
+//Unsigned:	 only positive numbers are allowed
+
+#define trigger_angle 11.25//Trigger Angle in degree both high & low are the same
+#define Tcirc 1476.5485 //Tire circumference in mm
+#define desired_update_frequency 100//Update frequency for the floating calculation of the Wheelspeed
 
 void port_config(){
 	DDRA = 0;												//All not used
@@ -44,20 +55,22 @@ ISR(TIMER0_COMP_vect){
 
 }
 
-uint16_t ADC2NTCtemp(uint16_t data, uint16_t bfactor, uint16_t R_NTC, uint16_t ADC_Volt, uint16_t R_Teiler){
-
+uint16_t ADC2NTCtemp(uint16_t data, uint16_t bfactor, uint16_t R_NTC_norm, uint16_t ADC_Volt, uint16_t ADC_acc, uint16_t R_Teiler){
 		uint16_t temperature = 0;
-		double ln = 0;
-		
-		ln = logf(((R_Teiler/ADC_Volt-data)*data)/R_NTC);
-		temperature = (1/((1/T_norm)+(1/bfactor)*ln))*10;
+	data=1024-data;
+		double NTC_Volt = ((double)ADC_Volt/(double)ADC_acc)*(double)data; //in 0,1mv
+		double R_NTC = ((double)NTC_Volt*(double)R_Teiler)/((double)ADC_Volt-(double)NTC_Volt);
+		double ln = logf((double)R_NTC/(double)R_NTC_norm);
+
+		temperature = (1/((1/T_norm)+(1/(double)bfactor)*(double)ln))*10; //in 0,1K
 		return temperature;
 }
 
 uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision){
 	uint16_t start_ADC = (pow(2,ADC_bit))/ADC_Volt*start_Volt;
 	uint16_t end_ADC = (pow(2,ADC_bit))/ADC_Volt*end_Volt ;
-	float ADC_range = end_ADC - start_ADC;
+	float ADC_range = end_ADC - start_ADC
+	;
 	float sensor_factor = sensor_max/ADC_range;
 	uint16_t Sensor_Data = (data-start_ADC)*precision*sensor_factor;
 	if (data<start_ADC){
@@ -65,3 +78,46 @@ uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sen
 	}
 	return Sensor_Data;
 }
+
+uint16_t ticks2speed(uint16_t timesteppdiff){
+	//LS Lowspeed
+	//HS High Speed
+	
+	double angular_velocity = (double)timesteppdiff/trigger_angle;
+	angular_velocity = pow((double)angular_velocity,-1);
+	double RPS = ((double)angular_velocity/360)*1000; //°/ms-> Rev/s
+	double Wheelspeed_mps = (double)RPS*(Tcirc/1000);
+	uint16_t Wheelspeed_kmh_ls = (double)Wheelspeed_mps*100*3.6;//Speed in 0,01Km/h
+	return Wheelspeed_kmh_ls;
+	
+	
+	
+}
+
+/*
+uint16_t ticks2speed_moar(){
+			for (uint8_t i = 9; i <= 1;i--){
+				timediff[i]=timediff[i+1];
+			}
+	timediff[0] = SpeedDATA2;
+		
+	timediff[0] = SpeedDATA2;
+	angular_velocity = timediff[0]/trigger_angle;
+	angular_velocity = pow(angular_velocity,-1);
+	RPS_simple = (angular_velocity/360)*1000; //°/ms-> Rev/s		
+	
+	ideal_measurement_angle = RPS_simple * 360 / desired_update_frequency;
+	interval_width = ideal_measurement_angle / trigger_angle;
+	possible_measurement_angle = interval_width * trigger_angle;
+	if (possible_measurement_angle == 0){
+		possible_measurement_angle = trigger_angle;
+	}
+	for (uint8_t i = interval_width ; i <= 1;i--){
+		timediffinterval += timediff[i];
+	}
+	RPS = 1 / ((timediffinterval / interval_width) * (360 / 1000));
+	uint16_t Wheelspeed = RPS * (Tcirc / 1000*1000) * 60*60;
+	return Wheelspeed;
+	}
+	
+*/
