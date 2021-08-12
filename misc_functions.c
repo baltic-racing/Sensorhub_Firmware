@@ -65,3 +65,41 @@ uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sen
 	}
 	return Sensor_Data;
 }
+
+uint16_t ADC2Angle(int16_t ADC_Data, uint16_t angle_mid, int16_t angle_min, uint16_t angle_max, uint16_t ADC_mid, uint16_t ADC_min, uint16_t ADC_max){
+	
+	//returns the Angle in 0,1 Degree steps in Positive and negative range with a mid value
+	
+	int16_t Angle = 0;
+	
+	uint16_t ADC_range_up = ADC_max - ADC_mid;
+	uint16_t Angle_Range_up = angle_max - angle_mid;
+	
+	uint16_t ADC_range_down = ADC_mid - ADC_min;
+	uint16_t Angle_Range_down = angle_mid + angle_min;	
+	
+	double Degree_per_ADC_up = (double)Angle_Range_up/(double)ADC_range_up;
+	double Degree_per_ADC_Down = (double)Angle_Range_down/(double)ADC_range_down;
+	
+//	Algorythm for 110 0 -110
+	if (ADC_Data > ADC_mid-1){
+		Angle = (ADC_Data-ADC_mid) * 10 * Degree_per_ADC_up;
+	}else if (ADC_Data < ADC_mid+1){
+		Angle = ((ADC_mid-ADC_Data) * 10 * Degree_per_ADC_Down);
+	}else{
+		Angle = 0;
+	}
+
+
+/* Algoryth for 0 110 220
+	if (ADC_Data > ADC_mid-1){
+		Angle = ADC_Data * 10 * Degree_per_ADC_up;
+	}else if (ADC_Data < ADC_mid+1){
+		Angle = ADC_Data * 10 * Degree_per_ADC_Down;
+	}else{
+		Angle = 0;
+	}
+	*/
+	return Angle;
+	
+}

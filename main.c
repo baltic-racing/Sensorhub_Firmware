@@ -72,8 +72,8 @@ int main(void)
 				adc_data_1 = adc_get_1();
 				adc_data_2 = adc_get_2();
 				
-				SH_databytes1[0] = adc_get_1() & 0xff; //Steering Angle
-				SH_databytes1[1] = adc_get_1() >> 8;//Steering Angle
+				SH_databytes1[0] = ADC2Angle(adc_data_1,110,0,220,358,153,1023) & 0xff; //Steering Angle mid min max
+				SH_databytes1[1] = ADC2Angle(adc_data_1,110,0,220,358,153,1023) >> 8;//Steering Angle
 				SH_databytes1[2] = ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) & 0xff; //Brake Pressure Rear
 				SH_databytes1[3] = ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) >> 8; //Brake Pressure Rear
 				SH_databytes1[4] = Speed_getdata1()	& 0xff;
