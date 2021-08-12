@@ -17,8 +17,7 @@ volatile unsigned long time_old = 0;
 volatile uint8_t sys_time_10 = 0;
 volatile uint8_t sys_time_50 = 0;
 volatile uint8_t sys_time_200 = 0;
-extern volatile TKTF;
-extern uint16_t SpeedDATA2;
+extern volatile uint8_t TKTF;
 
 uint16_t adc_data_1;
 uint16_t adc_data_2;
@@ -63,22 +62,23 @@ int main(void)
 			time_old = sys_time;
 			adc_start_conversion();
 			sys_time_10++;
-			SpeedDATA2 = Speed_getdata2();
-			SPI_read(); //Starts the SPI Procedure
+			
 			
 		//10ms loop 100Hz
 		
 		if (sys_time_10 >= 10){  
 			
+			SPI_read(); //Starts the SPI Procedure
+			
 			adc_data_1 = adc_get_1();
 			SH_databytes1[0] = ADC2Sensor(adc_data_1,0,5,100,10,5,10) & 0xff; //Brake Pressure Front
 			SH_databytes1[1] = ADC2Sensor(adc_data_1,0,5,100,10,5,10) >> 8;
-			SH_databytes1[2] = ticks2speed(SpeedDATA2)	& 0xff;
-			SH_databytes1[3] = ticks2speed(SpeedDATA2)	>> 8;
-			SH_databytes1[4] = SpeedDATA2	& 0xff;
-			SH_databytes1[5] = SpeedDATA2	>> 8;
-			SH_databytes1[6] = 5;
-			SH_databytes1[7] = 6;
+			SH_databytes1[2] = Speed_getdata1()	& 0xff;
+			SH_databytes1[3] = Speed_getdata1()	>> 8;
+			SH_databytes1[4] = Speed_getdata2()	& 0xff;
+			SH_databytes1[5] = Speed_getdata2()	>> 8;
+			SH_databytes1[6] = 6;
+			SH_databytes1[7] = 5;
 
 			can_tx(&can_SH_mob1, SH_databytes1); //send the CAN Message		
 						

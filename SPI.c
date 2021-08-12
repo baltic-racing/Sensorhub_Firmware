@@ -12,11 +12,10 @@
 #include <util/delay.h>
 
 uint8_t SPI_typK_data[4];
-uint16_t SPI_Speed_data[4];
+uint8_t SPI_Speed_data[4];
 uint8_t SPIcount = 0;
-extern volatile uint8_t TKTF = 0;	//TypK Transmission Flag, indicates that a SPI TypK read Transmission should be initiated
+volatile uint8_t TKTF = 0;	//TypK Transmission Flag, indicates that a SPI TypK read Transmission should be initiated
 volatile uint8_t TKTFISR = 0;
-uint16_t SpeedDATA2 = 0;
 
 void SPI_config(){
 	DDRB |= (1<<PB0) | (1<<PB1) | (1<<PB2); // define SS, SCK & MOSI as Output
@@ -105,6 +104,7 @@ uint16_t Speed_getdata1(){
 
 uint16_t Speed_getdata2(){
 	//cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
-	SpeedDATA2 =  (SPI_Speed_data[3] << 8) | SPI_Speed_data[2];//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	uint16_t SpeedDATA2 =  (SPI_Speed_data[3] << 8) | SPI_Speed_data[2];//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	return SpeedDATA2;
 	//sei(); // enable Interrupts again						
 }

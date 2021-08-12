@@ -47,22 +47,27 @@ ISR(ADC_vect){
 
 // getter for each adc var
 uint16_t adc_get_1(){
-	return adc_values[0];
+	uint16_t adc_1_value = adc_values[0];
+	return adc_1_value;
 	//return 12;
 }
 uint16_t adc_get_2(){
-	return adc_values[1];
+	uint16_t adc_2_value = adc_values[1];
+	return adc_2_value;
 	//return 22;
 }
 uint16_t adc_get_3(){
-	return adc_values[2];
+	uint16_t adc_3_value = adc_values[2];
+	return adc_3_value;
 	//return 32;
 }
 uint16_t adc_get_4(){
-	return adc_values[3];
+	uint16_t adc_4_value = adc_values[3];
+	return adc_4_value;
 	//return 42;
 }
 uint16_t adc_get_5(){
-	return adc_values[4];
+	uint16_t adc_5_value = adc_values[4];
+	return adc_5_value;
 	//return 52;
 }
