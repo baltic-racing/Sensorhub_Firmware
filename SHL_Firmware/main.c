@@ -5,14 +5,22 @@
  * Author : nico
  */ 
 
-#include <avr/io.h>
+/*	INCLUDES	*/
 
+#include <avr/io.h>
+#include "system_config.h"
+
+/*	Init Global Variables	*/
+unsigned long sys_tick = 0;
 
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
-    {
-    }
+	/*	Configuration	*/
+	port_config();
+	sys_timer_config();
+	
+	while (1)
+	{
+		
+	}
 }
-
