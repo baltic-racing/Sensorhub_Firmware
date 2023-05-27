@@ -14,7 +14,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-/*	DEFINES	*/
+/*	DEFINES, adjust for the array size */ 
 #define ADCVALUES 2
 
 uint16_t adc_get(uint8_t adc);
