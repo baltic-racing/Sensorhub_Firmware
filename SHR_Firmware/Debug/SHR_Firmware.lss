@@ -532,20 +532,20 @@ int main(void)
  35c:	88 b9       	out	0x08, r24	; 8
  35e:	81 e0       	ldi	r24, 0x01	; 1
 			
-			SHR_databytes[0] = adc_get(1)		& 0xff	; //lsb BPS1
+			SHR_databytes[0] = adc_get(1)		& 0xff	; //lsb APPS1
  360:	fa de       	rcall	.-524    	; 0x156 <adc_get>
  362:	8e 83       	std	Y+6, r24	; 0x06
  364:	81 e0       	ldi	r24, 0x01	; 1
-			SHR_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb BPS1
+			SHR_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb APPS1
  366:	f7 de       	rcall	.-530    	; 0x156 <adc_get>
  368:	9f 83       	std	Y+7, r25	; 0x07
  36a:	82 e0       	ldi	r24, 0x02	; 2
-			SHR_databytes[2] = adc_get(2)		& 0xff	; //lsb BPS2
+			SHR_databytes[2] = adc_get(2)		& 0xff	; //lsb APPS2
  36c:	f4 de       	rcall	.-536    	; 0x156 <adc_get>
  36e:	88 87       	std	Y+8, r24	; 0x08
  370:	82 e0       	ldi	r24, 0x02	; 2
  372:	f1 de       	rcall	.-542    	; 0x156 <adc_get>
-			SHR_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb BPS2
+			SHR_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb APPS2
  374:	99 87       	std	Y+9, r25	; 0x09
  376:	1a 86       	std	Y+10, r1	; 0x0a
  378:	1b 86       	std	Y+11, r1	; 0x0b
