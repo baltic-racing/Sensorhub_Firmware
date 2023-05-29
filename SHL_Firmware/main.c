@@ -21,17 +21,16 @@ int main(void){
 	/*	Configuration	*/
 	port_config();
 	sys_timer_config();
+	adc_config(); //CHECK WHICH ADC INPUTS CORRESPOND WITH WHAT DATABYTE WE SEND
+	can_cfg();
 	
 	struct CAN_MOB can_SHL_mob;
-	can_SHL_mob.mob_id = 410;
+	can_SHL_mob.mob_id = 0x410;
 	can_SHL_mob.mob_idmask = 0x0; //send 
 	can_SHL_mob.mob_number = 1;
 	uint8_t SHL_databytes[8];
 	
-	/*struct CAN_MOB can_SHB_mob;
-	can_SHB_mob.mob_id = 420;
-	can_SHB_mob.mob_idmask = 0x0; //send
-	can_SHB_mob.mob_number = 2;*/
+	
 	
 	while (1){
 		if((sys_tick - time_old) >= 1){ 
@@ -56,5 +55,5 @@ int main(void){
 		can_tx(&can_SHL_mob, SHL_databytes);
 		time_100_ms = 0;
 		}
-	}
+	} //no fault condition
 }
