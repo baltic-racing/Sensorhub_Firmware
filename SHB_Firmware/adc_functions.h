@@ -15,7 +15,7 @@
 #include <avr/interrupt.h>
 
 /*	DEFINES, adjust for the array size */ 
-#define ADCVALUES 2
+#define ADCVALUES 4 //here we've got all 4 ADCs in use (see uC Pinout)
 
 uint16_t adc_get(uint8_t adc);
 

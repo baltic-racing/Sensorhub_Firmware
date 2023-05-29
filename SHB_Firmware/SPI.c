@@ -10,7 +10,8 @@
 #include <avr/interrupt.h>
 
 void SPI_config(){
-	
+//select the master mode?
+ //NO SPI NEEDED ALL DATA (CLTF1, CLTF2 CLTR1, CLTR2) IS READ BY THE ADC0..3 AND SENT THROUGH CAN
 }
 //read function
 //what does the isr vector cause

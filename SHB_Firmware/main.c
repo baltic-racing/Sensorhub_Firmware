@@ -10,6 +10,7 @@
 #include <avr/io.h>
 #include "system_config.h"
 #include "canlib.h"
+#include "adc_functions.h"
 
 /*	Init Global Variables	*/
 unsigned long sys_tick = 0;
@@ -32,18 +33,15 @@ int main(void){
 	sei();
 	
 	while (1){
-		if((sys_tick - time_old) >= 1){ //1 ms loop, hopefully makes implementing more than 2 frequencies easier => probably no need, different main for each SHx
+		if((sys_tick - time_old) >= 1){
 			time_old = sys_tick;
 			adc_start_conversion();   
 			time_20_ms++;  //20 ms reference
-			//time_x_ms++; 
-			//time_x_ms++;
-			//time_x_ms++;
-			// ...
+
 			
 		}
-		if (time_20_ms <= 10){  //correct to 10 ms later in naming
-			//spi_read(); no need for SPI communication on this one! (no chips to communicate with)
+		if (time_20_ms <= 20){ 
+			
 			SHB_databytes[0] = adc_get(1)		& 0xff	; //lsb 
 			SHB_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb
 			SHB_databytes[2] = adc_get(2)		& 0xff	; //lsb 
@@ -57,7 +55,7 @@ int main(void){
 			time_20_ms = 0;
 		}
 			
-	//5hz loop for the thermoelement uC	(no spi here though so no 5hz loop)
+	
 		
 	}
-}
+}//no fault condition!
