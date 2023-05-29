@@ -34,6 +34,11 @@ void sys_timer_config(void)
 	TIMSK0 = 0 | (1<<OCIE0A);
 }
 
+void sys_tick_heart(void){
+	PORTC ^= (1<<PC2);
+}
+
+
 /*	Interrupt Service Routines	*/
 ISR(TIMER0_COMP_vect)
 {

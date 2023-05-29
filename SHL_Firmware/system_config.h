@@ -18,7 +18,7 @@
 
 void port_config(void);
 void sys_timer_config(void);
-
+void sys_tick_heart(void);
 /*	Interrupt Service Routines	*/
 
 ISR(TIMER0_COMP_vect);
