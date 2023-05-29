@@ -44,10 +44,10 @@ int main(void)
 		if (time_100_ms <= 100){
 			PORTC ^= (1<<PC2);
 			
-			SHR_databytes[0] = adc_get(1)		& 0xff	; //lsb BPS1
-			SHR_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb BPS1
-			SHR_databytes[2] = adc_get(2)		& 0xff	; //lsb BPS2
-			SHR_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb BPS2
+			SHR_databytes[0] = adc_get(1)		& 0xff	; //lsb APPS1
+			SHR_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb APPS1
+			SHR_databytes[2] = adc_get(2)		& 0xff	; //lsb APPS2
+			SHR_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb APPS2
 			SHR_databytes[4] = 0; //SPI getter Wheel Speed R lsb
 			SHR_databytes[5] = 0; //SPI getter Wheel Speed R msb
 			SHR_databytes[6] = 0;
