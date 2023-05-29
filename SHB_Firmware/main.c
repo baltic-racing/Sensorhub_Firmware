@@ -41,7 +41,7 @@ int main(void){
 
 			
 		}
-		if (time_20_ms <= 20){ 
+		if (time_20_ms >= 20){ 
 			
 			SHB0_databytes[0] = adc_get(1)		& 0xff	; //lsb 
 			SHB0_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb
