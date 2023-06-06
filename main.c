@@ -66,20 +66,20 @@ int main(void)
 			
 			if (sys_time_10 >= 10){
 				
-				SPI_read(); //Starts the SPI Procedure
+				
 				
 				
 				adc_data_1 = adc_get_1();
 				adc_data_2 = adc_get_2();
 				
-				SH_databytes1[0] = adc_get_1() & 0xff; //Steering Angle
-				SH_databytes1[1] = adc_get_1() >> 8;//Steering Angle
+				SH_databytes1[0] = ADC2Angle(adc_data_1,110,0,220,358,153,1023) & 0xff; //Steering Angle mid min max
+				SH_databytes1[1] = ADC2Angle(adc_data_1,110,0,220,358,153,1023) >> 8;//Steering Angle
 				SH_databytes1[2] = ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) & 0xff; //Brake Pressure Rear
 				SH_databytes1[3] = ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) >> 8; //Brake Pressure Rear
-				SH_databytes1[4] = Speed_getdata1()	& 0xff;
-				SH_databytes1[5] = Speed_getdata1()	>> 8;
-				SH_databytes1[6] = Speed_getdata2()	& 0xff;
-				SH_databytes1[7] = Speed_getdata2()	>> 8;
+				SH_databytes1[4] = Speed_getdata1();
+				SH_databytes1[5] = Speed_getdata2();
+				SH_databytes1[6] = 2;
+				SH_databytes1[7] = 1;
 
 				can_tx(&can_SH_mob1, SH_databytes1); //send the CAN Message
 				
@@ -93,6 +93,7 @@ int main(void)
 		adc_data_4 = adc_get_4();
 		
 		if(sys_time_50 >= 5){
+			SPI_read(); //Starts the SPI Procedure
 			sys_time_50 = 0;
 			SH_databytes2[0] = ADC2NTCtemp(adc_data_3,3450,10000,5,1024,1500)	& 0xff;	//CLTRR
 			SH_databytes2[1] = ADC2NTCtemp(adc_data_3,3450,10000,5,1024,1500)	>> 8;

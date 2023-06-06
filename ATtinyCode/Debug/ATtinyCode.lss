@@ -1,0 +1,334 @@
+
+ATtinyCode.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000001be  00000000  00000000  00000074  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000000  00800060  00800060  00000232  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          0000000c  00800060  00800060  00000232  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000232  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000264  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000050  00000000  00000000  000002a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000605  00000000  00000000  000002f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000004a3  00000000  00000000  000008f5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   000002e8  00000000  00000000  00000d98  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  000000c8  00000000  00000000  00001080  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    00000370  00000000  00000000  00001148  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    000000e8  00000000  00000000  000014b8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000040  00000000  00000000  000015a0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0e c0       	rjmp	.+28     	; 0x1e <__ctors_end>
+   2:	1d c0       	rjmp	.+58     	; 0x3e <__bad_interrupt>
+   4:	5b c0       	rjmp	.+182    	; 0xbc <__vector_2>
+   6:	1b c0       	rjmp	.+54     	; 0x3e <__bad_interrupt>
+   8:	1a c0       	rjmp	.+52     	; 0x3e <__bad_interrupt>
+   a:	19 c0       	rjmp	.+50     	; 0x3e <__bad_interrupt>
+   c:	18 c0       	rjmp	.+48     	; 0x3e <__bad_interrupt>
+   e:	17 c0       	rjmp	.+46     	; 0x3e <__bad_interrupt>
+  10:	16 c0       	rjmp	.+44     	; 0x3e <__bad_interrupt>
+  12:	15 c0       	rjmp	.+42     	; 0x3e <__bad_interrupt>
+  14:	1e c0       	rjmp	.+60     	; 0x52 <__vector_10>
+  16:	13 c0       	rjmp	.+38     	; 0x3e <__bad_interrupt>
+  18:	12 c0       	rjmp	.+36     	; 0x3e <__bad_interrupt>
+  1a:	11 c0       	rjmp	.+34     	; 0x3e <__bad_interrupt>
+  1c:	3f c0       	rjmp	.+126    	; 0x9c <__vector_14>
+
+0000001e <__ctors_end>:
+  1e:	11 24       	eor	r1, r1
+  20:	1f be       	out	0x3f, r1	; 63
+  22:	cf e5       	ldi	r28, 0x5F	; 95
+  24:	d2 e0       	ldi	r29, 0x02	; 2
+  26:	de bf       	out	0x3e, r29	; 62
+  28:	cd bf       	out	0x3d, r28	; 61
+
+0000002a <__do_clear_bss>:
+  2a:	20 e0       	ldi	r18, 0x00	; 0
+  2c:	a0 e6       	ldi	r26, 0x60	; 96
+  2e:	b0 e0       	ldi	r27, 0x00	; 0
+  30:	01 c0       	rjmp	.+2      	; 0x34 <.do_clear_bss_start>
+
+00000032 <.do_clear_bss_loop>:
+  32:	1d 92       	st	X+, r1
+
+00000034 <.do_clear_bss_start>:
+  34:	ac 36       	cpi	r26, 0x6C	; 108
+  36:	b2 07       	cpc	r27, r18
+  38:	e1 f7       	brne	.-8      	; 0x32 <.do_clear_bss_loop>
+  3a:	92 d0       	rcall	.+292    	; 0x160 <main>
+  3c:	be c0       	rjmp	.+380    	; 0x1ba <_exit>
+
+0000003e <__bad_interrupt>:
+  3e:	e0 cf       	rjmp	.-64     	; 0x0 <__vectors>
+
+00000040 <sys_timer_config>:
+		}	
+    }
+}
+
+void sys_timer_config(){
+	TCCR0A = 0 | (1<<WGM01) | (0<<COM0A1) | (0<<COM0A0);
+  40:	82 e0       	ldi	r24, 0x02	; 2
+  42:	8a bd       	out	0x2a, r24	; 42
+	TCCR0B = 0| (0<<CS02) | (1<<CS01) | (0<<CS00);
+  44:	83 bf       	out	0x33, r24	; 51
+	TIMSK |= (1<<OCIE0A) | (1<<TOIE0); //compare interrupt enable
+  46:	89 b7       	in	r24, 0x39	; 57
+  48:	82 61       	ori	r24, 0x12	; 18
+  4a:	89 bf       	out	0x39, r24	; 57
+	OCR0A = 100-1; // compare value for 10Khz
+  4c:	83 e6       	ldi	r24, 0x63	; 99
+  4e:	89 bd       	out	0x29, r24	; 41
+  50:	08 95       	ret
+
+00000052 <__vector_10>:
+	//Systime Calc 8Mhz Qaurtz
+	//Prescaler = 8 => 1 Mhz
+	// Goal 10 Khz set OCR0A Value accordingly to 100
+}
+
+ISR(TIM0_COMPA_vect){
+  52:	1f 92       	push	r1
+  54:	0f 92       	push	r0
+  56:	0f b6       	in	r0, 0x3f	; 63
+  58:	0f 92       	push	r0
+  5a:	11 24       	eor	r1, r1
+  5c:	8f 93       	push	r24
+  5e:	9f 93       	push	r25
+  60:	af 93       	push	r26
+  62:	bf 93       	push	r27
+	sys_time++; //system time generation
+  64:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <sys_time>
+  68:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <sys_time+0x1>
+  6c:	a0 91 63 00 	lds	r26, 0x0063	; 0x800063 <sys_time+0x2>
+  70:	b0 91 64 00 	lds	r27, 0x0064	; 0x800064 <sys_time+0x3>
+  74:	01 96       	adiw	r24, 0x01	; 1
+  76:	a1 1d       	adc	r26, r1
+  78:	b1 1d       	adc	r27, r1
+  7a:	80 93 61 00 	sts	0x0061, r24	; 0x800061 <sys_time>
+  7e:	90 93 62 00 	sts	0x0062, r25	; 0x800062 <sys_time+0x1>
+  82:	a0 93 63 00 	sts	0x0063, r26	; 0x800063 <sys_time+0x2>
+  86:	b0 93 64 00 	sts	0x0064, r27	; 0x800064 <sys_time+0x3>
+}
+  8a:	bf 91       	pop	r27
+  8c:	af 91       	pop	r26
+  8e:	9f 91       	pop	r25
+  90:	8f 91       	pop	r24
+  92:	0f 90       	pop	r0
+  94:	0f be       	out	0x3f, r0	; 63
+  96:	0f 90       	pop	r0
+  98:	1f 90       	pop	r1
+  9a:	18 95       	reti
+
+0000009c <__vector_14>:
+
+ISR(USI_OVF_vect){
+  9c:	1f 92       	push	r1
+  9e:	0f 92       	push	r0
+  a0:	0f b6       	in	r0, 0x3f	; 63
+  a2:	0f 92       	push	r0
+  a4:	11 24       	eor	r1, r1
+  a6:	8f 93       	push	r24
+	USIDR = 5;	//Write LSB into Buffer for send to Master
+  a8:	85 e0       	ldi	r24, 0x05	; 5
+  aa:	8f b9       	out	0x0f, r24	; 15
+	USISR = (1 << USIOIF);;// Clear Overflow bit
+  ac:	80 e4       	ldi	r24, 0x40	; 64
+  ae:	8e b9       	out	0x0e, r24	; 14
+}
+  b0:	8f 91       	pop	r24
+  b2:	0f 90       	pop	r0
+  b4:	0f be       	out	0x3f, r0	; 63
+  b6:	0f 90       	pop	r0
+  b8:	1f 90       	pop	r1
+  ba:	18 95       	reti
+
+000000bc <__vector_2>:
+
+ISR(PCINT0_vect){ //Pin Change Interrupt on Chip Select
+  bc:	1f 92       	push	r1
+  be:	0f 92       	push	r0
+  c0:	0f b6       	in	r0, 0x3f	; 63
+  c2:	0f 92       	push	r0
+  c4:	11 24       	eor	r1, r1
+  c6:	8f 93       	push	r24
+  c8:	9f 93       	push	r25
+	if((PINB & (1 << PB0)) == 0){	// If edge is falling, the SPI Comm should be activated
+  ca:	b0 99       	sbic	0x16, 0	; 22
+  cc:	0b c0       	rjmp	.+22     	; 0xe4 <__vector_2+0x28>
+		USIDR = 3;			//Write MSB into Buffer for send to Master
+  ce:	83 e0       	ldi	r24, 0x03	; 3
+  d0:	8f b9       	out	0x0f, r24	; 15
+		DDRB |= (1 << DDB1);		//Configure MISO as Output
+  d2:	87 b3       	in	r24, 0x17	; 23
+  d4:	82 60       	ori	r24, 0x02	; 2
+  d6:	87 bb       	out	0x17, r24	; 23
+		USISR = (1 << USIOIF);      // Clear Overflow bit
+  d8:	80 e4       	ldi	r24, 0x40	; 64
+  da:	8e b9       	out	0x0e, r24	; 14
+		USICR |= (1 << USIOIE);		// 4-bit overflow counter of the USI communication shall be activated
+  dc:	8d b1       	in	r24, 0x0d	; 13
+  de:	80 64       	ori	r24, 0x40	; 64
+  e0:	8d b9       	out	0x0d, r24	; 13
+  e2:	1e c0       	rjmp	.+60     	; 0x120 <__vector_2+0x64>
+	}
+	else if((PINB & (1 << PB0)) == 1){ // If edge is rising, turn the 4-bit overflow interrupt off:
+  e4:	b0 9b       	sbis	0x16, 0	; 22
+  e6:	0a c0       	rjmp	.+20     	; 0xfc <__vector_2+0x40>
+		USICR &= ~(1 << USIOIE);
+  e8:	8d b1       	in	r24, 0x0d	; 13
+  ea:	8f 7b       	andi	r24, 0xBF	; 191
+  ec:	8d b9       	out	0x0d, r24	; 13
+		DDRB &= ~(1 << DDB1);		//Configure as Hi Z so MISO does not influence other data traffic
+  ee:	87 b3       	in	r24, 0x17	; 23
+  f0:	8d 7f       	andi	r24, 0xFD	; 253
+  f2:	87 bb       	out	0x17, r24	; 23
+		PORTB &= ~(1 << PB1);		//Configure as Hi Z so MISO does not influence other data traffic		
+  f4:	88 b3       	in	r24, 0x18	; 24
+  f6:	8d 7f       	andi	r24, 0xFD	; 253
+  f8:	88 bb       	out	0x18, r24	; 24
+  fa:	12 c0       	rjmp	.+36     	; 0x120 <__vector_2+0x64>
+	}else if ((PINB & (1 << PB5)) != PB5_state_old){
+  fc:	86 b3       	in	r24, 0x16	; 22
+  fe:	90 91 60 00 	lds	r25, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 102:	80 72       	andi	r24, 0x20	; 32
+ 104:	89 17       	cp	r24, r25
+ 106:	61 f0       	breq	.+24     	; 0x120 <__vector_2+0x64>
+		PB5_state_old = (1 << PB5);
+ 108:	80 e2       	ldi	r24, 0x20	; 32
+ 10a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+		Ticks++; //Increments this variable for every pin change on PB5 (Wheelspeed trigger)
+ 10e:	80 91 69 00 	lds	r24, 0x0069	; 0x800069 <Ticks>
+ 112:	90 91 6a 00 	lds	r25, 0x006A	; 0x80006a <Ticks+0x1>
+ 116:	01 96       	adiw	r24, 0x01	; 1
+ 118:	90 93 6a 00 	sts	0x006A, r25	; 0x80006a <Ticks+0x1>
+ 11c:	80 93 69 00 	sts	0x0069, r24	; 0x800069 <Ticks>
+	}
+}
+ 120:	9f 91       	pop	r25
+ 122:	8f 91       	pop	r24
+ 124:	0f 90       	pop	r0
+ 126:	0f be       	out	0x3f, r0	; 63
+ 128:	0f 90       	pop	r0
+ 12a:	1f 90       	pop	r1
+ 12c:	18 95       	reti
+
+0000012e <SPI_USI_config>:
+
+void SPI_USI_config(){
+	GIMSK  = (1 << PCIE);					//enable PIN Change Interrupt generally
+ 12e:	80 e2       	ldi	r24, 0x20	; 32
+ 130:	8b bf       	out	0x3b, r24	; 59
+	PCMSK = (1 << PCINT0);					//enable Pin change Interrupt on CS pin PB0
+ 132:	81 e0       	ldi	r24, 0x01	; 1
+ 134:	85 bb       	out	0x15, r24	; 21
+	
+	DDRB &= ~(1 << DDB0)  & ~(1 << DDB2);	//Chip select, SCK input
+ 136:	87 b3       	in	r24, 0x17	; 23
+ 138:	8a 7f       	andi	r24, 0xFA	; 250
+ 13a:	87 bb       	out	0x17, r24	; 23
+	DDRB &= ~(1 << DDB1);					//Configure as Hi Z so MISO does not influence other data traffic
+ 13c:	87 b3       	in	r24, 0x17	; 23
+ 13e:	8d 7f       	andi	r24, 0xFD	; 253
+ 140:	87 bb       	out	0x17, r24	; 23
+	PORTB |= (1 << PB0) | (1 << PB2);		//pull ups for Chipselect and SCK 
+ 142:	88 b3       	in	r24, 0x18	; 24
+ 144:	85 60       	ori	r24, 0x05	; 5
+ 146:	88 bb       	out	0x18, r24	; 24
+	PORTB &= ~(1 << PB1);					//Configure as Hi Z so MISO does not influence other data traffic
+ 148:	88 b3       	in	r24, 0x18	; 24
+ 14a:	8d 7f       	andi	r24, 0xFD	; 253
+ 14c:	88 bb       	out	0x18, r24	; 24
+
+	USICR=(1<<USIWM0)|(0<<USIWM1)|(0<<USIOIE)|(1<<USICS1)|(1<< USICS0)|(0<<USICLK);			
+ 14e:	8c e1       	ldi	r24, 0x1C	; 28
+ 150:	8d b9       	out	0x0d, r24	; 13
+	//Choosing SPI aka three wire mode & Disable the Overflow Interrupt as it is handled by the PinChange Interrupt on the CS Pin, 
+	//selecting external clock and toggling the 4bit timer on both edges = 8bit per Interrupt  (SPI mode 1)
+	USIDR = 0; //Initialization of the first message the Master receives from the ATtiny
+ 152:	1f b8       	out	0x0f, r1	; 15
+	USISR = (1 << USIOIF);// Clear Overflow bit
+ 154:	80 e4       	ldi	r24, 0x40	; 64
+ 156:	8e b9       	out	0x0e, r24	; 14
+ 158:	08 95       	ret
+
+0000015a <PORT_Config>:
+}
+
+void PORT_Config(){
+	PCMSK = (1 << PCINT5);					//enable Pin change Interrupt on Digital in pin PB5
+ 15a:	80 e2       	ldi	r24, 0x20	; 32
+ 15c:	85 bb       	out	0x15, r24	; 21
+ 15e:	08 95       	ret
+
+00000160 <main>:
+void PORT_Config();
+//void calc_wheelspeed_floating();
+
+int main(void)
+{
+    sys_timer_config();
+ 160:	6f df       	rcall	.-290    	; 0x40 <sys_timer_config>
+	SPI_USI_config();
+ 162:	e5 df       	rcall	.-54     	; 0x12e <SPI_USI_config>
+	PORT_Config();
+ 164:	fa df       	rcall	.-12     	; 0x15a <PORT_Config>
+	sei();
+ 166:	78 94       	sei
+    while (1)
+    {
+		//1ms loop 1000Hz
+		if((sys_time - time_old) > 0){
+ 168:	80 91 61 00 	lds	r24, 0x0061	; 0x800061 <sys_time>
+ 16c:	90 91 62 00 	lds	r25, 0x0062	; 0x800062 <sys_time+0x1>
+ 170:	a0 91 63 00 	lds	r26, 0x0063	; 0x800063 <sys_time+0x2>
+ 174:	b0 91 64 00 	lds	r27, 0x0064	; 0x800064 <sys_time+0x3>
+ 178:	40 91 65 00 	lds	r20, 0x0065	; 0x800065 <time_old>
+ 17c:	50 91 66 00 	lds	r21, 0x0066	; 0x800066 <time_old+0x1>
+ 180:	60 91 67 00 	lds	r22, 0x0067	; 0x800067 <time_old+0x2>
+ 184:	70 91 68 00 	lds	r23, 0x0068	; 0x800068 <time_old+0x3>
+ 188:	84 17       	cp	r24, r20
+ 18a:	95 07       	cpc	r25, r21
+ 18c:	a6 07       	cpc	r26, r22
+ 18e:	b7 07       	cpc	r27, r23
+ 190:	69 f0       	breq	.+26     	; 0x1ac <main+0x4c>
+			time_old = sys_time;		//start conversion every ms
+ 192:	80 93 65 00 	sts	0x0065, r24	; 0x800065 <time_old>
+ 196:	90 93 66 00 	sts	0x0066, r25	; 0x800066 <time_old+0x1>
+ 19a:	a0 93 67 00 	sts	0x0067, r26	; 0x800067 <time_old+0x2>
+ 19e:	b0 93 68 00 	sts	0x0068, r27	; 0x800068 <time_old+0x3>
+			sys_time_10++;				//increment 10ms timer
+ 1a2:	80 91 6b 00 	lds	r24, 0x006B	; 0x80006b <sys_time_10>
+ 1a6:	8f 5f       	subi	r24, 0xFF	; 255
+ 1a8:	80 93 6b 00 	sts	0x006B, r24	; 0x80006b <sys_time_10>
+		}
+		//10ms loop 100Hz
+		if(sys_time_10 >= 10){
+ 1ac:	80 91 6b 00 	lds	r24, 0x006B	; 0x80006b <sys_time_10>
+ 1b0:	8a 30       	cpi	r24, 0x0A	; 10
+ 1b2:	d0 f2       	brcs	.-76     	; 0x168 <main+0x8>
+			//sys_tick();				//blink status LED Turn off for use on Sensorhub otherwise weird stuff happens ;)
+			sys_time_10 = 0;		//reset 50 ms timer
+ 1b4:	10 92 6b 00 	sts	0x006B, r1	; 0x80006b <sys_time_10>
+ 1b8:	d7 cf       	rjmp	.-82     	; 0x168 <main+0x8>
+
+000001ba <_exit>:
+ 1ba:	f8 94       	cli
+
+000001bc <__stop_program>:
+ 1bc:	ff cf       	rjmp	.-2      	; 0x1bc <__stop_program>
