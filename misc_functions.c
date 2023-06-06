@@ -22,6 +22,8 @@ volatile unsigned long sys_time = 0;
 #define Tcirc 1476.5485 //Tire circumference in mm
 #define desired_update_frequency 100//Update frequency for the floating calculation of the Wheelspeed
 
+uint16_t timediff[10];
+
 void port_config(){
 	DDRA = 0;												//All not used
 	DDRB = 0;												//Only SPI so 0 just like CAN
@@ -80,18 +82,39 @@ uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sen
 }
 
 uint16_t ticks2speed(uint16_t timesteppdiff){
-	//LS Lowspeed
-	//HS High Speed
-	
-	double angular_velocity = (double)timesteppdiff/trigger_angle;
+	//Execution with 100Hz
+	//Wheelspeed Pre determination
+	double angular_velocity = ((double)timesteppdiff/10)/(double)trigger_angle;
 	angular_velocity = pow((double)angular_velocity,-1);
 	double RPS = ((double)angular_velocity/360)*1000; //°/ms-> Rev/s
-	double Wheelspeed_mps = (double)RPS*(Tcirc/1000);
-	uint16_t Wheelspeed_kmh_ls = (double)Wheelspeed_mps*100*3.6;//Speed in 0,01Km/h
-	return Wheelspeed_kmh_ls;
+	
+	//High accuracy Wheelspeed
+	uint16_t timediffinterval = 0;
 	
 	
+	//execute with every generated interrupt
+	for (int8_t i = 8; i > -1;i--){
+		timediff[i+1]=timediff[i];
+	}
+	timediff[0] = timesteppdiff;
 	
+	
+	double ideal_measurement_angle = (double)(((double)RPS * 360) / desired_update_frequency);
+	double interval_width = (double)(ideal_measurement_angle / trigger_angle);
+	double possible_measurement_angle = (double)(lrint(interval_width) * trigger_angle); //lrint rounds to nearest Int
+	if (possible_measurement_angle == 0){
+		possible_measurement_angle = trigger_angle;
+	}
+	
+	for (uint8_t i = 0  ;i <= (possible_measurement_angle/trigger_angle)-1;i++){
+		timediffinterval += timediff[i];
+	}
+	
+	double RPS_Float = (double)((pow(((timediffinterval/10)/possible_measurement_angle),-1))/360)*1000;
+	uint16_t Wheelspeed_kmh_float = (double)((RPS_Float * (Tcirc / 1000))*100*3.6);
+	
+	return Wheelspeed_kmh_float;
+
 }
 
 /*

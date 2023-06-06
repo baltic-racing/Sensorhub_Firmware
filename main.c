@@ -17,8 +17,7 @@ volatile unsigned long time_old = 0;
 volatile uint8_t sys_time_10 = 0;
 volatile uint8_t sys_time_50 = 0;
 volatile uint8_t sys_time_200 = 0;
-extern volatile TKTF;
-extern uint16_t SpeedDATA2;
+extern volatile uint8_t TKTF;
 
 uint16_t adc_data_1;
 uint16_t adc_data_2;
@@ -38,7 +37,7 @@ int main(void)
 	can_SH_mob1.mob_id = 0x500;
 	can_SH_mob1.mob_idmask = 0; //We are sending this CAN Message Object (MOB) therefore we do not need an ID MASK
 	can_SH_mob1.mob_number = 0;
-	uint8_t SH_databytes1[8];
+	uint8_t SH_databytes1[8]; 
 	
 	struct CAN_MOB can_SH_mob2;
 	can_SH_mob2.mob_id = 0x501;
@@ -63,22 +62,23 @@ int main(void)
 			time_old = sys_time;
 			adc_start_conversion();
 			sys_time_10++;
-			SpeedDATA2 = Speed_getdata2();
-			SPI_read(); //Starts the SPI Procedure
+			
 			
 		//10ms loop 100Hz
 		
 		if (sys_time_10 >= 10){  
 			
+			
+			
 			adc_data_1 = adc_get_1();
 			SH_databytes1[0] = ADC2Sensor(adc_data_1,0,5,100,10,5,10) & 0xff; //Brake Pressure Front
 			SH_databytes1[1] = ADC2Sensor(adc_data_1,0,5,100,10,5,10) >> 8;
-			SH_databytes1[2] = ticks2speed(SpeedDATA2)	& 0xff;
-			SH_databytes1[3] = ticks2speed(SpeedDATA2)	>> 8;
-			SH_databytes1[4] = SpeedDATA2	& 0xff;
-			SH_databytes1[5] = SpeedDATA2	>> 8;
-			SH_databytes1[6] = 5;
-			SH_databytes1[7] = 6;
+			SH_databytes1[2] = Speed_getdata1();
+			SH_databytes1[3] = Speed_getdata2();
+			SH_databytes1[4] = 8;
+			SH_databytes1[5] = 7;
+			SH_databytes1[6] = 6;
+			SH_databytes1[7] = 5;
 
 			can_tx(&can_SH_mob1, SH_databytes1); //send the CAN Message		
 						
@@ -92,7 +92,7 @@ int main(void)
 		adc_data_3 = adc_get_3();
 		
 		if(sys_time_50 >= 5){
-			
+			SPI_read(); //Starts the SPI Procedure
 			sys_time_50 = 0;
 			SH_databytes2[0] = ADC2NTCtemp(adc_data_2,3450,10000,5,1024,1500)	& 0xff;	//CLTRR
 			SH_databytes2[1] = ADC2NTCtemp(adc_data_2,3450,10000,5,1024,1500)	>> 8;
@@ -106,7 +106,7 @@ int main(void)
 			can_tx(&can_SH_mob2, SH_databytes2); //send the CAN Message
 						
 			sys_time_200++;
-			}
+		}
 		//200ms loop 5Hz	
 		if(sys_time_200 >= 4){
 			sys_tick();
@@ -124,8 +124,7 @@ int main(void)
 			can_tx(&can_SH_mob3, SH_databytes3); //send the CAN Message
 			
 			sys_time_200 = 0;
-			}
-			
-		}
+		}		
 	}
+}
 
