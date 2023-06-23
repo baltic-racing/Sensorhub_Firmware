@@ -23,4 +23,10 @@ void sys_timer_config(void);
 
 ISR(TIMER0_COMP_vect);
 
+/*	MACROS	*/
+
+#define TIME_PASSED_1_MS	((sys_tick - time_old) >= 1)
+#define TIME_PASSED_10_MS	(time_old_10ms >= 10)
+#define TIME_PASSED_100_MS	(time_old_100ms >= 100)
+
 #endif /* SYSTEM_CONFIG_H_ */

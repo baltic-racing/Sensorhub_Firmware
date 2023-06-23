@@ -16,7 +16,7 @@ uint8_t adc_next = 0;
 
 void adc_config()
 {
-	//AREF = AVCC
+	//AREF = AVCC, PF0
 	ADMUX = (1<<REFS0);
 	//ADC Enable, /16, Interrupt Enable
 	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0) | (1<<ADIE);
