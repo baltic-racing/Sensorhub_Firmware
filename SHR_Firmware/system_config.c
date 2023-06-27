@@ -26,12 +26,12 @@ void port_config(void)
 
 void sys_timer_config(void)
 {
-	//CTC-Mode, /64
+	//8 bit Timer 0 configuration
+	//ctc mode and 64 as prescaler for 16Mhz
 	TCCR0A = 0 | (1<<WGM01) | (1<<CS01) | (1<<CS00);
-	//Compare value for 1ms (Formula in Datasheet)
-	OCR0A = 249;
-	//Compare Interrupt Enable
-	TIMSK0 = 0 | (1<<OCIE0A);
+	TIMSK0 = 0 | (1<<OCF0A);	//compare interrupt enable
+	OCR0A = 250-1;
+	
 }
 
 /*	Interrupt Service Routines	*/

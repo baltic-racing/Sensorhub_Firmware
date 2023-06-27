@@ -52,7 +52,7 @@ int main(void)
 			time_old_100ms++;
 		}
 		
-		if (TIME_PASSED_10_MS)
+		if (time_old_10ms >= 10)
 		{
 			apps1_percentage = update_apps_percentage((float)adc_get(0), 1);
 			apps2_percentage = update_apps_percentage((float)adc_get(1), 2);
@@ -70,7 +70,7 @@ int main(void)
 			time_old_10ms = 0;
 		}
 		
-		if (TIME_PASSED_100_MS)
+		if (time_old_100ms >= 100)
 		{
 			PORTC ^= (1<<PC2);
 			time_old_100ms = 0;
