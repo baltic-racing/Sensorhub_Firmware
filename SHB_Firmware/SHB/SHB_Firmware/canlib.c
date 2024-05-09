@@ -5,15 +5,14 @@
  *  Author: Ole Hannemann
  */ 
 
-#include "canlib.h"
 #include <avr/io.h>
-
+#include "canlib.h"
 
 uint8_t can_check_free(uint8_t mobnum){
 	
 	uint8_t mob_status = 0;
 	
-	if(mobnum >=8){
+	if(mobnum >= 7){
 		
 		mob_status = !((CANEN1 >> (mobnum-8)) &1);
 
@@ -48,16 +47,12 @@ void can_cfg(){
 		}
 	}
 
-	CANBT1 = 0x00;// Set Baudrate
-	CANBT2 = 0x0C;// 500kBaud according
-	CANBT3 = 0x36;// to Datasheet S. 267
-
+	CANBT1 = 0x00;
+	CANBT2 = 0x0C;
+	CANBT3 = 0x36;
 	CANGIE = 0;
-
 	CANGCON |= (1<<ENASTB); // Enable CAN
-	
-	
-	
+
 }
 void can_rx(struct CAN_MOB *to_receive, uint8_t *data){
 	

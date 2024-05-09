@@ -1,12 +1,9 @@
 /*
- * CFile1.c
+ * system_config.c
  *
- * Created: 28.04.2023 17:41:58
- *  Author: nico
+ * Created: 09.05.2024 16:08:33
+ *  Author: aaron
  */ 
-
-/*	INCLUDES	*/
-
 #include "system_config.h"
 
 /*	Extern Global Variables	*/

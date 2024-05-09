@@ -1,10 +1,9 @@
 /*
- * adc_functions.c
+ * CFile1.c
  *
- * Created: 28.04.2023 18:30:34
- *  Author: nico
+ * Created: 09.05.2024 16:06:47
+ *  Author: aaron
  */ 
-
 #include "adc_functions.h"
 
 // array to store the adc data in
@@ -27,7 +26,9 @@ void adc_config()
 void adc_start_conversion()
 {
 	//Start next conversion with same config
-	ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADSC);
+	ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADSC) | (1<<ADPS2) | (1<<ADPS0) | (1<<ADPS1);
+	//noise reduction mode 
+	SMCR = (1<<SM0) | (0<<SM1) | (1<<SM2);
 }
 
 ISR(ADC_vect)

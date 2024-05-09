@@ -2,9 +2,9 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
-adc_functions.c
-
 canlib.c
+
+adc_functions.c
 
 main.c
 
