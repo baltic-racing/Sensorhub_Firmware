@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000001a8  00000000  00000000  00002ac0  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000641  00000000  00000000  00002c68  2**0
+ 10 .debug_str    00000685  00000000  00000000  00002c68  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000003a3  00000000  00000000  000032a9  2**0
+ 11 .debug_loc    000003a3  00000000  00000000  000032ed  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000080  00000000  00000000  0000364c  2**0
+ 12 .debug_ranges 00000080  00000000  00000000  00003690  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -136,43 +136,23 @@ Disassembly of section .text:
   b4:	a5 cf       	rjmp	.-182    	; 0x0 <__vectors>
 
 000000b6 <adc_config>:
-
-
-void adc_config()
-{
-	//AREF = AVCC
-	ADMUX = (1<<REFS0);
   b6:	80 e4       	ldi	r24, 0x40	; 64
   b8:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__TEXT_REGION_LENGTH__+0x7e007c>
-	//ADC Enable, /16, Interrupt Enable
-	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0) | (1<<ADIE);
   bc:	ea e7       	ldi	r30, 0x7A	; 122
   be:	f0 e0       	ldi	r31, 0x00	; 0
   c0:	8c e8       	ldi	r24, 0x8C	; 140
   c2:	80 83       	st	Z, r24
-	//Start Conversion
-	ADCSRA |= (1<<ADSC);
   c4:	80 81       	ld	r24, Z
   c6:	80 64       	ori	r24, 0x40	; 64
   c8:	80 83       	st	Z, r24
   ca:	08 95       	ret
 
 000000cc <adc_start_conversion>:
-}
-
-void adc_start_conversion()
-{
-	//Start next conversion with same config
-	ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADSC);
   cc:	88 ec       	ldi	r24, 0xC8	; 200
   ce:	80 93 7a 00 	sts	0x007A, r24	; 0x80007a <__TEXT_REGION_LENGTH__+0x7e007a>
   d2:	08 95       	ret
 
 000000d4 <__vector_25>:
-}
-
-ISR(ADC_vect)
-{
   d4:	1f 92       	push	r1
   d6:	0f 92       	push	r0
   d8:	0f b6       	in	r0, 0x3f	; 63
@@ -192,7 +172,6 @@ ISR(ADC_vect)
   f4:	bf 93       	push	r27
   f6:	ef 93       	push	r30
   f8:	ff 93       	push	r31
-	adc_values[adc_next] = ADC;// ADCL | (ADCH << 8); //low bit erst ablesen
   fa:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
   fe:	e8 2f       	mov	r30, r24
  100:	f0 e0       	ldi	r31, 0x00	; 0
@@ -204,26 +183,15 @@ ISR(ADC_vect)
  110:	fe 4f       	sbci	r31, 0xFE	; 254
  112:	31 83       	std	Z+1, r19	; 0x01
  114:	20 83       	st	Z, r18
-	adc_next++;
  116:	8f 5f       	subi	r24, 0xFF	; 255
  118:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
-	if(adc_next == ADCVALUES)
  11c:	84 30       	cpi	r24, 0x04	; 4
  11e:	11 f4       	brne	.+4      	; 0x124 <__vector_25+0x50>
-	{
-		adc_next = 0;
  120:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-	}
-	// select other ADC Input
-	ADMUX = (1<<REFS0) | adc_next;
  124:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
  128:	80 64       	ori	r24, 0x40	; 64
  12a:	80 93 7c 00 	sts	0x007C, r24	; 0x80007c <__TEXT_REGION_LENGTH__+0x7e007c>
-
-	adc_start_conversion();
  12e:	ce df       	rcall	.-100    	; 0xcc <adc_start_conversion>
-	
-}
  130:	ff 91       	pop	r31
  132:	ef 91       	pop	r30
  134:	bf 91       	pop	r27
@@ -245,11 +213,6 @@ ISR(ADC_vect)
  154:	18 95       	reti
 
 00000156 <adc_get>:
-
-// getter for each adc var
-uint16_t adc_get(uint8_t adc)
-{
-	return adc_values[adc];
  156:	e8 2f       	mov	r30, r24
  158:	f0 e0       	ldi	r31, 0x00	; 0
  15a:	ee 0f       	add	r30, r30
@@ -436,12 +399,6 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
  2ac:	08 95       	ret
 
 000002ae <main>:
-/*	Init Global Variables	*/
-unsigned long sys_tick = 0;
-unsigned long time_old = 0;
-unsigned long time_20_ms =0;
-
-int main(void){
  2ae:	cf 93       	push	r28
  2b0:	df 93       	push	r29
  2b2:	cd b7       	in	r28, 0x3d	; 61
@@ -452,35 +409,19 @@ int main(void){
  2bc:	de bf       	out	0x3e, r29	; 62
  2be:	0f be       	out	0x3f, r0	; 63
  2c0:	cd bf       	out	0x3d, r28	; 61
-	/*	Configuration	*/
-	port_config();
  2c2:	6f d0       	rcall	.+222    	; 0x3a2 <port_config>
-	sys_timer_config();
  2c4:	78 d0       	rcall	.+240    	; 0x3b6 <sys_timer_config>
-	can_cfg();
  2c6:	6d df       	rcall	.-294    	; 0x1a2 <can_cfg>
  2c8:	f6 de       	rcall	.-532    	; 0xb6 <adc_config>
-	adc_config();							//CAN lib may be outdated, small differences between the old can lib but i already used it on FB to communicate between the old SWC during initial testing 
  2ca:	80 e2       	ldi	r24, 0x20	; 32
  2cc:	94 e0       	ldi	r25, 0x04	; 4
-								//for message objects, the sensor only SENDS data!
-	struct CAN_MOB can_SHB_mob;
-	can_SHB_mob.mob_id = 0x420;
  2ce:	9a 83       	std	Y+2, r25	; 0x02
  2d0:	89 83       	std	Y+1, r24	; 0x01
  2d2:	1c 82       	std	Y+4, r1	; 0x04
  2d4:	1b 82       	std	Y+3, r1	; 0x03
-	can_SHB_mob.mob_idmask = 0; //send
  2d6:	1d 82       	std	Y+5, r1	; 0x05
  2d8:	78 94       	sei
-	can_SHB_mob.mob_number = 0; //only 1 object here, do i need to adjust numbers across all software connected with CAN?
  2da:	80 91 09 01 	lds	r24, 0x0109	; 0x800109 <sys_tick>
-	uint8_t SHB_databytes[8];
-	
-	sei();
-	
-	while (1){
-		if((sys_tick - time_old) >= 1){
  2de:	90 91 0a 01 	lds	r25, 0x010A	; 0x80010a <sys_tick+0x1>
  2e2:	a0 91 0b 01 	lds	r26, 0x010B	; 0x80010b <sys_tick+0x2>
  2e6:	b0 91 0c 01 	lds	r27, 0x010C	; 0x80010c <sys_tick+0x3>
@@ -494,14 +435,11 @@ int main(void){
  300:	b7 07       	cpc	r27, r23
  302:	e1 f0       	breq	.+56     	; 0x33c <main+0x8e>
  304:	80 93 05 01 	sts	0x0105, r24	; 0x800105 <time_old>
-			time_old = sys_tick;
  308:	90 93 06 01 	sts	0x0106, r25	; 0x800106 <time_old+0x1>
  30c:	a0 93 07 01 	sts	0x0107, r26	; 0x800107 <time_old+0x2>
  310:	b0 93 08 01 	sts	0x0108, r27	; 0x800108 <time_old+0x3>
  314:	db de       	rcall	.-586    	; 0xcc <adc_start_conversion>
-			adc_start_conversion();   
  316:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <time_20_ms>
-			time_20_ms++;  //20 ms reference
  31a:	90 91 02 01 	lds	r25, 0x0102	; 0x800102 <time_20_ms+0x1>
  31e:	a0 91 03 01 	lds	r26, 0x0103	; 0x800103 <time_20_ms+0x2>
  322:	b0 91 04 01 	lds	r27, 0x0104	; 0x800104 <time_20_ms+0x3>
@@ -513,10 +451,6 @@ int main(void){
  334:	a0 93 03 01 	sts	0x0103, r26	; 0x800103 <time_20_ms+0x2>
  338:	b0 93 04 01 	sts	0x0104, r27	; 0x800104 <time_20_ms+0x3>
  33c:	80 91 01 01 	lds	r24, 0x0101	; 0x800101 <time_20_ms>
-
-			
-		}
-		if (time_20_ms <= 20){ 
  340:	90 91 02 01 	lds	r25, 0x0102	; 0x800102 <time_20_ms+0x1>
  344:	a0 91 03 01 	lds	r26, 0x0103	; 0x800103 <time_20_ms+0x2>
  348:	b0 91 04 01 	lds	r27, 0x0104	; 0x800104 <time_20_ms+0x3>
@@ -525,49 +459,37 @@ int main(void){
  350:	b1 05       	cpc	r27, r1
  352:	18 f6       	brcc	.-122    	; 0x2da <main+0x2c>
  354:	81 e0       	ldi	r24, 0x01	; 1
-			
-			SHB_databytes[0] = adc_get(1)		& 0xff	; //lsb 
  356:	ff de       	rcall	.-514    	; 0x156 <adc_get>
  358:	8e 83       	std	Y+6, r24	; 0x06
  35a:	81 e0       	ldi	r24, 0x01	; 1
-			SHB_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb
  35c:	fc de       	rcall	.-520    	; 0x156 <adc_get>
  35e:	9f 83       	std	Y+7, r25	; 0x07
  360:	82 e0       	ldi	r24, 0x02	; 2
-			SHB_databytes[2] = adc_get(2)		& 0xff	; //lsb 
  362:	f9 de       	rcall	.-526    	; 0x156 <adc_get>
  364:	88 87       	std	Y+8, r24	; 0x08
  366:	82 e0       	ldi	r24, 0x02	; 2
-			SHB_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb
  368:	f6 de       	rcall	.-532    	; 0x156 <adc_get>
  36a:	99 87       	std	Y+9, r25	; 0x09
  36c:	82 e0       	ldi	r24, 0x02	; 2
-			SHB_databytes[4] = adc_get(2)		& 0xff	; //lsb 
  36e:	f3 de       	rcall	.-538    	; 0x156 <adc_get>
  370:	8a 87       	std	Y+10, r24	; 0x0a
  372:	82 e0       	ldi	r24, 0x02	; 2
-			SHB_databytes[5] = (adc_get(2)>>8)	& 0xff	; //msb
  374:	f0 de       	rcall	.-544    	; 0x156 <adc_get>
  376:	9b 87       	std	Y+11, r25	; 0x0b
  378:	83 e0       	ldi	r24, 0x03	; 3
  37a:	ed de       	rcall	.-550    	; 0x156 <adc_get>
-			SHB_databytes[6] = adc_get(3)		& 0xff	; //lsb 
  37c:	8c 87       	std	Y+12, r24	; 0x0c
  37e:	83 e0       	ldi	r24, 0x03	; 3
  380:	ea de       	rcall	.-556    	; 0x156 <adc_get>
-			SHB_databytes[7] = (adc_get(3)>>8)	& 0xff	; //msb
  382:	9d 87       	std	Y+13, r25	; 0x0d
  384:	be 01       	movw	r22, r28
  386:	6a 5f       	subi	r22, 0xFA	; 250
  388:	7f 4f       	sbci	r23, 0xFF	; 255
-			
-			can_tx(&can_SHB_mob, SHB_databytes);
  38a:	ce 01       	movw	r24, r28
  38c:	01 96       	adiw	r24, 0x01	; 1
  38e:	48 df       	rcall	.-368    	; 0x220 <can_tx>
  390:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <time_20_ms>
  394:	10 92 02 01 	sts	0x0102, r1	; 0x800102 <time_20_ms+0x1>
-			time_20_ms = 0;
  398:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <time_20_ms+0x2>
  39c:	10 92 04 01 	sts	0x0104, r1	; 0x800104 <time_20_ms+0x3>
  3a0:	9c cf       	rjmp	.-200    	; 0x2da <main+0x2c>
@@ -588,9 +510,9 @@ void port_config(void)
  3aa:	83 60       	ori	r24, 0x03	; 3
  3ac:	8d b9       	out	0x0d, r24	; 13
 	//CLTF1, CLTF2, CLTR1, CLTR2 (F --> Flow, R --> Return)
-	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2) & ~(1<<PF2);
+	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2) & ~(1<<PF3);
  3ae:	80 b3       	in	r24, 0x10	; 16
- 3b0:	88 7f       	andi	r24, 0xF8	; 248
+ 3b0:	80 7f       	andi	r24, 0xF0	; 240
  3b2:	80 bb       	out	0x10, r24	; 16
  3b4:	08 95       	ret
 

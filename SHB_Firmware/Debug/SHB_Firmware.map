@@ -488,17 +488,17 @@ END GROUP
  .debug_frame   0x00000110       0x34 main.o
  .debug_frame   0x00000144       0x64 system_config.o
 
-.debug_str      0x00000000      0x641
+.debug_str      0x00000000      0x685
  *(.debug_str)
  .debug_str     0x00000000      0x39f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
  .debug_str     0x0000039f      0x195 adc_functions.o
                                 0x1c9 (size before relaxing)
- .debug_str     0x00000534       0x87 canlib.o
-                                0x1ea (size before relaxing)
- .debug_str     0x000005bb       0x65 main.o
+ .debug_str     0x00000534       0xcb canlib.o
+                                0x1f7 (size before relaxing)
+ .debug_str     0x000005ff       0x65 main.o
                                 0x22d (size before relaxing)
- .debug_str     0x00000620       0x21 system_config.o
-                                0x1a1 (size before relaxing)
+ .debug_str     0x00000664       0x21 system_config.o
+                                0x1ae (size before relaxing)
 
 .debug_loc      0x00000000      0x3a3
  *(.debug_loc)

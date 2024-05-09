@@ -13,7 +13,7 @@ uint8_t can_check_free(uint8_t mobnum){
 	
 	uint8_t mob_status = 0;
 	
-	if(mobnum >7){
+	if(mobnum >=8){
 		
 		mob_status = !((CANEN1 >> (mobnum-8)) &1);
 

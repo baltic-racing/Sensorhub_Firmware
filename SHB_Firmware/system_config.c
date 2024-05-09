@@ -21,7 +21,7 @@ void port_config(void)
 	//CS-TYPK1, CS-TYPK2
 	DDRE |= (1<<PE0) | (1<<PE1);
 	//CLTF1, CLTF2, CLTR1, CLTR2 (F --> Flow, R --> Return)
-	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2) & ~(1<<PF2);
+	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2) & ~(1<<PF3);
 }
 
 void sys_timer_config(void)
