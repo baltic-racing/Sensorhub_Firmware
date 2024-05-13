@@ -44,12 +44,17 @@ int main(void){
 		if((sys_tick - time_old) >= 1){ 
 			time_old = sys_tick;
 			adc_start_conversion();
+			time_10_ms++;
 			time_50_ms++;
-			time_100_ms++;  
-		
-			
+			time_100_ms++;  	
 		}
-	
+		if(time_10_ms >= 10)
+		{
+			adc_start_conversion();
+			
+			time_10_ms = 0;
+		}
+		}
 		if (time_50_ms >= 50)
 		{
 			data = adc_get;

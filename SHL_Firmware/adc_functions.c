@@ -48,9 +48,6 @@ ISR(ADC_vect)
 	}
 	// select other ADC Input
 	ADMUX = (1<<REFS0) | adc_next;
-
-	adc_start_conversion();
-	
 }
 
 // getter for each adc var
