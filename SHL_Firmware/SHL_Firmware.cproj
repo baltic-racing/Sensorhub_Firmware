@@ -56,6 +56,17 @@
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>JTAG</avrtoolinterface>
     <avrtoolinterfaceclock>200000</avrtoolinterfaceclock>
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>JTAG</InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>

@@ -16,8 +16,10 @@
 /*	Init Global Variables	*/
 unsigned long sys_tick = 0;
 unsigned long time_old = 0;
-unsigned long time_10_ms = 0;
-unsigned long time_100_ms = 0;
+uint8_t time_10_ms = 0;
+uint8_t time_50_ms = 0;
+uint8_t time_100_ms = 0;
+uint8_t time_200_ms = 0; 
 
 int main(void){
 	/*	Configuration	*/
@@ -39,11 +41,16 @@ int main(void){
 			time_old = sys_tick;
 			adc_start_conversion();
 			time_10_ms++;
+			time_50_ms++;
 			time_100_ms++;  
-
+			time_200_ms++;
 			
 		}
-		if (time_10_ms >= 9)
+		if (time_10_ms >= 10)
+		{
+			time_10_ms = 0;
+		}
+		if (time_50_ms >= 50)
 		{
 			SHL0_databytes[0] = adc_get(1)		& 0xff	; //lsb BPS1
 			SHL0_databytes[1] = (adc_get(1)>>8)	& 0xff	; //msb BPS1
@@ -56,14 +63,21 @@ int main(void){
 			
 			can_tx(&can_SHL0_mob, SHL0_databytes);
 			
-			time_10_ms = 0;
+			time_50_ms = 0;
 		}
 		if (time_100_ms >= 100)
 		{
 		
-		PORTC ^= (1<<PC2);
 		
 		time_100_ms = 0;
+		}
+		
+		if (time_200_ms >= 200)
+		{
+		
+		PORTC ^= (1<<PC2);
+		
+		time_200_ms = 0;
 		}
 	} //no fault condition
 }
