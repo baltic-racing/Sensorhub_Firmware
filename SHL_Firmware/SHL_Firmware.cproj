@@ -164,6 +164,12 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sensor_function.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor_function.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="system_config.c">
       <SubType>compile</SubType>
     </Compile>

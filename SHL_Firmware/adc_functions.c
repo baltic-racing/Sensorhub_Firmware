@@ -6,11 +6,19 @@
  */ 
 
 #include "adc_functions.h"
+#include <math.h>
 
 // array to store the adc data in
 uint16_t adc_values[ADCVALUES]; //Defined in the Header file (2 right now)
 // index var to know which adc will come next
 uint8_t adc_next = 0;
+
+float start_Volt = 0.5;
+float end_Volt = 4.5;
+uint8_t sensor_max = 100;
+uint16_t ADC_bit = 10;
+uint8_t ADC_Volt = 5;
+uint16_t precision = 10;
 
 
 

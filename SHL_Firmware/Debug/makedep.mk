@@ -8,5 +8,7 @@ canlib.c
 
 main.c
 
+sensor_function.c
+
 system_config.c
 
