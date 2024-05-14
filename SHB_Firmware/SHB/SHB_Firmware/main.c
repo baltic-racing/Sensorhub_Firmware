@@ -59,11 +59,13 @@ int main(void){
 		 SHB0_databytes[7] = (adc_get(3)>>8)	; //msb
 		 
 		 can_tx(&can_SHB0_mob, SHB0_databytes); // CAN_10Hz
+		 
+		 PORTC ^= (1<<PC2); // heart LED
+		 
 		 time_100_ms=0;
 	 }
 	 
 	  if(time_200_ms >= 200){
-		  PORTC ^= (1<<PC2); // heart LED
 		  
 		  time_200_ms=0;
 	  }
