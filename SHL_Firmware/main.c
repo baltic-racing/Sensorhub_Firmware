@@ -54,7 +54,6 @@ int main(void){
 			
 			time_10_ms = 0;
 		}
-		}
 		if (time_50_ms >= 50)
 		{
 			data = adc_get;
