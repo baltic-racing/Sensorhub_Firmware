@@ -35,22 +35,22 @@ int main(void){
 	while (1){
 		if((sys_tick - time_old) >= 1){
 			time_old = sys_tick;
-			adc_start_conversion();
 			time_10_ms++;  //10 ms reference
 			time_100_ms++; 
 			time_200_ms++;
 			
 		}
 		if (time_10_ms >= 10){
-			
+			adc_start_conversion();
 			
 			time_10_ms = 0;
 		}
 	 if(time_100_ms >= 100){
 		 
-		 
-		 SHB0_databytes[0] = adc_get(1)		; //lsb
-		 SHB0_databytes[1] = (adc_get(1)>>8)	; //msb
+		 uint16_t tnp_temp = (float) (((0.128479*adc_get(1)) - (8.137044))*10); // NTC Kurve ist linearisiert im Bereich 80°-20°, außerhalb ungenauer
+		 		 
+		 SHB0_databytes[0] = tnp_temp		; //lsb
+		 SHB0_databytes[1] = (tnp_temp>>8)	; //msb
 		 SHB0_databytes[2] = adc_get(2)		; //lsb
 		 SHB0_databytes[3] = (adc_get(2)>>8)	; //msb
 		 SHB0_databytes[4] = adc_get(2)		; //lsb
