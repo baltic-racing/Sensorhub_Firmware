@@ -23,7 +23,8 @@ uint8_t time_50_ms = 0;
 uint8_t time_100_ms = 0;
 uint8_t time_200_ms = 0; 
 
-uint16_t data;
+uint16_t data = 700;
+extern uint16_t pressure;
 
 int main(void){
 	/*	Configuration	*/
@@ -56,16 +57,17 @@ int main(void){
 		}
 		if (time_50_ms >= 50)
 		{
-			data = adc_get;
 			can_tx(&can_SHL0_mob, SHL0_databytes);
+			
+			ADC_brake_Sensor_front(data);
 			
 		time_50_ms = 0;
 		}
 		if (time_100_ms >= 100)
 		{
 		PORTC ^= (1<<PC2);
-		SHL0_databytes[0] = ADC_brake_Sensor_front(data, 0.5, 4.5, 100, 10, 5, 10)		& 0xff	; //lsb BPS1
-		SHL0_databytes[1] = (ADC_brake_Sensor_front(data, 0.5, 4.5, 100, 10, 5, 10)>>8)	& 0xff	; //msb BPS1
+		SHL0_databytes[0] = (pressure		& 0xff)	; //lsb BPS1
+		SHL0_databytes[1] = ((pressure>>8)	& 0xff)	; //msb BPS1
 		SHL0_databytes[2] = adc_get(2)		& 0xff	; //lsb BPS2
 		SHL0_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb BPS2
 		SHL0_databytes[4] = 0; //SPI getter Wheel Speed lsb
