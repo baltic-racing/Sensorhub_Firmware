@@ -23,7 +23,7 @@ uint8_t time_50_ms = 0;
 uint8_t time_100_ms = 0;
 uint8_t time_200_ms = 0; 
 
-uint16_t data = 700;
+uint16_t data = 0;
 extern uint16_t pressure;
 
 int main(void){
@@ -58,7 +58,7 @@ int main(void){
 		if (time_50_ms >= 50)
 		{
 			can_tx(&can_SHL0_mob, SHL0_databytes);
-			
+			data = adc_get(1);
 			ADC_brake_Sensor_front(data);
 			
 		time_50_ms = 0;
