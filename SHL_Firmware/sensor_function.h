@@ -14,6 +14,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-void ADC_brake_Sensor_front(uint16_t data);
+//uint16_t ADC_brake_Sensor_front(uint16_t data, float start_Volt, float end_Volt, int sensor_max, int ADC_bit, int ADC_Volt, int precision);
+uint16_t ADC_brake_Sensor(uint16_t data);
 
 #endif

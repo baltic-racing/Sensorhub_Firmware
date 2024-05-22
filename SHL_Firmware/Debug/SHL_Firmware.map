@@ -24,15 +24,13 @@ c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/stu
                               c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fixunssfsi.o) (__fp_zero)
 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
                               C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o (exit)
-c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
-                              adc_functions.o (__do_copy_data)
 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
                               adc_functions.o (__do_clear_bss)
 
 Allocating common symbols
 Common symbol       size              file
 
-adc_values          0x6               adc_functions.o
+adc_values          0x4               adc_functions.o
 
 Discarded input sections
 
@@ -41,17 +39,6 @@ Discarded input sections
  .text          0x00000000        0x0 adc_functions.o
  .data          0x00000000        0x0 adc_functions.o
  .bss           0x00000000        0x0 adc_functions.o
- .data.precision
-                0x00000000        0x2 adc_functions.o
- .data.ADC_Volt
-                0x00000000        0x1 adc_functions.o
- .data.ADC_bit  0x00000000        0x2 adc_functions.o
- .data.sensor_max
-                0x00000000        0x1 adc_functions.o
- .data.end_Volt
-                0x00000000        0x4 adc_functions.o
- .data.start_Volt
-                0x00000000        0x4 adc_functions.o
  .text          0x00000000        0x0 canlib.o
  .data          0x00000000        0x0 canlib.o
  .bss           0x00000000        0x0 canlib.o
@@ -59,6 +46,7 @@ Discarded input sections
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
+ .bss.data      0x00000000        0x2 main.o
  .bss.time_200_ms
                 0x00000000        0x1 main.o
  .text          0x00000000        0x0 sensor_function.o
@@ -116,22 +104,6 @@ Discarded input sections
                 0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
- .text          0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .data          0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .bss           0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc.mul
-                0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc.div
-                0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc   0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc.prologue
-                0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc.builtins
-                0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc.fmul
-                0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
- .text.libgcc.fixed
-                0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
  .text          0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
  .data          0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
  .bss           0x00000000        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
@@ -279,7 +251,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x686
+.text           0x00000000      0x65e
  *(.vectors)
  .vectors       0x00000000       0x94 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
                 0x00000000                __vector_default
@@ -320,10 +292,8 @@ END GROUP
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x000000a0       0x1a c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
-                0x000000a0                __do_copy_data
- .init4         0x000000ba       0x10 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
-                0x000000ba                __do_clear_bss
+ .init4         0x000000a0       0x10 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
+                0x000000a0                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -334,121 +304,125 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000000ca        0x4 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
+ .init9         0x000000b0        0x4 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
  *(.init9)
  *(.text)
- .text          0x000000ce        0x2 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
-                0x000000ce                __vector_22
-                0x000000ce                __vector_28
-                0x000000ce                __vector_1
-                0x000000ce                __vector_32
-                0x000000ce                __vector_34
-                0x000000ce                __vector_24
-                0x000000ce                __vector_12
-                0x000000ce                __bad_interrupt
-                0x000000ce                __vector_6
-                0x000000ce                __vector_31
-                0x000000ce                __vector_35
-                0x000000ce                __vector_3
-                0x000000ce                __vector_23
-                0x000000ce                __vector_30
-                0x000000ce                __vector_11
-                0x000000ce                __vector_13
-                0x000000ce                __vector_17
-                0x000000ce                __vector_19
-                0x000000ce                __vector_7
-                0x000000ce                __vector_27
-                0x000000ce                __vector_5
-                0x000000ce                __vector_33
-                0x000000ce                __vector_4
-                0x000000ce                __vector_9
-                0x000000ce                __vector_2
-                0x000000ce                __vector_21
-                0x000000ce                __vector_15
-                0x000000ce                __vector_36
-                0x000000ce                __vector_29
-                0x000000ce                __vector_8
-                0x000000ce                __vector_26
-                0x000000ce                __vector_14
-                0x000000ce                __vector_10
-                0x000000ce                __vector_18
-                0x000000ce                __vector_20
-                0x000000d0                . = ALIGN (0x2)
+ .text          0x000000b4        0x2 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
+                0x000000b4                __vector_22
+                0x000000b4                __vector_28
+                0x000000b4                __vector_1
+                0x000000b4                __vector_32
+                0x000000b4                __vector_34
+                0x000000b4                __vector_24
+                0x000000b4                __vector_12
+                0x000000b4                __bad_interrupt
+                0x000000b4                __vector_6
+                0x000000b4                __vector_31
+                0x000000b4                __vector_35
+                0x000000b4                __vector_3
+                0x000000b4                __vector_23
+                0x000000b4                __vector_30
+                0x000000b4                __vector_11
+                0x000000b4                __vector_13
+                0x000000b4                __vector_17
+                0x000000b4                __vector_19
+                0x000000b4                __vector_7
+                0x000000b4                __vector_27
+                0x000000b4                __vector_5
+                0x000000b4                __vector_33
+                0x000000b4                __vector_4
+                0x000000b4                __vector_9
+                0x000000b4                __vector_2
+                0x000000b4                __vector_21
+                0x000000b4                __vector_15
+                0x000000b4                __vector_36
+                0x000000b4                __vector_29
+                0x000000b4                __vector_8
+                0x000000b4                __vector_26
+                0x000000b4                __vector_14
+                0x000000b4                __vector_10
+                0x000000b4                __vector_18
+                0x000000b4                __vector_20
+                0x000000b6                . = ALIGN (0x2)
  *(.text.*)
  .text.adc_config
-                0x000000d0       0x16 adc_functions.o
-                0x000000d0                adc_config
+                0x000000b6       0x20 adc_functions.o
+                0x000000b6                adc_config
  .text.adc_start_conversion
-                0x000000e6        0x8 adc_functions.o
-                0x000000e6                adc_start_conversion
+                0x000000d6        0xc adc_functions.o
+                0x000000d6                adc_start_conversion
  .text.__vector_25
-                0x000000ee       0x64 adc_functions.o
-                0x000000ee                __vector_25
- .text.adc_get  0x00000152       0x12 adc_functions.o
-                0x00000152                adc_get
+                0x000000e2       0x64 adc_functions.o
+                0x000000e2                __vector_25
+ .text.adc_get_1
+                0x00000146        0xa adc_functions.o
+                0x00000146                adc_get_1
+ .text.adc_get_2
+                0x00000150        0xa adc_functions.o
+                0x00000150                adc_get_2
  .text.can_check_free
-                0x00000164       0x3a canlib.o
-                0x00000164                can_check_free
- .text.can_cfg  0x0000019e       0x7e canlib.o
-                0x0000019e                can_cfg
- .text.can_tx   0x0000021c       0x8e canlib.o
-                0x0000021c                can_tx
- .text.main     0x000002aa      0x108 main.o
-                0x000002aa                main
- .text.ADC_brake_Sensor_front
-                0x000003b2       0x1e sensor_function.o
-                0x000003b2                ADC_brake_Sensor_front
+                0x0000015a       0x3a canlib.o
+                0x0000015a                can_check_free
+ .text.can_cfg  0x00000194       0x7e canlib.o
+                0x00000194                can_cfg
+ .text.can_tx   0x00000212       0x8e canlib.o
+                0x00000212                can_tx
+ .text.main     0x000002a0       0xf0 main.o
+                0x000002a0                main
+ .text.ADC_brake_Sensor
+                0x00000390       0x18 sensor_function.o
+                0x00000390                ADC_brake_Sensor
  .text.port_config
-                0x000003d0       0x14 system_config.o
-                0x000003d0                port_config
+                0x000003a8       0x14 system_config.o
+                0x000003a8                port_config
  .text.sys_timer_config
-                0x000003e4       0x10 system_config.o
-                0x000003e4                sys_timer_config
+                0x000003bc       0x10 system_config.o
+                0x000003bc                sys_timer_config
  .text.__vector_16
-                0x000003f4       0x4a system_config.o
-                0x000003f4                __vector_16
+                0x000003cc       0x4a system_config.o
+                0x000003cc                __vector_16
  .text.avr-libc.fplib
-                0x0000043e        0x4 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(divsf3.o)
-                0x0000043e                __divsf3
+                0x00000416        0x4 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(divsf3.o)
+                0x00000416                __divsf3
  .text.avr-libc.fplib
-                0x00000442       0xcc c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(divsf3x.o)
-                0x00000458                __divsf3x
-                0x0000045c                __divsf3_pse
+                0x0000041a       0xcc c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(divsf3x.o)
+                0x00000430                __divsf3x
+                0x00000434                __divsf3_pse
  .text.avr-libc.fplib
-                0x0000050e       0x58 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fixunssfsi.o)
-                0x0000050e                __fixunssfsi
+                0x000004e6       0x58 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fixunssfsi.o)
+                0x000004e6                __fixunssfsi
  .text.avr-libc.fplib
-                0x00000566       0x7a c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(floatsisf.o)
-                0x00000566                __floatunsisf
-                0x0000056a                __floatsisf
+                0x0000053e       0x7a c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(floatsisf.o)
+                0x0000053e                __floatunsisf
+                0x00000542                __floatsisf
  .text.avr-libc.fplib
-                0x000005e0        0xc c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_inf.o)
-                0x000005e0                __fp_inf
+                0x000005b8        0xc c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_inf.o)
+                0x000005b8                __fp_inf
  .text.avr-libc.fplib
-                0x000005ec        0x6 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_nan.o)
-                0x000005ec                __fp_nan
+                0x000005c4        0x6 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_nan.o)
+                0x000005c4                __fp_nan
  .text.avr-libc.fplib
-                0x000005f2        0xe c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_pscA.o)
-                0x000005f2                __fp_pscA
+                0x000005ca        0xe c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_pscA.o)
+                0x000005ca                __fp_pscA
  .text.avr-libc.fplib
-                0x00000600        0xe c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_pscB.o)
-                0x00000600                __fp_pscB
+                0x000005d8        0xe c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_pscB.o)
+                0x000005d8                __fp_pscB
  .text.avr-libc.fplib
-                0x0000060e       0x22 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_round.o)
-                0x0000060e                __fp_round
+                0x000005e6       0x22 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_round.o)
+                0x000005e6                __fp_round
  .text.avr-libc.fplib
-                0x00000630       0x44 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_split3.o)
-                0x00000630                __fp_split3
-                0x00000640                __fp_splitA
+                0x00000608       0x44 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_split3.o)
+                0x00000608                __fp_split3
+                0x00000618                __fp_splitA
  .text.avr-libc.fplib
-                0x00000674        0xe c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_zero.o)
-                0x00000674                __fp_zero
-                0x00000676                __fp_szero
-                0x00000682                . = ALIGN (0x2)
+                0x0000064c        0xe c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr51\libm.a(fp_zero.o)
+                0x0000064c                __fp_zero
+                0x0000064e                __fp_szero
+                0x0000065a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000682        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
-                0x00000682                _exit
-                0x00000682                exit
+ .fini9         0x0000065a        0x0 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+                0x0000065a                _exit
+                0x0000065a                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -467,12 +441,12 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000682        0x4 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .fini0         0x0000065a        0x4 c:/users/marek/documents/stralsund/studium - bachelor motorsport engineering/studien_programme/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000686                _etext = .
+                0x0000065e                _etext = .
 
-.data           0x00800100        0x0 load address 0x00000686
-                0x00800100                PROVIDE (__data_start, .)
+.data           0x00800100        0x0 load address 0x0000065e
+                [!provide]                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
  *(.gnu.linkonce.d*)
@@ -481,43 +455,39 @@ END GROUP
  *(.gnu.linkonce.r*)
                 0x00800100                . = ALIGN (0x2)
                 0x00800100                _edata = .
-                0x00800100                PROVIDE (__data_end, .)
+                [!provide]                PROVIDE (__data_end, .)
 
-.bss            0x00800100       0x16
+.bss            0x00800100       0x10
                 0x00800100                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.adc_next  0x00800100        0x1 adc_functions.o
                 0x00800100                adc_next
- .bss.data      0x00800101        0x2 main.o
-                0x00800101                data
  .bss.time_100_ms
-                0x00800103        0x1 main.o
-                0x00800103                time_100_ms
+                0x00800101        0x1 main.o
+                0x00800101                time_100_ms
  .bss.time_50_ms
-                0x00800104        0x1 main.o
-                0x00800104                time_50_ms
+                0x00800102        0x1 main.o
+                0x00800102                time_50_ms
  .bss.time_10_ms
-                0x00800105        0x1 main.o
-                0x00800105                time_10_ms
- .bss.time_old  0x00800106        0x4 main.o
-                0x00800106                time_old
- .bss.sys_tick  0x0080010a        0x4 main.o
-                0x0080010a                sys_tick
- .bss.pressure  0x0080010e        0x2 sensor_function.o
-                0x0080010e                pressure
+                0x00800103        0x1 main.o
+                0x00800103                time_10_ms
+ .bss.time_old  0x00800104        0x4 main.o
+                0x00800104                time_old
+ .bss.sys_tick  0x00800108        0x4 main.o
+                0x00800108                sys_tick
  *(COMMON)
- COMMON         0x00800110        0x6 adc_functions.o
-                0x00800110                adc_values
-                0x00800116                PROVIDE (__bss_end, .)
-                0x00000686                __data_load_start = LOADADDR (.data)
-                0x00000686                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080010c        0x4 adc_functions.o
+                0x0080010c                adc_values
+                0x00800110                PROVIDE (__bss_end, .)
+                0x0000065e                __data_load_start = LOADADDR (.data)
+                0x0000065e                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800116        0x0
+.noinit         0x00800110        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800116                _end = .
+                0x00800110                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -586,78 +556,78 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000       0xe0
+.debug_aranges  0x00000000       0xe8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x38 adc_functions.o
+                0x00000000       0x40 adc_functions.o
  .debug_aranges
-                0x00000038       0x38 canlib.o
+                0x00000040       0x38 canlib.o
  .debug_aranges
-                0x00000070       0x20 main.o
+                0x00000078       0x20 main.o
  .debug_aranges
-                0x00000090       0x20 sensor_function.o
+                0x00000098       0x20 sensor_function.o
  .debug_aranges
-                0x000000b0       0x30 system_config.o
+                0x000000b8       0x30 system_config.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x11d5
+.debug_info     0x00000000     0x1171
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xa2d C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
- .debug_info    0x00000a2d      0x194 adc_functions.o
- .debug_info    0x00000bc1      0x1fc canlib.o
- .debug_info    0x00000dbd      0x2b3 main.o
- .debug_info    0x00001070       0xa9 sensor_function.o
- .debug_info    0x00001119       0xbc system_config.o
+ .debug_info    0x00000a2d      0x125 adc_functions.o
+ .debug_info    0x00000b52      0x1fc canlib.o
+ .debug_info    0x00000d4e      0x2be main.o
+ .debug_info    0x0000100c       0xa9 sensor_function.o
+ .debug_info    0x000010b5       0xbc system_config.o
 
-.debug_abbrev   0x00000000      0xd5d
+.debug_abbrev   0x00000000      0xd4d
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x9a0 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
- .debug_abbrev  0x000009a0       0xb5 adc_functions.o
- .debug_abbrev  0x00000a55      0x121 canlib.o
- .debug_abbrev  0x00000b76       0xfa main.o
- .debug_abbrev  0x00000c70       0x73 sensor_function.o
- .debug_abbrev  0x00000ce3       0x7a system_config.o
+ .debug_abbrev  0x000009a0       0xa2 adc_functions.o
+ .debug_abbrev  0x00000a42      0x121 canlib.o
+ .debug_abbrev  0x00000b63       0xff main.o
+ .debug_abbrev  0x00000c62       0x71 sensor_function.o
+ .debug_abbrev  0x00000cd3       0x7a system_config.o
 
-.debug_line     0x00000000      0x9b7
+.debug_line     0x00000000      0x9c7
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x176 C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
- .debug_line    0x00000176      0x157 adc_functions.o
- .debug_line    0x000002cd      0x2eb canlib.o
- .debug_line    0x000005b8      0x1e9 main.o
- .debug_line    0x000007a1       0xe7 sensor_function.o
- .debug_line    0x00000888      0x12f system_config.o
+ .debug_line    0x00000176      0x173 adc_functions.o
+ .debug_line    0x000002e9      0x2eb canlib.o
+ .debug_line    0x000005d4      0x1d7 main.o
+ .debug_line    0x000007ab       0xed sensor_function.o
+ .debug_line    0x00000898      0x12f system_config.o
 
-.debug_frame    0x00000000      0x1a8
+.debug_frame    0x00000000      0x1b8
  *(.debug_frame)
- .debug_frame   0x00000000       0x78 adc_functions.o
- .debug_frame   0x00000078       0x74 canlib.o
- .debug_frame   0x000000ec       0x34 main.o
- .debug_frame   0x00000120       0x24 sensor_function.o
- .debug_frame   0x00000144       0x64 system_config.o
+ .debug_frame   0x00000000       0x88 adc_functions.o
+ .debug_frame   0x00000088       0x74 canlib.o
+ .debug_frame   0x000000fc       0x34 main.o
+ .debug_frame   0x00000130       0x24 sensor_function.o
+ .debug_frame   0x00000154       0x64 system_config.o
 
-.debug_str      0x00000000      0x6ec
+.debug_str      0x00000000      0x6b5
  *(.debug_str)
  .debug_str     0x00000000      0x39f C:/Users/Marek/Documents/Stralsund/Studium - Bachelor Motorsport Engineering/Studien_Programme/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/at90can128/avr51/crtat90can128.o
- .debug_str     0x0000039f      0x1e4 adc_functions.o
-                                0x218 (size before relaxing)
- .debug_str     0x00000583       0x87 canlib.o
+ .debug_str     0x0000039f      0x1b0 adc_functions.o
+                                0x1e4 (size before relaxing)
+ .debug_str     0x0000054f       0x87 canlib.o
                                 0x1f9 (size before relaxing)
- .debug_str     0x0000060a       0xaa main.o
-                                0x286 (size before relaxing)
- .debug_str     0x000006b4       0x17 sensor_function.o
-                                0x1a6 (size before relaxing)
- .debug_str     0x000006cb       0x21 system_config.o
+ .debug_str     0x000005d6       0x9b main.o
+                                0x283 (size before relaxing)
+ .debug_str     0x00000671       0x23 sensor_function.o
+                                0x1a3 (size before relaxing)
+ .debug_str     0x00000694       0x21 system_config.o
                                 0x1b0 (size before relaxing)
 
-.debug_loc      0x00000000      0x37e
+.debug_loc      0x00000000      0x35d
  *(.debug_loc)
- .debug_loc     0x00000000       0x91 adc_functions.o
- .debug_loc     0x00000091      0x20d canlib.o
- .debug_loc     0x0000029e       0x47 main.o
- .debug_loc     0x000002e5       0x36 sensor_function.o
- .debug_loc     0x0000031b       0x63 system_config.o
+ .debug_loc     0x00000000       0x70 adc_functions.o
+ .debug_loc     0x00000070      0x20d canlib.o
+ .debug_loc     0x0000027d       0x47 main.o
+ .debug_loc     0x000002c4       0x36 sensor_function.o
+ .debug_loc     0x000002fa       0x63 system_config.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -677,13 +647,13 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000       0x90
+.debug_ranges   0x00000000       0x98
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x28 adc_functions.o
- .debug_ranges  0x00000028       0x28 canlib.o
- .debug_ranges  0x00000050       0x10 main.o
- .debug_ranges  0x00000060       0x10 sensor_function.o
- .debug_ranges  0x00000070       0x20 system_config.o
+ .debug_ranges  0x00000000       0x30 adc_functions.o
+ .debug_ranges  0x00000030       0x28 canlib.o
+ .debug_ranges  0x00000058       0x10 main.o
+ .debug_ranges  0x00000068       0x10 sensor_function.o
+ .debug_ranges  0x00000078       0x20 system_config.o
 
 .debug_macro
  *(.debug_macro)

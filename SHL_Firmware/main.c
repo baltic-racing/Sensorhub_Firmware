@@ -44,7 +44,6 @@ int main(void){
 	while (1){
 		if((sys_tick - time_old) >= 1){ 
 			time_old = sys_tick;
-			adc_start_conversion();
 			time_10_ms++;
 			time_50_ms++;
 			time_100_ms++;  	
@@ -58,22 +57,20 @@ int main(void){
 		if (time_50_ms >= 50)
 		{
 			can_tx(&can_SHL0_mob, SHL0_databytes);
-			data = adc_get(1);
-			ADC_brake_Sensor_front(data);
 			
 		time_50_ms = 0;
 		}
 		if (time_100_ms >= 100)
 		{
 		PORTC ^= (1<<PC2);
-		SHL0_databytes[0] = (pressure		& 0xff)	; //lsb BPS1
-		SHL0_databytes[1] = ((pressure>>8)	& 0xff)	; //msb BPS1
-		SHL0_databytes[2] = adc_get(2)		& 0xff	; //lsb BPS2
-		SHL0_databytes[3] = (adc_get(2)>>8)	& 0xff	; //msb BPS2
+		SHL0_databytes[0] = (ADC_brake_Sensor(adc_get_1())		& 0xff)	; //lsb BPS1
+		SHL0_databytes[1] = ((ADC_brake_Sensor(adc_get_1())>>8)	& 0xff)	; //msb BPS1
+		SHL0_databytes[2] = (ADC_brake_Sensor(adc_get_2())		& 0xff)	; //lsb BPS1
+		SHL0_databytes[3] = ((ADC_brake_Sensor(adc_get_2())>>8)	& 0xff)	; //msb BPS1
 		SHL0_databytes[4] = 0; //SPI getter Wheel Speed lsb
 		SHL0_databytes[5] = 0; //SPI getter Wheel Speed msb
-		SHL0_databytes[6] = adc_get(3)		& 0xff	; //lsb SA
-		SHL0_databytes[7] = (adc_get(3)>>8)	& 0xff	; //msb SA
+		SHL0_databytes[6] = //adc_get(3)		& 0xff	; //lsb SA
+		SHL0_databytes[7] = //(adc_get(3)>>8)	& 0xff	; //msb SA
 		
 		time_100_ms = 0;
 		}
