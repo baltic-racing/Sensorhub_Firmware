@@ -17,14 +17,19 @@ float update_apps_percentage(float apps_adc, uint8_t apps_sensor)
 	float apps_value = 0;
 	switch (apps_sensor)
 	{
-		case 1: {apps_value = (1000/(float)(APPS1_MAX - APPS1_MIN)) * (apps_adc - (float)APPS1_MIN); break;}
-		case 2: {apps_value = (1000/(float)(APPS2_MAX - APPS2_MIN)) * (apps_adc - (float)APPS2_MIN); break;}
+		case 1: {apps_value = (100/(float)(APPS1_MAX - APPS1_MIN)) * (apps_adc - (float)APPS1_MIN); break;}
+		case 2: {apps_value = (100/(float)(APPS2_MAX - APPS2_MIN)) * (apps_adc - (float)APPS2_MIN); break;}
 	}
 		
 	if(apps_value < 0)
 	{
 		apps_value = 0;
 	}
-
+		
+	if(apps_value >99)
+	{
+		apps_value = 99;
+	}
+	
 	return apps_value;
 }

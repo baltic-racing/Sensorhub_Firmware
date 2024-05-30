@@ -53,9 +53,12 @@ int main(void)
 		}
 		
 		if (time_old_10ms >= 10)
-		{
-			apps1_percentage = update_apps_percentage((float)adc_get(0), 1);
-			apps2_percentage = update_apps_percentage((float)adc_get(1), 2);
+		{	
+			//float adc_shift_1 = adc_get(0);
+			//float adc_shift_2 = adc_get(1);
+			
+			uint16_t apps1_percentage = update_apps_percentage((float)/*adc_shift_1*/adc_get(0), 1);
+			uint16_t apps2_percentage = update_apps_percentage((float)/*adc_shift_2*/adc_get(1), 2);
 			
 			SHR0_databytes[0] =  (uint16_t)apps1_percentage;			//lsb APPS1
 			SHR0_databytes[1] = ((uint16_t)apps1_percentage >> 8);		//msb APPS1
