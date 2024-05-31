@@ -21,7 +21,7 @@ float update_apps_percentage(float apps_adc, uint8_t apps_sensor)
 		case 2: {apps_value = (100/(float)(APPS2_MAX - APPS2_MIN)) * (apps_adc - (float)APPS2_MIN); break;}
 	}
 		
-	if(apps_value < 0)
+	if(apps_value < 4)
 	{
 		apps_value = 0;
 	}
