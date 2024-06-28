@@ -26,6 +26,7 @@ uint8_t time_200_ms = 0;
 uint16_t data = 0;
 uint16_t adc_data_1;
 uint16_t adc_data_2;
+uint16_t adc_data_3;
 extern uint16_t pressure;
 
 int main(void){
@@ -55,6 +56,7 @@ int main(void){
 			adc_start_conversion();
 			adc_data_1 = adc_get_1();
 			adc_data_2 = adc_get_2();
+			adc_data_3 = adc_get_3();
 			
 			time_10_ms = 0;
 		}
@@ -66,14 +68,12 @@ int main(void){
 		}
 		if (time_100_ms >= 100)
 		{
-			
-		
 		PORTC ^= (1<<PC2);
 		
-		SHL0_databytes[0] = ADC2Sensor(adc_data_1,1,4.5,100,10,5,10) & 0xff; //lsb BPS1
-		SHL0_databytes[1] = ADC2Sensor(adc_data_1,1,4.5,100,10,5,10) >>8;//msb BPS1
+		SHL0_databytes[0] = ADC2Sensor(adc_data_3,0.5,4.5,100,10,5,10) & 0xff; //lsb BPS1ADC2Sensor(adc_data_1,1,4.5,100,10,5,10) & 0xff; //lsb BPS1
+		SHL0_databytes[1] = ADC2Sensor(adc_data_3,0.5,4.5,100,10,5,10) >>8; //lsb BPS1ADC2Sensor(adc_data_1,1,4.5,100,10,5,10) >>8;//msb BPS1
 		SHL0_databytes[2] = ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) & 0xff; //lsb BPS1
-		SHL0_databytes[3] =ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) >>8; //msb BPS1
+		SHL0_databytes[3] = ADC2Sensor(adc_data_2,0.5,4.5,100,10,5,10) >>8; //msb BPS1
 		SHL0_databytes[4] = 0; //SPI getter Wheel Speed lsb
 		SHL0_databytes[5] = 0; //SPI getter Wheel Speed msb
 		SHL0_databytes[6] = //adc_get(3)		& 0xff	; //lsb SA

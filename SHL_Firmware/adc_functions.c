@@ -52,3 +52,6 @@ uint16_t adc_get_1(){
 uint16_t adc_get_2(){
 	return adc_values[1];
 }
+uint16_t adc_get_3(){
+	return adc_values[2];
+}

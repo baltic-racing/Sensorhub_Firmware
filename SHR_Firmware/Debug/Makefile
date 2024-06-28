@@ -40,7 +40,7 @@ C_SRCS +=  \
 ../adc_functions.c \
 ../canlib.c \
 ../main.c \
-../sensor_function.c \
+../sensor_functions.c \
 ../system_config.c
 
 
@@ -54,33 +54,33 @@ OBJS +=  \
 adc_functions.o \
 canlib.o \
 main.o \
-sensor_function.o \
+sensor_functions.o \
 system_config.o
 
 OBJS_AS_ARGS +=  \
 adc_functions.o \
 canlib.o \
 main.o \
-sensor_function.o \
+sensor_functions.o \
 system_config.o
 
 C_DEPS +=  \
 adc_functions.d \
 canlib.d \
 main.d \
-sensor_function.d \
+sensor_functions.d \
 system_config.d
 
 C_DEPS_AS_ARGS +=  \
 adc_functions.d \
 canlib.d \
 main.d \
-sensor_function.d \
+sensor_functions.d \
 system_config.d
 
-OUTPUT_FILE_PATH +=SHL_Firmware.elf
+OUTPUT_FILE_PATH +=SHR_Firmware.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=SHL_Firmware.elf
+OUTPUT_FILE_PATH_AS_ARGS +=SHR_Firmware.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -113,7 +113,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./sensor_function.o: .././sensor_function.c
+./sensor_functions.o: .././sensor_functions.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
@@ -153,13 +153,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 5.4.0
-	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="SHL_Firmware.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128"  
+	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="SHR_Firmware.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mrelax -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128"  
 	@echo Finished building target: $@
-	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "SHL_Firmware.elf" "SHL_Firmware.hex"
-	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "SHL_Firmware.elf" "SHL_Firmware.eep" || exit 0
-	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "SHL_Firmware.elf" > "SHL_Firmware.lss"
-	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "SHL_Firmware.elf" "SHL_Firmware.srec"
-	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "SHL_Firmware.elf"
+	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "SHR_Firmware.elf" "SHR_Firmware.hex"
+	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "SHR_Firmware.elf" "SHR_Firmware.eep" || exit 0
+	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "SHR_Firmware.elf" > "SHR_Firmware.lss"
+	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "SHR_Firmware.elf" "SHR_Firmware.srec"
+	"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "SHR_Firmware.elf"
 	
 	
 
@@ -171,5 +171,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "SHL_Firmware.elf" "SHL_Firmware.a" "SHL_Firmware.hex" "SHL_Firmware.lss" "SHL_Firmware.eep" "SHL_Firmware.map" "SHL_Firmware.srec" "SHL_Firmware.usersignatures"
+	rm -rf "SHR_Firmware.elf" "SHR_Firmware.a" "SHR_Firmware.hex" "SHR_Firmware.lss" "SHR_Firmware.eep" "SHR_Firmware.map" "SHR_Firmware.srec" "SHR_Firmware.usersignatures"
 	
