@@ -40,3 +40,24 @@ float update_apps_percentage(float apps_adc, uint8_t apps_sensor)
 	
 	return apps_value;
 }
+
+double update_apps_percentage_alt(double apps_adc, uint8_t apps_sensor){
+	double apps_value = 0;
+	if (apps_adc < 75){
+		return apps_value = 0;
+	}
+	switch (apps_sensor){
+		case 1: {
+			apps_value = (100/(double)(APPS1_MAX - APPS1_MIN)) * (apps_adc - (double)APPS1_MIN);
+			break;
+		}
+		case 2: {
+			apps_value = (100/(double)(APPS2_MAX - APPS2_MIN)) * (apps_adc - (double)APPS2_MIN);
+			break;
+		}
+	}
+	if(apps_value >99){
+		apps_value = 99;
+	}
+	return apps_value;
+}

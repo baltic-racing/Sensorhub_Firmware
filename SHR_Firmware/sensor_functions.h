@@ -13,14 +13,14 @@
 
 /*	Defines	*/
 
-#define APPS1_MIN	429//433
-#define APPS1_MAX	183//184
-#define APPS2_MIN	823//826
-#define APPS2_MAX	304//325
+#define APPS1_MIN	620//433
+#define APPS1_MAX	195//184
+#define APPS2_MIN	952//826
+#define APPS2_MAX	436//325
 
 /*	Function Prototypes	*/
 
 float update_apps_percentage(float apps_adc, uint8_t apps_sensor);
-
+double update_apps_percentage_alt(double apps_adc, uint8_t apps_sensor);
 
 #endif /* SENSOR_FUNCTIONS_H_ */
