@@ -9,15 +9,16 @@
 #ifndef SENSOR_FUNCTIONS_H_
 #define SENSOR_FUNCTIONS_H_
 
-/*	Inlcudes	*/
+/*	Inlcudes */
 
 /*	Defines	*/
 
-#define APPS1_MIN	620//433
-#define APPS1_MAX	195//184
-#define APPS2_MIN	952//826
-#define APPS2_MAX	436//325
+#define APPS1_MIN	899//433
+#define APPS1_MAX	406//184
+#define APPS2_MIN	172//826
+#define APPS2_MAX	727//325
 
+#define APPS_DEVIATION_ALLOWED 10.0;
 /*	Function Prototypes	*/
 
 float update_apps_percentage(float apps_adc, uint8_t apps_sensor);
