@@ -18,7 +18,6 @@
 #define APPS2_MIN	172//826
 #define APPS2_MAX	727//325
 
-#define APPS_DEVIATION_ALLOWED 10.0;
 /*	Function Prototypes	*/
 
 float update_apps_percentage(float apps_adc, uint8_t apps_sensor);
