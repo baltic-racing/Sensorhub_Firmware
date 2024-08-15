@@ -24,6 +24,8 @@ unsigned long time_old_100ms = 0;
 
 float apps1_percentage;
 float apps2_percentage;
+uint8_t sdc_open = 0;
+extern uint16_t adc_values[1];
 
 int main(void)
 {
@@ -54,14 +56,21 @@ int main(void)
 		
 		if (time_old_10ms >= 10)
 		{	
-			//float adc_shift_1 = adc_get(0);
-			//float adc_shift_2 = adc_get(1);
-			
-			//uint16_t apps1_percentage = update_apps_percentage((float)/*adc_shift_1*/adc_get(0), 1);
-			//uint16_t apps2_percentage = update_apps_percentage((float)/*adc_shift_2*/adc_get(1), 2);
 			
 			uint16_t apps1_percentage = update_apps_percentage_alt((double) adc_get(0), 1);
 			uint16_t apps2_percentage = update_apps_percentage_alt((double) adc_get(1), 2);
+			
+				if(adc_values[0] <= 100 || adc_values[1] <= 100){
+					//if APPS shorted to ground or open circuit
+					sdc_open=1;
+				}
+				if (apps1_percentage > apps2_percentage+10.0){
+					sdc_open=1; //deviation between apps +10%
+				}
+				if (apps1_percentage < apps2_percentage-10.0){
+					sdc_open=1;//deviation between apps -10%
+				}
+			
 			
 			SHR0_databytes[0] =  (uint16_t)apps1_percentage;			//lsb APPS1
 			SHR0_databytes[1] = ((uint16_t)apps1_percentage >> 8);		//msb APPS1
@@ -69,7 +78,7 @@ int main(void)
 			SHR0_databytes[3] = ((uint16_t)apps2_percentage >> 8);		//msb APPS2
 			SHR0_databytes[4] = 0; //SPI getter Wheel Speed R lsb
 			SHR0_databytes[5] = 0; //SPI getter Wheel Speed R msb
-			SHR0_databytes[6] = 0;
+			SHR0_databytes[6] = sdc_open;
 			SHR0_databytes[7] = 0;
 			
 			can_tx(&can_SHR0_mob, SHR0_databytes);
@@ -82,4 +91,4 @@ int main(void)
 			time_old_100ms = 0;
 		}
     }
-}
+	}
