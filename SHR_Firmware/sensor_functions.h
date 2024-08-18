@@ -13,10 +13,10 @@
 
 /*	Defines	*/
 
-#define APPS1_MIN	899//433
-#define APPS1_MAX	406//184
-#define APPS2_MIN	172//826
-#define APPS2_MAX	727//325
+#define APPS1_MIN	888//433
+#define APPS1_MAX	403//184
+#define APPS2_MIN	183//826
+#define APPS2_MAX	732//325
 
 /*	Function Prototypes	*/
 

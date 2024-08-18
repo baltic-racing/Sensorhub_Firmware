@@ -60,7 +60,7 @@ int main(void)
 			uint16_t apps1_percentage = update_apps_percentage_alt((double) adc_get(0), 1);
 			uint16_t apps2_percentage = update_apps_percentage_alt((double) adc_get(1), 2);
 			
-				if(adc_values[0] <= 100 || adc_values[1] <= 100){
+				if(adc_values[0] <= 80|| adc_values[1] <= 80){
 					//if APPS shorted to ground or open circuit
 					sdc_open=1;
 				}
