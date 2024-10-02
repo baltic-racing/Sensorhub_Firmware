@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "SHB_Firmware", "SHB_Firmware\SHB_Firmware.cproj", "{2285C48D-296E-43FD-A7B6-69885F64CFFD}"
 EndProject
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "ATMega16", "ATMega16\ATMega16.cproj", "{2C4D1CC2-9329-4416-9F06-2042C747E273}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|AVR = Debug|AVR
@@ -15,6 +17,10 @@ Global
 		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Debug|AVR.Build.0 = Debug|AVR
 		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Release|AVR.ActiveCfg = Release|AVR
 		{2285C48D-296E-43FD-A7B6-69885F64CFFD}.Release|AVR.Build.0 = Release|AVR
+		{2C4D1CC2-9329-4416-9F06-2042C747E273}.Debug|AVR.ActiveCfg = Debug|AVR
+		{2C4D1CC2-9329-4416-9F06-2042C747E273}.Debug|AVR.Build.0 = Debug|AVR
+		{2C4D1CC2-9329-4416-9F06-2042C747E273}.Release|AVR.ActiveCfg = Release|AVR
+		{2C4D1CC2-9329-4416-9F06-2042C747E273}.Release|AVR.Build.0 = Release|AVR
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
