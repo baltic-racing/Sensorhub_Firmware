@@ -47,9 +47,9 @@ void can_cfg(){
 		}
 	}
 
-	CANBT1 = 0x00;
+	CANBT1 = 0x02;
 	CANBT2 = 0x0C;
-	CANBT3 = 0x36;
+	CANBT3 = 0x37;
 	CANGIE = 0;
 	CANGCON |= (1<<ENASTB); // Enable CAN
 

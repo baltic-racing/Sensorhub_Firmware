@@ -129,10 +129,10 @@
     <Compile Include="system_config.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="temp_functions.c">
+    <Compile Include="misc_functions.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="temp_functions.h">
+    <Compile Include="misc_functions.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
