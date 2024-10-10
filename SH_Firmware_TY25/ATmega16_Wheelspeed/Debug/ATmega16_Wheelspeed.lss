@@ -3,55 +3,55 @@ ATmega16_Wheelspeed.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00000096  00000000  00000000  00000054  2**1
+  0 .text         000000a6  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000000  00800060  00800060  000000ea  2**0
+  1 .data         00000000  00800060  00800060  000000fa  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .comment      00000030  00000000  00000000  000000ea  2**0
+  2 .comment      00000030  00000000  00000000  000000fa  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000011c  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  0000012c  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000048  00000000  00000000  00000158  2**0
+  4 .debug_aranges 00000058  00000000  00000000  00000168  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000069a  00000000  00000000  000001a0  2**0
+  5 .debug_info   000007ce  00000000  00000000  000001c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000005d6  00000000  00000000  0000083a  2**0
+  6 .debug_abbrev 00000655  00000000  00000000  0000098e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000312  00000000  00000000  00000e10  2**0
+  7 .debug_line   0000031a  00000000  00000000  00000fe3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000058  00000000  00000000  00001124  2**2
+  8 .debug_frame  0000009c  00000000  00000000  00001300  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000333  00000000  00000000  0000117c  2**0
+  9 .debug_str    000003f2  00000000  00000000  0000139c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000014  00000000  00000000  000014af  2**0
+ 10 .debug_loc    00000084  00000000  00000000  0000178e  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  000014c3  2**0
+ 11 .debug_ranges 00000038  00000000  00000000  00001812  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
 
 00000000 <__vectors>:
    0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
-   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
-  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   4:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   8:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+   c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  10:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  14:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  18:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  1c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  20:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  24:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  28:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  2c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  30:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  34:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  38:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  3c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  40:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  44:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  48:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  4c:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
+  50:	0c 94 3c 00 	jmp	0x78	; 0x78 <__bad_interrupt>
 
 00000054 <__ctors_end>:
   54:	11 24       	eor	r1, r1
@@ -60,68 +60,82 @@ Disassembly of section .text:
   5a:	d4 e0       	ldi	r29, 0x04	; 4
   5c:	de bf       	out	0x3e, r29	; 62
   5e:	cd bf       	out	0x3d, r28	; 61
-  60:	0e 94 36 00 	call	0x6c	; 0x6c <main>
-  64:	0c 94 49 00 	jmp	0x92	; 0x92 <_exit>
 
-00000068 <__bad_interrupt>:
-  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+00000060 <__do_clear_bss>:
+  60:	20 e0       	ldi	r18, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	01 c0       	rjmp	.+2      	; 0x6a <.do_clear_bss_start>
 
-0000006c <main>:
-#include "SPI.h"
+00000068 <.do_clear_bss_loop>:
+  68:	1d 92       	st	X+, r1
+
+0000006a <.do_clear_bss_start>:
+  6a:	a0 36       	cpi	r26, 0x60	; 96
+  6c:	b2 07       	cpc	r27, r18
+  6e:	e1 f7       	brne	.-8      	; 0x68 <.do_clear_bss_loop>
+  70:	0e 94 3e 00 	call	0x7c	; 0x7c <main>
+  74:	0c 94 51 00 	jmp	0xa2	; 0xa2 <_exit>
+
+00000078 <__bad_interrupt>:
+  78:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000007c <main>:
+float timediffinterval = 0;
 
 
 int main(void)
 {
 	SPI_SlaveInit();
-  6c:	0e 94 3b 00 	call	0x76	; 0x76 <SPI_SlaveInit>
+  7c:	0e 94 43 00 	call	0x86	; 0x86 <SPI_SlaveInit>
 	uint8_t data = 0;
     /* Replace with your application code */
     while (1) 
     {
 		data = SPI_SlaveReceive();
-  70:	0e 94 45 00 	call	0x8a	; 0x8a <SPI_SlaveReceive>
-  74:	fd cf       	rjmp	.-6      	; 0x70 <main+0x4>
+  80:	0e 94 4d 00 	call	0x9a	; 0x9a <SPI_SlaveReceive>
+  84:	fd cf       	rjmp	.-6      	; 0x80 <main+0x4>
 
-00000076 <SPI_SlaveInit>:
+00000086 <SPI_SlaveInit>:
 #include "SPI.h"
 
 void SPI_SlaveInit()
 {
 	//Set MOSI, SCK, SS as input
 	DDRB &= ~((1<<MOSI) | (1<<SCK) | (1<<SS));
-  76:	87 b3       	in	r24, 0x17	; 23
-  78:	8f 74       	andi	r24, 0x4F	; 79
-  7a:	87 bb       	out	0x17, r24	; 23
+  86:	87 b3       	in	r24, 0x17	; 23
+  88:	8f 74       	andi	r24, 0x4F	; 79
+  8a:	87 bb       	out	0x17, r24	; 23
 	
 	//Set MISO as output
 	DDRB |= (1<<MISO);
-  7c:	87 b3       	in	r24, 0x17	; 23
-  7e:	80 64       	ori	r24, 0x40	; 64
-  80:	87 bb       	out	0x17, r24	; 23
+  8c:	87 b3       	in	r24, 0x17	; 23
+  8e:	80 64       	ori	r24, 0x40	; 64
+  90:	87 bb       	out	0x17, r24	; 23
 	
 	//enables SPI
 	SPCR |= (1<<SPE);
-  82:	8d b1       	in	r24, 0x0d	; 13
-  84:	80 64       	ori	r24, 0x40	; 64
-  86:	8d b9       	out	0x0d, r24	; 13
-  88:	08 95       	ret
+  92:	8d b1       	in	r24, 0x0d	; 13
+  94:	80 64       	ori	r24, 0x40	; 64
+  96:	8d b9       	out	0x0d, r24	; 13
+  98:	08 95       	ret
 
-0000008a <SPI_SlaveReceive>:
+0000009a <SPI_SlaveReceive>:
 }
 
 char SPI_SlaveReceive()
 {
 	/* Wait for reception complete */
 	while(!(SPSR & (1<<SPIF)));
-  8a:	77 9b       	sbis	0x0e, 7	; 14
-  8c:	fe cf       	rjmp	.-4      	; 0x8a <SPI_SlaveReceive>
+  9a:	77 9b       	sbis	0x0e, 7	; 14
+  9c:	fe cf       	rjmp	.-4      	; 0x9a <SPI_SlaveReceive>
 	/* Return data register */
 	return SPDR;
-  8e:	8f b1       	in	r24, 0x0f	; 15
-  90:	08 95       	ret
+  9e:	8f b1       	in	r24, 0x0f	; 15
+  a0:	08 95       	ret
 
-00000092 <_exit>:
-  92:	f8 94       	cli
+000000a2 <_exit>:
+  a2:	f8 94       	cli
 
-00000094 <__stop_program>:
-  94:	ff cf       	rjmp	.-2      	; 0x94 <__stop_program>
+000000a4 <__stop_program>:
+  a4:	ff cf       	rjmp	.-2      	; 0xa4 <__stop_program>
