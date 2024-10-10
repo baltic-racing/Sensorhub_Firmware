@@ -1,9 +1,10 @@
 /*
  * adc_functions.h
  *
- * Created: 09.05.2024 16:07:47
- *  Author: aaron
+ * Created: 28.04.2023 18:30:49
+ *  Author: nico
  */ 
+
 
 #ifndef ADC_FUNCTIONS_H_
 #define ADC_FUNCTIONS_H_
@@ -13,8 +14,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-/*	DEFINES, adjust for the array size */
-#define ADCVALUES 6 //here we've got all 6 ADCs in use (see uC Pinout)
+/*	DEFINES	*/
+#define ADCVALUES 6
 
 uint16_t adc_get(uint8_t adc);
 

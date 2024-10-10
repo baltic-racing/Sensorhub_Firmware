@@ -1,9 +1,10 @@
 /*
- * CFile1.c
+ * adc_functions.c
  *
- * Created: 09.05.2024 16:06:47
- *  Author: aaron
+ * Created: 28.04.2023 18:30:34
+ *  Author: nico
  */ 
+
 #include "adc_functions.h"
 
 // array to store the adc data in
@@ -15,8 +16,8 @@ uint8_t adc_next = 0;
 
 void adc_config()
 {
-	//AREF = AVCC
-	ADMUX = (1<<REFS0);
+	//AREF = AVCC, PF0
+	ADMUX = (1<<REFS0) | (1<<MUX0);
 	//ADC Enable, /16, Interrupt Enable
 	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0) | (1<<ADIE);
 	//Start Conversion
@@ -25,24 +26,25 @@ void adc_config()
 
 void adc_start_conversion()
 {
-	//Start next conversion with same config
-	ADCSRA = (1<<ADEN) | (1<<ADIE) | (1<<ADSC) | (1<<ADPS2) | (1<<ADPS0) | (1<<ADPS1);
-	//noise reduction mode 
-	SMCR = (1<<SM0) | (0<<SM1) | (1<<SM2);
+	//start next conversion with same config
+	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (1<<ADPS0) | (1<<ADIE) | (1<<ADSC); //prescaler to 16
+	//!!! Currently we have to Start the conversion manually with ADSC=1. Normally SMCR should auto trigger the conversion but as of now it does not work. neither do we know if the uC goes into Noise reduction mode
+	SMCR = (1<<SM0)|(0<<SM1)|(0<<SM2); //enable ADC noise reduction mode and starts the conversion
 }
 
-ISR(ADC_vect)
-{
-	adc_values[adc_next] = ADC;// ADCL | (ADCH << 8); //low bit erst ablesen
+
+ISR(ADC_vect){
+	
+	// store ADC result
+	adc_values[adc_next] = ADC;
 	adc_next++;
-	if(adc_next == ADCVALUES)
-	{
+	
+	// reset index var
+	if(adc_next == 5){
 		adc_next = 0;
 	}
 	// select other ADC Input
 	ADMUX = (1<<REFS0) | adc_next;
-
-	adc_start_conversion();
 	
 }
 

@@ -123,16 +123,16 @@
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="sensor_functions.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor_functions.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="system_config.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="system_config.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="misc_functions.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="misc_functions.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
