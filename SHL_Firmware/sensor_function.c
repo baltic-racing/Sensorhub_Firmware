@@ -20,9 +20,3 @@ uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sen
 	}
 	return Sensor_Data;
 }
-
-
-//uint16_t ADC_brake_Sensor(uint16_t data){
-	//uint16_t Sensor_Data = data/10.24;
-	//return Sensor_Data;
-//}
