@@ -10,6 +10,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+void sys_timer_config();
+
 ISR(TIMER0_COMP_vect);
 
 #endif /* MISC_FUNCTIONS_H_ */

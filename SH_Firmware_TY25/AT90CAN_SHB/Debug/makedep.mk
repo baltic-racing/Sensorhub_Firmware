@@ -6,5 +6,5 @@ main.c
 
 misc_functions.c
 
-SPI.c
+SPI_lib.c
 

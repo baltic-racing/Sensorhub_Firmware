@@ -8,7 +8,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#include "SPI.h"
+#include "SPI_lib.h"
 
 #define desired_update_frequency 100 //Update frequency for the floating calculation of the Wheelspeed
 #define trigger_angle 11.25 //Trigger Angle in degree both high & low are the same

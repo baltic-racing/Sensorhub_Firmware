@@ -39,7 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../main.c \
 ../misc_functions.c \
-../SPI.c
+../SPI_lib.c
 
 
 PREPROCESSING_SRCS += 
@@ -51,22 +51,22 @@ ASM_SRCS +=
 OBJS +=  \
 main.o \
 misc_functions.o \
-SPI.o
+SPI_lib.o
 
 OBJS_AS_ARGS +=  \
 main.o \
 misc_functions.o \
-SPI.o
+SPI_lib.o
 
 C_DEPS +=  \
 main.d \
 misc_functions.d \
-SPI.d
+SPI_lib.d
 
 C_DEPS_AS_ARGS +=  \
 main.d \
 misc_functions.d \
-SPI.d
+SPI_lib.d
 
 OUTPUT_FILE_PATH +=AT90CAN_SHB.elf
 
@@ -96,7 +96,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./SPI.o: .././SPI.c
+./SPI_lib.o: .././SPI_lib.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
