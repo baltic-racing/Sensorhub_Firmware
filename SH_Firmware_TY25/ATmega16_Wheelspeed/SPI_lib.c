@@ -8,6 +8,9 @@
 #include <avr/io.h>
 #include "SPI_lib.h"
 
+uint8_t k = 0;
+extern volatile uint8_t spi_data[2];
+
 void SPI_MasterInit()
 {
 	//Set MOSI, SCK, SS as output
@@ -41,4 +44,18 @@ char SPI_SlaveReceive()
 	while(!(SPI_Status_Reg & (1<<SPI_Interrupft_Flag)));
 	/* Return data register */
 	return SPI_Data_Reg;
+}
+
+ISR(SPI_STC_vect)
+{
+	if(k==0)
+	{
+		SPI_Data_Reg = spi_data[0];
+		k++;
+	}
+	else
+	{
+		SPI_Data_Reg = spi_data[1];
+		k=0;
+	}
 }
