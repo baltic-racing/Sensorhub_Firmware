@@ -11,9 +11,9 @@ uint8_t wheelspeed = 0;
 
 int main(void)
 {
+	port_config();
     sys_timer_config();
 	SPI_MasterInit();
-	
 	
 	sei();
 	
@@ -29,9 +29,12 @@ int main(void)
 		if(TIME_PASSED_10_MS)
 		{
 			time_10ms = sys_time;
+			PORTE &= ~(1<<SS_uC);
+			SPI_Data_Reg = 0x22;										// Write the Register will start the conversation
+			while(!(SPI_Status_Reg & (1<<SPI_Interrupft_Flag)));
+			PORTE |= (1<<SS_uC);
+			wheelspeed = SPI_Data_Reg;
 			
-			SPI_Data_Reg = 0x22;		// Write the Register will start the conversation
-			SPI_Data_Reg = wheelspeed;
 			
 		} // end of 10ms
 

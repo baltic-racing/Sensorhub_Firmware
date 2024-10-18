@@ -40,10 +40,11 @@ void calc_wheelspeed_floating()
 	{
 		possible_measurement_angle = trigger_angle;
 	}
-	for (uint8_t i = interval_width; i <= 1;)
-	{
-		timediffinterval += timediff[i];
-	}
+// hallo endlosschleife?
+//	for (uint8_t i = interval_width; i <= 1;)
+//	{
+//		timediffinterval += timediff[i];
+//	}
 	RPS = 1 / ((timediffinterval / interval_width) * (360 / 1000));
 	Wheelspeed = RPS * (Tcirc / (1000*1000)) * (60*60);
 	spi_data[0]= Wheelspeed << 8;		//MSB
@@ -64,6 +65,7 @@ void PORT_Config(){		//enable Pin change Interrupt on Digital in pin PA0 (PIN 37
 }
 
 ISR(INT0_vect){
+	
 	if(n>=1){
 		timestepdiff[n] = sys_time - sys_time_old;
 		timediff[n] = timestepdiff[n] / 10; //timediff according to 10Khz clock so we divide timesteps by 10 to get timediff in ms

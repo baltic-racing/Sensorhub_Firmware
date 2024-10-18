@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 #include "calc_wheelspeed.h"
 
@@ -37,6 +38,8 @@
 void SPI_MasterInit();
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);
+
+//ISR(SPI_STC_vect);
 
 
 #endif /* SPI_H_ */

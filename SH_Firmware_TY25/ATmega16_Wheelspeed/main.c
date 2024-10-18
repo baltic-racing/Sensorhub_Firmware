@@ -5,9 +5,6 @@
  * Author : racin
  */ 
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-
 #include "main.h"
 
 
@@ -15,18 +12,19 @@ int main(void)
 {
 	sys_timer_config();
 	SPI_SlaveInit();
-	uint8_t data = 0;
+	PORT_Config();
 	
 	sei();
-	
+
     while (1) 
     {
-		data = SPI_SlaveReceive();
+		//data = SPI_SlaveReceive();
 		
 		if(TIME_PASSED_1_MS)
 		{
 			time_1ms = sys_time;
 			calc_wheelspeed_floating();
+
 		} // end of 1ms
 		
 		if(TIME_PASSED_10_MS)

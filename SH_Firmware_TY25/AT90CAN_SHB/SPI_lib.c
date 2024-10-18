@@ -17,6 +17,9 @@ void SPI_MasterInit()
 	//Set MISO as input
 	DDRB &= ~(1<<MISO);
 	
+	// Set internal pull-up for MISO
+	//PORTB |= (1 << MISO);
+	
 	//enables SPI, Master-Mode, configure Clock_Select
 	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Master) | (1<<SPI_Relation1) | (0<<SPI_Relation0);
 	

@@ -9,6 +9,12 @@
 
 volatile unsigned long sys_time = 0;
 
+void port_config(void)
+{
+	// Set Fault(PCO) and Heart(PC2) LED as Output
+	DDRC |= (1<<PC0) | (1<<PC2);
+}
+
 void sys_timer_config(void)
 {
 	//CTC-Mode, /64
