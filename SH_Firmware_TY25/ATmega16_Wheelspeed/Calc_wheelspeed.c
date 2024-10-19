@@ -7,52 +7,22 @@
 
 #include "calc_wheelspeed.h"
 
+uint8_t spi_data[2];
+extern uint8_t wheelspeed = 0;
+
 #define desired_update_frequency 100 //Update frequency for the floating calculation of the Wheelspeed
 #define trigger_angle 11.25 //Trigger Angle in degree both high & low are the same
 #define Tcirc 1476.5485 // Tire circumference in mm
+#define Tcirc_16 92.2842 // Tire circumference/16 in mm
 
 extern volatile unsigned long sys_time;
+
+volatile unsigned long time_old = 0;
 volatile unsigned long int sys_time_old = 0;
-volatile unsigned long int timestepdiff[10] = {0};
-volatile uint8_t n = 9 ; //Durchlaufvariable für timestepdiff mit den letzten 10 werten
+uint16_t delta = 0;
 
-volatile uint8_t spi_data[2];
-uint8_t interval_width = 0;
-uint16_t Wheelspeed = 0; //[km/h]
 
-unsigned long int timediff[10] = {0};
-
-float ideal_measurement_angle = 0;
-float possible_measurement_angle = 0;
-volatile float RPS = 0;
-float timediffinterval = 0;
-
-void calc_wheelspeed_floating()
-{
-	//calculate ideal Measurement Angle
-	//derive real possible measurement angle from that
-	//then integrate the time over the desired interval
-	//calculate wheelspeed from that
-	ideal_measurement_angle = RPS * 360 / desired_update_frequency;
-	interval_width = ideal_measurement_angle / trigger_angle;
-	possible_measurement_angle = interval_width * trigger_angle;
-	if (possible_measurement_angle == 0)
-	{
-		possible_measurement_angle = trigger_angle;
-	}
-// hallo endlosschleife?
-//	for (uint8_t i = interval_width; i <= 1;)
-//	{
-//		timediffinterval += timediff[i];
-//	}
-	RPS = 1 / ((timediffinterval / interval_width) * (360 / 1000));
-	Wheelspeed = RPS * (Tcirc / (1000*1000)) * (60*60);
-	spi_data[0]= Wheelspeed << 8;		//MSB
-	spi_data[1] = Wheelspeed & 0xff;	//LSB
-	
-}
-
-void PORT_Config(){		//enable Pin change Interrupt on Digital in pin PA0 (PIN 37)
+void PORT_Config(){		//enable Pin change Interrupt on Digital_in pin PA0 (PIN 37)
 	
 	DDRA = (1 << PA0);					// set digital_input as input
 	
@@ -66,19 +36,31 @@ void PORT_Config(){		//enable Pin change Interrupt on Digital in pin PA0 (PIN 37
 
 ISR(INT0_vect){
 	
-	if(n>=1){
-		timestepdiff[n] = sys_time - sys_time_old;
-		timediff[n] = timestepdiff[n] / 10; //timediff according to 10Khz clock so we divide timesteps by 10 to get timediff in ms
-		sys_time_old = sys_time;
-		n--;
-	}
-	else{
-		for (uint8_t i= 9; i <= 1;)
-		{
-			timestepdiff[i]=timestepdiff[i+1];
-			i--;
-		}
-		timestepdiff[0] = sys_time - sys_time_old; //Timer overflow? Timer Resolution in contrast to angular speed
-	}
-	calc_wheelspeed_floating();
+	//delta berechnen
+	//quasie die zeit um 360° zu rotieren
+	delta = (sys_time - sys_time_old) * 16;
+	
+	sys_time_old = sys_time; 
+
 }
+
+void speed(){
+	
+	//uint8_t wheelspeed = (Tcirc_16/trigger_angle)/(trigger_angle/delta);
+	
+
+	spi_data[0]= wheelspeed << 8;		//MSB
+	spi_data[1] = wheelspeed & 0xff;	//LSB
+	
+	return wheelspeed = ((Tcirc)/(delta))*3,6; //wheelspeed = (Tcirc_16*1000)/(delta/60/60/60);
+}
+
+/*  _________________________________________________________________________________________________________
+	H	ISC11	H	ISC10	H	Descrition																	H
+	H___________H___________H_______________________________________________________________________________H
+	H	0		H	0		H	The low level of INT1 generates an interrupt request						H
+	H	0		H	1		H	Any logical change on INT1 generates an interrupt request.					H
+	H	1		H	0		H	The falling edge of INT1 generates an interrupt request.					H
+	H	1		H	1		H	The rising edge of INT1 generates an interrupt request.						H
+	_________________________________________________________________________________________________________
+	Table MCU_Control_Reg_1	  ->   Interrupt 1 Sense Control												*/

@@ -23,7 +23,14 @@ int main(void)
 		if(TIME_PASSED_1_MS)
 		{
 			time_1ms = sys_time;
-			calc_wheelspeed_floating();
+			
+			//if (speed() <= 50/*Besten wert noch finden*/){
+				//MCUCR |= (1 << ISC00);
+			//}else{
+				//MCUCR &= ~(1 << ISC00);
+			//}	// Interrupt 1 Sense Control look calc_wheelspeed.c [Table MCU_Control_Reg_1]
+			
+			speed();
 
 		} // end of 1ms
 		

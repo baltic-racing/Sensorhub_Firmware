@@ -14,5 +14,6 @@
 void calc_wheelspeed_floating();
 void PORT_Config();
 ISR(INT0_vect);
+void speed();
 
 #endif /* CALC_WHEELSPEED_H_ */
