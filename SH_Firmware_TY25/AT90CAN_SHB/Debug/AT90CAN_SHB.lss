@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 00000b50  00000000  00000000  0000124d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000005ab  00000000  00000000  00001d9d  2**0
+  8 .debug_line   000004fa  00000000  00000000  00001d9d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001ac  00000000  00000000  00002348  2**2
+  9 .debug_frame  000001ac  00000000  00000000  00002298  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005eb  00000000  00000000  000024f4  2**0
+ 10 .debug_str    000005eb  00000000  00000000  00002444  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002d0  00000000  00000000  00002adf  2**0
+ 11 .debug_loc    000002d0  00000000  00000000  00002a2f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000068  00000000  00000000  00002daf  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  00002cff  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -169,10 +169,10 @@ int main(void)
   d2:	30 91 12 01 	lds	r19, 0x0112	; 0x800112 <sys_time+0x1>
   d6:	40 91 13 01 	lds	r20, 0x0113	; 0x800113 <sys_time+0x2>
   da:	50 91 14 01 	lds	r21, 0x0114	; 0x800114 <sys_time+0x3>
-  de:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
-  e2:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
-  e6:	a0 91 02 01 	lds	r26, 0x0102	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
-  ea:	b0 91 03 01 	lds	r27, 0x0103	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+  de:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <_edata>
+  e2:	90 91 01 01 	lds	r25, 0x0101	; 0x800101 <_edata+0x1>
+  e6:	a0 91 02 01 	lds	r26, 0x0102	; 0x800102 <_edata+0x2>
+  ea:	b0 91 03 01 	lds	r27, 0x0103	; 0x800103 <_edata+0x3>
   ee:	28 17       	cp	r18, r24
   f0:	39 07       	cpc	r19, r25
   f2:	4a 07       	cpc	r20, r26
@@ -184,10 +184,10 @@ int main(void)
   fc:	90 91 12 01 	lds	r25, 0x0112	; 0x800112 <sys_time+0x1>
  100:	a0 91 13 01 	lds	r26, 0x0113	; 0x800113 <sys_time+0x2>
  104:	b0 91 14 01 	lds	r27, 0x0114	; 0x800114 <sys_time+0x3>
- 108:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
- 10c:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__DATA_REGION_ORIGIN__+0x1>
- 110:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <__DATA_REGION_ORIGIN__+0x2>
- 114:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <__DATA_REGION_ORIGIN__+0x3>
+ 108:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <_edata>
+ 10c:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <_edata+0x1>
+ 110:	a0 93 02 01 	sts	0x0102, r26	; 0x800102 <_edata+0x2>
+ 114:	b0 93 03 01 	sts	0x0103, r27	; 0x800103 <_edata+0x3>
  118:	20 91 11 01 	lds	r18, 0x0111	; 0x800111 <sys_time>
 		} // end of 1ms
 		

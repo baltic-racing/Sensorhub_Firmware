@@ -30,7 +30,7 @@ int main(void)
 				//MCUCR &= ~(1 << ISC00);
 			//}	// Interrupt 1 Sense Control look calc_wheelspeed.c [Table MCU_Control_Reg_1]
 			
-			speed();
+			SPI_Data_Reg = wheelspeed;
 
 		} // end of 1ms
 		

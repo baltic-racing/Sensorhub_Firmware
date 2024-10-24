@@ -18,6 +18,8 @@
 //	Variables
 extern volatile unsigned long sys_time;
 
+volatile uint8_t wheelspeed = 0;
+
 volatile unsigned long time_1ms = 0;
 volatile unsigned long time_10ms = 0;
 volatile unsigned long time_100ms = 0;
