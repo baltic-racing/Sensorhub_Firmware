@@ -8,8 +8,7 @@
 #include <avr/io.h>
 #include "SPI_lib.h"
 
-uint8_t k = 0;
-extern volatile uint8_t spi_data[2];
+extern volatile uint8_t wheelspeed;
 
 void SPI_MasterInit()
 {
@@ -53,22 +52,6 @@ char SPI_SlaveReceive()											// Use with care -> stop the uC
 }																//
 
 ISR(SPI_STC_vect)
-{
-	if (SPDR == 0x22)
-	{
-		PORTA |= (1<<PA4);
-	}else
-	{
-		PORTA &= ~(1<<PA4);
-	}
-	if(k==0)
-	{
-		SPI_Data_Reg = spi_data[0];
-		k++;
-	}
-	else
-	{
-		SPI_Data_Reg = spi_data[1];
-		k=0;
-	}
+{	
+	SPI_Data_Reg = wheelspeed;
 }

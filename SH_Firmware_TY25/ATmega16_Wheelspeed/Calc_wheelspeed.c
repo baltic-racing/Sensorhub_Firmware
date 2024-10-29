@@ -5,9 +5,7 @@
  *  Author: Egquus
  */ 
 
-#include "calc_wheelspeed.h"
-
-uint8_t spi_data[2];
+#include "calc_wheelspeed.h"#
 
 #define desired_update_frequency 100 //Update frequency for the floating calculation of the Wheelspeed
 #define trigger_angle 11.25 //Trigger Angle in degree both high & low are the same
@@ -18,9 +16,9 @@ extern volatile unsigned long sys_time;
 
 extern volatile uint8_t wheelspeed;
 
-volatile unsigned long time_old = 0;
-volatile unsigned long int sys_time_old = 0;
-uint16_t delta = 0;
+volatile unsigned long time_old_ws = 0;
+volatile unsigned long int sys_time_old_ws = 0;
+uint16_t delta_ws = 0;
 
 
 void PORT_Config(){		//enable Pin change Interrupt on Digital_in pin PD3 (PIN 12)
@@ -39,21 +37,18 @@ ISR(INT1_vect){
 	
 	//delta berechnen
 	//quasie die zeit um 360° zu rotieren
-	delta = (sys_time - sys_time_old) * 16;
+	delta_ws = (sys_time - sys_time_old_ws) * 16;
 	
-	sys_time_old = sys_time; 
+	sys_time_old_ws = sys_time; 
+	
+	wheelspeed = ((Tcirc)/(delta_ws))*3,6;
 
 }
 
 void speed(){
 	
 	//uint8_t wheelspeed = (Tcirc_16/trigger_angle)/(trigger_angle/delta);
-	
-
-	spi_data[0]= wheelspeed << 8;		//MSB
-	spi_data[1] = wheelspeed & 0xff;	//LSB
-	
-	wheelspeed = ((Tcirc)/(delta))*3,6; //wheelspeed = (Tcirc_16*1000)/(delta/60/60/60);
+	wheelspeed = ((Tcirc)/(delta_ws))*3,6; //wheelspeed = (Tcirc_16*1000)/(delta/60/60/60);
 }
 
 /*  _________________________________________________________________________________________________________

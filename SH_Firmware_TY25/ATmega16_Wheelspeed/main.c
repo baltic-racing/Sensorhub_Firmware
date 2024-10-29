@@ -29,15 +29,13 @@ int main(void)
 			//}else{
 				//MCUCR &= ~(1 << ISC00);
 			//}	// Interrupt 1 Sense Control look calc_wheelspeed.c [Table MCU_Control_Reg_1]
+			//SPI_Data_Reg = wheelspeed;
 			
-			SPI_Data_Reg = wheelspeed;
 
 		} // end of 1ms
 		
 		if(TIME_PASSED_10_MS)
 		{
-			time_10ms = sys_time;
-			
 			
 		} // end of 10ms
 

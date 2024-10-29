@@ -137,6 +137,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CAN_data.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CAN_data.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CAN_lib.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CAN_lib.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

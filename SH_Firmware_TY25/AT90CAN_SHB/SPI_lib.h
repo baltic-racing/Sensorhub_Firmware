@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
 
 #ifndef SPI_LIB_H_
 #define SPI_LIB_H_
@@ -28,7 +29,7 @@
 	#define SPI_Relation1 SPR1				// Attention, this also affects the clock frequency [see Table SPI_1]
 
 #define SPI_Status_Reg SPSR
-	#define SPI_Interrupft_Flag SPIF
+	#define SPI_Interrupt_Flag SPIF
 	#define SPI_Collision_Flag WCOL
 	#define SPI_Double_Speed SPI2X			// Attention, this also affects the clock frequency [see Table SPI_1]
 	
