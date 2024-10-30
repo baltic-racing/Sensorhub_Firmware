@@ -23,19 +23,12 @@ int main(void)
 		if(TIME_PASSED_1_MS)
 		{
 			time_1ms = sys_time;
-			
-			//if (speed() <= 50/*Besten wert noch finden*/){
-				//MCUCR |= (1 << ISC00);
-			//}else{
-				//MCUCR &= ~(1 << ISC00);
-			//}	// Interrupt 1 Sense Control look calc_wheelspeed.c [Table MCU_Control_Reg_1]
-			//SPI_Data_Reg = wheelspeed;
-			
 
 		} // end of 1ms
 		
 		if(TIME_PASSED_10_MS)
 		{
+			time_10ms = sys_time;
 			
 		} // end of 10ms
 
@@ -43,6 +36,7 @@ int main(void)
 		{
 			time_100ms = sys_time;
 			
+			wheelspeed = 0;
 			//sys_tick_heart();
 			
 		} // end of 100ms

@@ -53,5 +53,12 @@ char SPI_SlaveReceive()											// Use with care -> stop the uC
 
 ISR(SPI_STC_vect)
 {	
-	SPI_Data_Reg = wheelspeed;
+	if(SPI_Data_Reg == 0x22){
+		SPI_Data_Reg = (wheelspeed);
+		//wheelspeed = 0;
+	}
+	
+	//if(SPI_Data_Reg == 0x33){
+		//SPI_Data_Reg = (wheelspeed);
+	//}
 }

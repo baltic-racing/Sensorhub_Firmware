@@ -2,6 +2,8 @@ Archive member included to satisfy reference by file (symbol)
 
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
                               C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o (exit)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+                              main.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
                               CAN_data.o (__do_clear_bss)
 
@@ -10,6 +12,7 @@ Common symbol       size              file
 
 SensorHub0_databytes
                     0x8               CAN_data.o
+wheelspeed          0x4               main.o
 can_SensorHub0_mob  0x5               CAN_data.o
 
 Discarded input sections
@@ -58,6 +61,22 @@ Discarded input sections
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  .text.libgcc.fixed
                 0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
@@ -205,7 +224,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x6c0
+.text           0x00000000      0x704
  *(.vectors)
  .vectors       0x00000000       0x94 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
                 0x00000000                __vector_default
@@ -246,8 +265,10 @@ END GROUP
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x000000a0       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
-                0x000000a0                __do_clear_bss
+ .init4         0x000000a0       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_copy_data.o)
+                0x000000a0                __do_copy_data
+ .init4         0x000000ba       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_clear_bss.o)
+                0x000000ba                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -258,80 +279,80 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000000b0        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
+ .init9         0x000000ca        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
  *(.init9)
  *(.text)
- .text          0x000000b4        0x2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
-                0x000000b4                __vector_22
-                0x000000b4                __vector_28
-                0x000000b4                __vector_1
-                0x000000b4                __vector_32
-                0x000000b4                __vector_34
-                0x000000b4                __vector_24
-                0x000000b4                __vector_12
-                0x000000b4                __bad_interrupt
-                0x000000b4                __vector_6
-                0x000000b4                __vector_31
-                0x000000b4                __vector_35
-                0x000000b4                __vector_3
-                0x000000b4                __vector_23
-                0x000000b4                __vector_30
-                0x000000b4                __vector_25
-                0x000000b4                __vector_11
-                0x000000b4                __vector_13
-                0x000000b4                __vector_17
-                0x000000b4                __vector_19
-                0x000000b4                __vector_7
-                0x000000b4                __vector_27
-                0x000000b4                __vector_5
-                0x000000b4                __vector_33
-                0x000000b4                __vector_4
-                0x000000b4                __vector_9
-                0x000000b4                __vector_2
-                0x000000b4                __vector_21
-                0x000000b4                __vector_15
-                0x000000b4                __vector_36
-                0x000000b4                __vector_29
-                0x000000b4                __vector_8
-                0x000000b4                __vector_26
-                0x000000b4                __vector_14
-                0x000000b4                __vector_10
-                0x000000b4                __vector_18
-                0x000000b4                __vector_20
-                0x000000b6                . = ALIGN (0x2)
+ .text          0x000000ce        0x2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
+                0x000000ce                __vector_22
+                0x000000ce                __vector_28
+                0x000000ce                __vector_1
+                0x000000ce                __vector_32
+                0x000000ce                __vector_34
+                0x000000ce                __vector_24
+                0x000000ce                __vector_12
+                0x000000ce                __bad_interrupt
+                0x000000ce                __vector_6
+                0x000000ce                __vector_31
+                0x000000ce                __vector_35
+                0x000000ce                __vector_3
+                0x000000ce                __vector_23
+                0x000000ce                __vector_30
+                0x000000ce                __vector_25
+                0x000000ce                __vector_11
+                0x000000ce                __vector_13
+                0x000000ce                __vector_17
+                0x000000ce                __vector_19
+                0x000000ce                __vector_7
+                0x000000ce                __vector_27
+                0x000000ce                __vector_5
+                0x000000ce                __vector_33
+                0x000000ce                __vector_4
+                0x000000ce                __vector_9
+                0x000000ce                __vector_2
+                0x000000ce                __vector_21
+                0x000000ce                __vector_15
+                0x000000ce                __vector_36
+                0x000000ce                __vector_29
+                0x000000ce                __vector_8
+                0x000000ce                __vector_26
+                0x000000ce                __vector_14
+                0x000000ce                __vector_10
+                0x000000ce                __vector_18
+                0x000000ce                __vector_20
+                0x000000d0                . = ALIGN (0x2)
  *(.text.*)
  .text.CAN_Init_Messages
-                0x000000b6       0x2c CAN_data.o
-                0x000000b6                CAN_Init_Messages
+                0x000000d0       0x2c CAN_data.o
+                0x000000d0                CAN_Init_Messages
  .text.can_check_free
-                0x000000e2       0x7a CAN_lib.o
-                0x000000e2                can_check_free
- .text.can_cfg  0x0000015c      0x10e CAN_lib.o
-                0x0000015c                can_cfg
- .text.can_tx   0x0000026a      0x126 CAN_lib.o
-                0x0000026a                can_tx
- .text.main     0x00000390      0x1f2 main.o
-                0x00000390                main
+                0x000000fc       0x7a CAN_lib.o
+                0x000000fc                can_check_free
+ .text.can_cfg  0x00000176      0x10e CAN_lib.o
+                0x00000176                can_cfg
+ .text.can_tx   0x00000284      0x126 CAN_lib.o
+                0x00000284                can_tx
+ .text.main     0x000003aa      0x21c main.o
+                0x000003aa                main
  .text.port_config
-                0x00000582       0x22 misc_functions.o
-                0x00000582                port_config
+                0x000005c6       0x22 misc_functions.o
+                0x000005c6                port_config
  .text.sys_timer_config
-                0x000005a4       0x2e misc_functions.o
-                0x000005a4                sys_timer_config
+                0x000005e8       0x2e misc_functions.o
+                0x000005e8                sys_timer_config
  .text.sys_tick_heart
-                0x000005d2       0x24 misc_functions.o
-                0x000005d2                sys_tick_heart
+                0x00000616       0x24 misc_functions.o
+                0x00000616                sys_tick_heart
  .text.__vector_16
-                0x000005f6       0x5c misc_functions.o
-                0x000005f6                __vector_16
+                0x0000063a       0x5c misc_functions.o
+                0x0000063a                __vector_16
  .text.SPI_MasterInit
-                0x00000652       0x6a SPI_lib.o
-                0x00000652                SPI_MasterInit
-                0x000006bc                . = ALIGN (0x2)
+                0x00000696       0x6a SPI_lib.o
+                0x00000696                SPI_MasterInit
+                0x00000700                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000006bc        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
-                0x000006bc                _exit
-                0x000006bc                exit
+ .fini9         0x00000700        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+                0x00000700                _exit
+                0x00000700                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -350,55 +371,57 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000006bc        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
+ .fini0         0x00000700        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr51\libgcc.a(_exit.o)
  *(.fini0)
-                0x000006c0                _etext = .
+                0x00000704                _etext = .
 
-.data           0x00800100        0x0 load address 0x000006c0
-                [!provide]                PROVIDE (__data_start, .)
+.data           0x00800100        0x2 load address 0x00000704
+                0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
+ .data.switchi  0x00800100        0x1 main.o
+                0x00800100                switchi
  *(.gnu.linkonce.d*)
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.r*)
-                0x00800100                . = ALIGN (0x2)
-                0x00800100                _edata = .
-                [!provide]                PROVIDE (__data_end, .)
+                0x00800102                . = ALIGN (0x2)
+ *fill*         0x00800101        0x1 
+                0x00800102                _edata = .
+                0x00800102                PROVIDE (__data_end, .)
 
-.bss            0x00800100       0x22
-                0x00800100                PROVIDE (__bss_start, .)
+.bss            0x00800102       0x25
+                0x00800102                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.time_1ms  0x00800100        0x4 main.o
-                0x00800100                time_1ms
+ .bss.time_1ms  0x00800102        0x4 main.o
+                0x00800102                time_1ms
  .bss.time_10ms
-                0x00800104        0x4 main.o
-                0x00800104                time_10ms
+                0x00800106        0x4 main.o
+                0x00800106                time_10ms
  .bss.time_100ms
-                0x00800108        0x4 main.o
-                0x00800108                time_100ms
+                0x0080010a        0x4 main.o
+                0x0080010a                time_100ms
  .bss.time_200ms
-                0x0080010c        0x4 main.o
-                0x0080010c                time_200ms
- .bss.wheelspeed
-                0x00800110        0x1 main.o
-                0x00800110                wheelspeed
- .bss.sys_time  0x00800111        0x4 misc_functions.o
-                0x00800111                sys_time
+                0x0080010e        0x4 main.o
+                0x0080010e                time_200ms
+ .bss.sys_time  0x00800112        0x4 misc_functions.o
+                0x00800112                sys_time
  *(COMMON)
- COMMON         0x00800115        0xd CAN_data.o
-                0x00800115                SensorHub0_databytes
-                0x0080011d                can_SensorHub0_mob
-                0x00800122                PROVIDE (__bss_end, .)
-                0x000006c0                __data_load_start = LOADADDR (.data)
-                0x000006c0                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x00800116        0xd CAN_data.o
+                0x00800116                SensorHub0_databytes
+                0x0080011e                can_SensorHub0_mob
+ COMMON         0x00800123        0x4 main.o
+                0x00800123                wheelspeed
+                0x00800127                PROVIDE (__bss_end, .)
+                0x00000704                __data_load_start = LOADADDR (.data)
+                0x00000706                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800122        0x0
+.noinit         0x00800127        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800122                _end = .
+                0x00800127                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -483,14 +506,14 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x106f
+.debug_info     0x00000000     0x10a1
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0xa2d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
  .debug_info    0x00000a2d       0xff CAN_data.o
  .debug_info    0x00000b2c      0x1da CAN_lib.o
- .debug_info    0x00000d06      0x1ab main.o
- .debug_info    0x00000eb1      0x105 misc_functions.o
- .debug_info    0x00000fb6       0xb9 SPI_lib.o
+ .debug_info    0x00000d06      0x1dd main.o
+ .debug_info    0x00000ee3      0x105 misc_functions.o
+ .debug_info    0x00000fe8       0xb9 SPI_lib.o
 
 .debug_abbrev   0x00000000      0xcf7
  *(.debug_abbrev)
@@ -501,14 +524,14 @@ END GROUP
  .debug_abbrev  0x00000bf7       0x7f misc_functions.o
  .debug_abbrev  0x00000c76       0x81 SPI_lib.o
 
-.debug_line     0x00000000      0x8c0
+.debug_line     0x00000000      0x8d2
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x176 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
  .debug_line    0x00000176       0xc4 CAN_data.o
  .debug_line    0x0000023a      0x2c0 CAN_lib.o
- .debug_line    0x000004fa      0x165 main.o
- .debug_line    0x0000065f      0x149 misc_functions.o
- .debug_line    0x000007a8      0x118 SPI_lib.o
+ .debug_line    0x000004fa      0x177 main.o
+ .debug_line    0x00000671      0x149 misc_functions.o
+ .debug_line    0x000007ba      0x118 SPI_lib.o
 
 .debug_frame    0x00000000      0x274
  *(.debug_frame)
@@ -518,18 +541,18 @@ END GROUP
  .debug_frame   0x00000110       0xf0 misc_functions.o
  .debug_frame   0x00000200       0x74 SPI_lib.o
 
-.debug_str      0x00000000      0x6cf
+.debug_str      0x00000000      0x6d7
  *(.debug_str)
  .debug_str     0x00000000      0x39f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
  .debug_str     0x0000039f      0x1c6 CAN_data.o
                                 0x1fa (size before relaxing)
  .debug_str     0x00000565       0x63 CAN_lib.o
                                 0x20a (size before relaxing)
- .debug_str     0x000005c8       0x75 main.o
-                                0x248 (size before relaxing)
- .debug_str     0x0000063d       0x55 misc_functions.o
+ .debug_str     0x000005c8       0x7d main.o
+                                0x259 (size before relaxing)
+ .debug_str     0x00000645       0x55 misc_functions.o
                                 0x1f2 (size before relaxing)
- .debug_str     0x00000692       0x3d SPI_lib.o
+ .debug_str     0x0000069a       0x3d SPI_lib.o
                                 0x1bb (size before relaxing)
 
 .debug_loc      0x00000000      0x42b

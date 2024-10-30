@@ -11,9 +11,8 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-void calc_wheelspeed_floating();
 void PORT_Config();
 ISR(INT1_vect);
-void speed();
+uint16_t speed();
 
 #endif /* CALC_WHEELSPEED_H_ */
