@@ -95,35 +95,35 @@ LINKER_SCRIPT_DEP+=
 ./adc_functions.o: .././adc_functions.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 ./canlib.o: .././canlib.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 ./main.o: .././main.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 ./sensor_function.o: .././sensor_function.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
 ./system_config.o: .././system_config.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
-	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -O0 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -mrelax -g2 -Wall -mmcu=at90can128 -B "C:\Users\Marek\Documents\Stralsund\Studium - Bachelor Motorsport Engineering\Studien_Programme\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\at90can128" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 

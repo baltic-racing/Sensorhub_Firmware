@@ -20,3 +20,11 @@ uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sen
 	}
 	return Sensor_Data;
 }
+
+double damper_poti(double dp_adc){
+	double travel =0;
+	
+	travel = (80*dp_adc)/1024;
+	
+	return travel; //in mm from 0-80
+}

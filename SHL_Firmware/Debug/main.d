@@ -10,9 +10,9 @@ main.d main.o: .././main.c \
  c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- .././system_config.h \
  c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- .././adc_functions.h .././canlib.h .././sensor_function.h
+ .././system_config.h .././adc_functions.h .././canlib.h \
+ .././sensor_function.h
 
 c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -36,9 +36,9 @@ c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering
 
 c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-.././system_config.h:
-
 c:\users\marek\documents\stralsund\studium\ -\ bachelor\ motorsport\ engineering\studien_programme\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+
+.././system_config.h:
 
 .././adc_functions.h:
 
