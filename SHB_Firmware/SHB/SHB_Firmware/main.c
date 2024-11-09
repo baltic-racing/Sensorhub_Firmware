@@ -22,7 +22,7 @@ unsigned long time_old_100ms = 0;
 
 /*	GLobal Variables	*/
 
-extern uint16_t adc_values[1];
+uint8_t i = 1;
 
 int main(void)
 {
@@ -43,6 +43,7 @@ int main(void)
 	can_SHB1_mob.mob_idmask = 0; //receive with no filter?
 	can_SHB1_mob.mob_number = 2;
 	uint8_t SHB1_databytes[8];
+	
 	sei();
 	
 	
@@ -58,13 +59,10 @@ int main(void)
 		
 		if (time_old_10ms >= 10)
 		{	
-			
-			PORTC ^= (1<<PC0); // fault just for fun
-
-			uint16_t temp1 =  temp_calc((float)adc_get(1));
-			uint16_t temp2 =  temp_calc((float)adc_get(2));
-			uint16_t temp3 =  temp_calc((float)adc_get(3));
-			uint16_t temp4 =  temp_calc((float)adc_get(4));
+			uint16_t temp1 =  temp_calc((float)adc_get(0));
+			uint16_t temp2 =  temp_calc((float)adc_get(1));
+			uint16_t temp3 =  temp_calc((float)adc_get(2));
+			uint16_t temp4 =  temp_calc((float)adc_get(3));
 			
 			SHB0_databytes[0] = temp1;
 			SHB0_databytes[1] = 0;
@@ -76,8 +74,8 @@ int main(void)
 			SHB0_databytes[7] = 0;
 			
 			
-			uint16_t federwegRL =  damper_poti((float)adc_get(5));
-			uint16_t federwegRR =  damper_poti((float)adc_get(6));
+			uint16_t federwegRL =  damper_poti((float)adc_get(4));
+			uint16_t federwegRR =  damper_poti((float)adc_get(5));
 			
 			SHB1_databytes[0] = (uint16_t) federwegRL; 
 			SHB1_databytes[1] = ((uint16_t) federwegRL)>>8; //DPRL
@@ -96,8 +94,15 @@ int main(void)
 		
 		if (time_old_100ms >= 100)
 		{
-			PORTC ^= (1<<PC2);
+			if(i == 1){
+				PORTC ^= (1<<PC2);
+				i = 0;
+			}else{
+				PORTC ^= (1<<PC0); // fault just for fun
+				i = 1;
+			}
+			
 			time_old_100ms = 0;
 		}
     }
-	}
+}
