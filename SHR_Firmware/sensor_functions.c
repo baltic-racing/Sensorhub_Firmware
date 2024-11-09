@@ -15,7 +15,7 @@
 float apps1_percentage;
 float apps2_percentage;
 
-extern uint16_t adc_values[1];
+extern uint16_t adc_values[3];
 
 /*	Functions	*/
 
@@ -40,3 +40,16 @@ double update_apps_percentage_alt(double apps_adc, uint8_t apps_sensor){
 	return apps_value;
 }
 
+double calculate_steering_percent(double pot_adc) {
+	double steering_value = 0;
+	
+	if(pot_adc <= POT_MID){
+		steering_value = 100 - ((100 / (double)(POT_MID - POT_MIN)) * (pot_adc - (double)POT_MIN));
+	}
+
+	if(pot_adc > POT_MID){
+		steering_value = 100 - ((100 / (double)(POT_MID - POT_MAX)) * (pot_adc - (double)POT_MAX));
+	}	
+		
+	return steering_value;
+}
