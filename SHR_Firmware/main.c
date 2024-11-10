@@ -85,9 +85,9 @@ int main(void)
 			
 			
 			SHR0_databytes[0] =  (uint16_t)apps1_percentage;			//lsb APPS1
-			SHR0_databytes[1] = ((uint16_t)apps1_percentage >> 8);		//msb APPS1
+			SHR0_databytes[1] = 0;		//msb APPS1
 			SHR0_databytes[2] =  (uint16_t)apps2_percentage;			//lsb APPS2
-			SHR0_databytes[3] = ((uint16_t)apps2_percentage >> 8);		//msb APPS2
+			SHR0_databytes[3] = 0;		//msb APPS2
 			SHR0_databytes[4] =  steering_sign | (steering_percentage);	//sign indicator for steering percentage | steering percentage
 			SHR0_databytes[5] = 0;
 			SHR0_databytes[6] = sdc_open;

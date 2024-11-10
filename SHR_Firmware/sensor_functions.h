@@ -13,10 +13,10 @@
 
 /*	Defines	*/
 
-#define APPS1_MIN	888//433
-#define APPS1_MAX	403//184
-#define APPS2_MIN	183//826
-#define APPS2_MAX	732//325
+#define APPS1_MIN	883//433
+#define APPS1_MAX	398//184
+#define APPS2_MIN	191//826
+#define APPS2_MAX	737//325
 
 //steering angle percentage
 #define POT_MIN	97	//value for full steering lock left
