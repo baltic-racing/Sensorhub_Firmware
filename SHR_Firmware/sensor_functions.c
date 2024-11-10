@@ -15,8 +15,6 @@
 float apps1_percentage;
 float apps2_percentage;
 
-extern uint16_t adc_values[3];
-
 /*	Functions	*/
 
 double update_apps_percentage_alt(double apps_adc, uint8_t apps_sensor){
@@ -52,4 +50,12 @@ double calculate_steering_percent(double pot_adc) {
 	}	
 		
 	return steering_value;
+}
+
+double damper_poti(double dp_adc){
+	double travel = 0;
+	
+	travel = (80*dp_adc)/1024;
+	
+	return travel; //in mm from 0-80
 }
