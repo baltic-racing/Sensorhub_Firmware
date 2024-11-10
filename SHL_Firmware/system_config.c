@@ -9,8 +9,8 @@
 
 #include "system_config.h"
 
-/*	Extern Global Variables	*/
-extern unsigned long sys_tick;
+/*	Global Variables	*/
+volatile unsigned long sys_time;
 
 /*	FUNCTIONS	*/
 
@@ -37,5 +37,5 @@ void sys_timer_config(void)
 /*	Interrupt Service Routines	*/
 ISR(TIMER0_COMP_vect)
 {
-	sys_tick++;
+	sys_time++;
 }

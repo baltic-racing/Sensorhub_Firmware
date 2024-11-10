@@ -4,13 +4,11 @@
 
 adc_functions.c
 
-canlib.c
+calc_wheelspeed.c
 
 main.c
 
-sensor_function.c
+misc_functions.c
 
 SPI_lib.c
-
-system_config.c
 
