@@ -28,5 +28,6 @@
 float update_apps_percentage(float apps_adc, uint8_t apps_sensor);
 double update_apps_percentage_alt(double apps_adc, uint8_t apps_sensor);
 double calculate_steering_percent(double pot_adc);
+double damper_poti(double dp_adc);
 
 #endif /* SENSOR_FUNCTIONS_H_ */
