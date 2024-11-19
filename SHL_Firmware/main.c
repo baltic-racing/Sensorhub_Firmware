@@ -100,8 +100,12 @@ int main(void)
 			SHL0_databytes[6] = 0;														//adc_get(3)		& 0xff	; //lsb SA
 			SHL0_databytes[7] = 0;														//(adc_get(3)>>8)	& 0xff	; //msb SA
 			
-			uint16_t federwegFL =  damper_poti((float)adc_get(2));
-			uint16_t federwegFR =  damper_poti((float)adc_get(3));
+			//uint16_t federwegFL = damper_poti((float)adc_get(2));
+			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(2));
+			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(3));
+			
+			
+
 			
 			SHL1_databytes[0] = (uint16_t) federwegFL;
 			SHL1_databytes[1] = ((uint16_t) federwegFL)>>8;								//DPRL
