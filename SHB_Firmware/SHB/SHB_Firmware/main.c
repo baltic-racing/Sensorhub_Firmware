@@ -76,6 +76,8 @@ int main(void)
 			
 			uint16_t federwegRL =  damper_poti((float)adc_get(4));
 			uint16_t federwegRR =  damper_poti((float)adc_get(5));
+			//uint16_t federwegRL = SPRINGTRAVEL_MAX - DAMP_MAX_RL + damper_poti((float)adc_get(4));
+			//uint16_t federwegRL = SPRINGTRAVEL_MAX - DAMP_MAX_RL + damper_poti((float)adc_get(5));
 			
 			SHB1_databytes[0] = (uint16_t) federwegRL; 
 			SHB1_databytes[1] = ((uint16_t) federwegRL)>>8; //DPRL

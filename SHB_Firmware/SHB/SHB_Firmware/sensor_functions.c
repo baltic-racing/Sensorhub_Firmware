@@ -28,7 +28,8 @@ void temp_calc(double ntc_adc)
 double damper_poti(double dp_adc){
 	double travel =0;
 	
-	travel = (80*dp_adc)/1024;
+	//travel = (80*dp_adc)/1024;
+	travel = DAMP_MM_MIN + (dp_adc-DAMP_ADC_MIN)*((DAMP_MM_MAX - DAMP_MM_MIN)/(DAMP_ADC_MAX - DAMP_ADC_MIN));
 	
 	return travel; //in mm from 0-75
 }

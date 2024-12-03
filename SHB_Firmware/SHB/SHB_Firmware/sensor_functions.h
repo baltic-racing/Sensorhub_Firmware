@@ -14,6 +14,15 @@
 #include <math.h>
 /*	Defines	*/
 
+#define DAMP_ADC_MIN 68
+#define DAMP_MM_MIN 23
+
+#define DAMP_ADC_MAX 793
+#define DAMP_MM_MAX 78.45
+
+#define DAMP_MAX_RL 69
+#define DAMP_MAX_RR 69
+#define SPRINGTRAVEL_MAX 185
 
 /*	Function Prototypes	*/
 void ntc_value(double ntc_adc);
