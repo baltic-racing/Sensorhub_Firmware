@@ -25,17 +25,17 @@ uint64_t delta_ws = 0;
 
 void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (PIN 12)
 	
-	DDRD &= ~(1 << PD3);					// set digital_input as Input
+	DDRD &= ~(1 << PD2);					// set digital_input as Input
 	
 	// Konfiguriere INT0 für fallende Flanke
 	MCUCR |= (1 << ISC11);					// MCUCR = SMCU Control_Reg
 	MCUCR |= (1 << ISC10);
 	
 	// Aktiviere INT0
-	GICR |= (1 << INT1);
+	GICR |= (1 << INT0);
 }
 
-ISR(INT1_vect){
+ISR(INT0_vect){
 	
 	//delta berechnen
 	//quasie die zeit um 360° zu rotieren

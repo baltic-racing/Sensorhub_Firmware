@@ -29,17 +29,17 @@ void sys_timer_config(){
 
 void sys_tick_heart()
 {
-	//PORT_ ^= (1<<P__); //toggle the Heart led on Pin 4, will be used in the super loop in main.c to indicade that the loop is running correctly
+	PORTC ^= (1<<PC0); //toggle the Heart led on Pin 4, will be used in the super loop in main.c to indicade that the loop is running correctly
 };
 
 void fault_not_detected()
 {
-	//PORT_ &= ~(1<<P__); //turn off red led in case of no fault
+	PORTC &= ~(1<<PC1); //turn off red led in case of no fault
 }
 
 void fault_detected()
 {
-	//PORT_ |= (1<<P__); //turn on red led when called (fault present)
+	PORTC |= (1<<PC1); //turn on red led when called (fault present)
 }
 
 ISR(TIMER0_COMP_vect)

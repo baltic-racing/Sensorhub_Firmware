@@ -14,7 +14,7 @@
 #define MOSI PB2							//Start: individual configuration
 #define MISO PB3
 #define SCK PB1
-#define SS_uC PE2
+#define SS_uC PE4
 #define SS_TK1 PE0
 #define SS_TK2 PE1							//End
 

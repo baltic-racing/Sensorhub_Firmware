@@ -40,7 +40,7 @@ void SPI_SlaveInit()
 	//enables SPI
 	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Interrupt_Enable);
 	
-	DDRA &= ~(1<<PA4);
+	DDRA |= (1<<PA4);
 }
 
 char SPI_SlaveReceive()											// Use with care -> stop the uC

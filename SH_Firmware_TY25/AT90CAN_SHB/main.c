@@ -42,7 +42,7 @@ int main(void)
  			PORTE &= ~(1<<SS_uC);
  			SPDR = 0x22;										// Write the Register will start the conversation
  			while(!(SPSR & (1<<SPIF)));
- 			PORTE |= (1<<SS_uC);
+ 			//PORTE |= (1<<SS_uC);
  			wheelspeed [0] = SPI_Data_Reg;
 			
 			switchi = 0;
