@@ -15,13 +15,13 @@ extern unsigned long sys_tick;
 /*	FUNCTIONS	*/
 
 void port_config(void)
-{
+{ //0 is input, 1 is output
 	//Fault-LED, Heart-LED
 	DDRC |= (1<<PC0) | (1<<PC2);
 	//CS-TYPK1, CS-TYPK2
 	DDRE |= (1<<PE0) | (1<<PE1);
-	//APPS1, APPS2
-	DDRF &= ~(1<<PF0) & ~(1<<PF1);
+	//Analog in 0-4
+	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2)& ~(1<<PF3) & ~(1<<PF4);
 }
 
 void sys_timer_config(void)

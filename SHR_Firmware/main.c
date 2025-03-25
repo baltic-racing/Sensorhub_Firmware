@@ -260,12 +260,5 @@ int main(void)
 			
 			time_old_100ms = 0;
 		}
-		if (time_old_1000ms >= 1000)
-		{
-			
-			
-			
-			time_old_1000ms = 0;
-		}
     }
 }
