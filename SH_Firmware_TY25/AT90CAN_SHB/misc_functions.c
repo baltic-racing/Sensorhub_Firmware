@@ -13,16 +13,19 @@ void port_config(void)
 {
 	// Set Fault(PCO) and Heart(PC2) LED as Output
 	DDRC |= (1<<PC0) | (1<<PC2);
+	//BPS1, BPS2, SA (Steering Angle)
+	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2);
 }
 
 void sys_timer_config(void)
 {
 	//CTC-Mode, /64
 	TCCR0A = 0 | (1<<WGM01) | (1<<CS01) | (1<<CS00);
-	//Compare value for 1ms (Formula in Datasheet)
-	OCR0A = 249; //249
 	//Compare Interrupt Enable
 	TIMSK0 = 0 | (1<<OCIE0A);
+	//Compare value for 1ms (Formula in Datasheet)
+	OCR0A = 249; //249
+
 }
 
 void sys_tick_heart()

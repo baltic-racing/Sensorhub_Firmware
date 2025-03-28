@@ -10,6 +10,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
+void port_config(void);
 void sys_timer_config();
 
 ISR(TIMER0_COMP_vect);

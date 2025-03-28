@@ -29,16 +29,16 @@
     <eraseonlaunchrule>0</eraseonlaunchrule>
     <EraseKey />
     <AsfFrameworkConfig>
-      <framework-data xmlns="">
-        <options />
-        <configurations />
-        <files />
-        <documentation help="" />
-        <offline-documentation help="" />
-        <dependencies>
-          <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.52.0" />
-        </dependencies>
-      </framework-data>
+      <framework-data>
+  <options />
+  <configurations />
+  <files />
+  <documentation help="" />
+  <offline-documentation help="" />
+  <dependencies>
+    <content-extension eid="atmel.asf" uuidref="Atmel.ASF" version="3.39.0" />
+  </dependencies>
+</framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.atmelice</avrtool>
     <avrtoolserialnumber>J41800110445</avrtoolserialnumber>
@@ -137,6 +137,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="adc_functions.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="adc_functions.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CAN_data.c">
       <SubType>compile</SubType>
     </Compile>
@@ -159,6 +165,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="misc_functions.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor_function.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="sensor_function.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SPI_lib.c">
