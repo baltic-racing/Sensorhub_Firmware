@@ -15,6 +15,7 @@
 #include "main.h"
 
 uint8_t switchi = 1;
+uint8_t steering_sign = 0;		//indicator for steering percentage
 
 volatile uint16_t wheelspeed[2];
 
@@ -23,6 +24,7 @@ extern uint8_t SensorHub1_databytes[8];
 
 extern struct CAN_MOB can_SensorHub0_mob;
 extern struct CAN_MOB can_SensorHub1_mob;
+
 
 int main(void)
 {
@@ -85,29 +87,44 @@ int main(void)
 		{
 			time_100ms = sys_time;
 			
-			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(2));
-			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(3));
+			//steering angle
+			uint16_t steering_percentage = calculate_steering_percent((double) adc_get(2));
 			
-			SensorHub0_databytes[0]	=	0														;
-			SensorHub0_databytes[1]	=	0														;
-			SensorHub0_databytes[2]	=	0														;
-			SensorHub0_databytes[3]	=	0														;
-			SensorHub0_databytes[4]	=	0														;
+			if (adc_get(2) <= POT_MID){		//left from middle position
+				steering_sign = 0x80;
+			}
+			if (adc_get(2) > POT_MID){		//right from middle position
+				steering_sign = 0x00;
+			}
+			
+			
+			SensorHub0_databytes[0]	=	0														;	//lsb APPS1
+			SensorHub0_databytes[1]	=	0														;	//msb APPS1
+			SensorHub0_databytes[2]	=	0														;	//lsb APPS2
+			SensorHub0_databytes[3]	=	0														;	//msb APPS2
+			SensorHub0_databytes[4]	=	0														;	
 			SensorHub0_databytes[5]	=	0														;
-			SensorHub0_databytes[6]	=	0														;
-			SensorHub0_databytes[7]	=	0														;
+			SensorHub0_databytes[6]	=	0														;	//SDC
+			SensorHub0_databytes[7]	=	steering_sign | (steering_percentage)					;	//SA	
 			
-			
-			
-			uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
-			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,10) & 0xff		;
-			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,10) >>8			;
-			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xff		;
-			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) >>8			;
+			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
+			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,10) & 0xff		;	//lsb BPS_F
+			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,10) >>8			;	//msb BPS_F
+			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xff		;	//lsb BPS_R
+			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) >>8			;	//msb BPS_R
 			SensorHub1_databytes[4]	=	wheelspeed[0]&0xff										;	//wheelspeed[0]&0xff	
 			SensorHub1_databytes[5]	=	(wheelspeed[1]>>8)&0xff									;	//(wheelspeed[1]>>8)&0xff
 			SensorHub1_databytes[6]	=	0														;
 			SensorHub1_databytes[7]	=	0														;
+			
+			SensorHub1_databytes[0]	=	0														;	//lsb DTS_FL
+			SensorHub1_databytes[1]	=	0														;	//msb DTS_FL
+			SensorHub1_databytes[2]	=	0														;	//lsb DTS_FR
+			SensorHub1_databytes[3]	=	0														;	//msb DTS_FR
+			SensorHub1_databytes[4]	=	0														;	//
+			SensorHub1_databytes[5]	=	0														;	//
+			SensorHub1_databytes[6]	=	0														;
+			SensorHub1_databytes[7]	=	0
 			
 			can_tx(&can_SensorHub0_mob, SensorHub0_databytes);			
 			can_tx(&can_SensorHub1_mob, SensorHub1_databytes);
