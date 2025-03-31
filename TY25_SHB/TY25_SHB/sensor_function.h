@@ -1,0 +1,34 @@
+/*
+ * sensor_function.h
+ *
+ * Created: 31.03.2025 14:45:25
+ *  Author: pasca
+ */ 
+
+
+#ifndef SENSOR_FUNCTION_H_
+#define SENSOR_FUNCTION_H_
+
+/*	INCLUDES	*/
+
+#include <avr/io.h>
+#include <avr/interrupt.h>
+
+//uint16_t ADC_brake_Sensor_front(uint16_t data, float start_Volt, float end_Volt, int sensor_max, int ADC_bit, int ADC_Volt, int precision);
+//uint16_t ADC_brake_Sensor(uint16_t data);
+double damper_poti(double dp_adc);
+uint16_t temp_calc(double ntc_adc);
+
+//damper travel
+#define DAMP_ADC_MIN 68   //adc value
+#define DAMP_MM_MIN 23 // associated value in mm
+
+#define DAMP_ADC_MAX 793 // adc value
+#define DAMP_MM_MAX 78.45 //associated value in mm
+
+#define DAMP_MAX_FL 76 //poti value in mm for full spring travel front left
+#define DAMP_MAX_FR 68 //poti value in mm for full spring travel front right
+#define SPRINGTRAVEL_MAX 185 //full spring travel in mm
+
+
+#endif
