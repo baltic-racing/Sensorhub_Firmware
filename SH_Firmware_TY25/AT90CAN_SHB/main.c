@@ -21,9 +21,11 @@ volatile uint16_t wheelspeed[2];
 
 extern uint8_t SensorHub0_databytes[8];
 extern uint8_t SensorHub1_databytes[8];
+extern uint8_t SensorHub2_databytes[8];
 
 extern struct CAN_MOB can_SensorHub0_mob;
 extern struct CAN_MOB can_SensorHub1_mob;
+extern struct CAN_MOB can_SensorHub2_mob;
 
 
 int main(void)
@@ -36,16 +38,22 @@ int main(void)
 	CAN_Init_Messages();
 	
 	struct CAN_MOB can_SensorHub0_mob;
-	can_SensorHub0_mob.mob_id = 0x410;
+	can_SensorHub0_mob.mob_id = 0x400;
 	can_SensorHub0_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHub0_mob.mob_number = 0;
 	uint8_t SensorHub0_databytes[8] = {0};
 		
 	struct CAN_MOB can_SensorHub1_mob;
-	can_SensorHub1_mob.mob_id = 0x411;
+	can_SensorHub1_mob.mob_id = 0x410;
 	can_SensorHub1_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHub1_mob.mob_number = 1;
 	uint8_t SensorHub1_databytes[8] = {0};
+
+	struct CAN_MOB can_SensorHub2_mob;
+	can_SensorHub2_mob.mob_id = 0x420;
+	can_SensorHub2_mob.mob_idmask = 0xFFFF;//sent
+	can_SensorHub2_mob.mob_number = 2;
+	uint8_t SensorHub2_databytes[8] = {0};
 	
 	sei();	
 	
@@ -98,6 +106,11 @@ int main(void)
 			}
 			
 			
+			//damper travel
+			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
+			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(5));
+			
+			
 			SensorHub0_databytes[0]	=	0														;	//lsb APPS1
 			SensorHub0_databytes[1]	=	0														;	//msb APPS1
 			SensorHub0_databytes[2]	=	0														;	//lsb APPS2
@@ -117,17 +130,18 @@ int main(void)
 			SensorHub1_databytes[6]	=	0														;
 			SensorHub1_databytes[7]	=	0														;
 			
-			SensorHub1_databytes[0]	=	0														;	//lsb DTS_FL
-			SensorHub1_databytes[1]	=	0														;	//msb DTS_FL
-			SensorHub1_databytes[2]	=	0														;	//lsb DTS_FR
-			SensorHub1_databytes[3]	=	0														;	//msb DTS_FR
+			SensorHub1_databytes[0]	=	(uint16_t) federwegFL;									;	//lsb DTS_FL
+			SensorHub1_databytes[1]	=	((uint16_t) federwegFL)>>8;								;	//msb DTS_FL
+			SensorHub1_databytes[2]	=	(uint16_t) federwegFR;									;	//lsb DTS_FR
+			SensorHub1_databytes[3]	=	((uint16_t) federwegFR)>>8;								;	//msb DTS_FR
 			SensorHub1_databytes[4]	=	0														;	//
 			SensorHub1_databytes[5]	=	0														;	//
 			SensorHub1_databytes[6]	=	0														;
-			SensorHub1_databytes[7]	=	0
+			SensorHub1_databytes[7]	=	0														;
 			
 			can_tx(&can_SensorHub0_mob, SensorHub0_databytes);			
 			can_tx(&can_SensorHub1_mob, SensorHub1_databytes);
+			can_tx(&can_SensorHub2_mob, SensorHub2_databytes);
 			
 			sys_tick_heart();
 			

@@ -14,7 +14,7 @@
 #include <avr/interrupt.h>
 
 /*	DEFINES	*/
-#define ADCVALUES 3
+#define ADCVALUES 5
 
 uint16_t adc_get(uint8_t adc);
 
