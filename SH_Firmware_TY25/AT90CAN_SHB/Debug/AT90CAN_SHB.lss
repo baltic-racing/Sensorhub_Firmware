@@ -1199,8 +1199,8 @@ int main(void)
      84c:	0f 2e       	mov	r0, r31
 			
 			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
-			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,10) & 0xff		;	//lsb BPS_F
-     84e:	fa e0       	ldi	r31, 0x0A	; 10
+			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,100) & 0xff		;	//lsb BPS_F
+     84e:	f4 e6       	ldi	r31, 0x64	; 100
      850:	8f 2e       	mov	r8, r31
      852:	91 2c       	mov	r9, r1
      854:	f0 2d       	mov	r31, r0
@@ -1230,8 +1230,8 @@ int main(void)
      884:	80 e0       	ldi	r24, 0x00	; 0
      886:	da dc       	rcall	.-1612   	; 0x23c <adc_get>
      888:	0f 2e       	mov	r0, r31
-			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,10) >>8			;	//msb BPS_F
-     88a:	fa e0       	ldi	r31, 0x0A	; 10
+			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,100) >>8			;	//msb BPS_F
+     88a:	f4 e6       	ldi	r31, 0x64	; 100
      88c:	8f 2e       	mov	r8, r31
      88e:	91 2c       	mov	r9, r1
      890:	f0 2d       	mov	r31, r0
@@ -1263,8 +1263,8 @@ int main(void)
      8c4:	81 e0       	ldi	r24, 0x01	; 1
      8c6:	ba dc       	rcall	.-1676   	; 0x23c <adc_get>
      8c8:	0f 2e       	mov	r0, r31
-			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xff		;	//lsb BPS_R
-     8ca:	fa e0       	ldi	r31, 0x0A	; 10
+			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,100) & 0xff		;	//lsb BPS_R
+     8ca:	f4 e6       	ldi	r31, 0x64	; 100
      8cc:	8f 2e       	mov	r8, r31
      8ce:	91 2c       	mov	r9, r1
      8d0:	f0 2d       	mov	r31, r0
@@ -1294,8 +1294,8 @@ int main(void)
      900:	81 e0       	ldi	r24, 0x01	; 1
      902:	9c dc       	rcall	.-1736   	; 0x23c <adc_get>
      904:	0f 2e       	mov	r0, r31
-			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) >>8			;	//msb BPS_R
-     906:	fa e0       	ldi	r31, 0x0A	; 10
+			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,100) >>8			;	//msb BPS_R
+     906:	f4 e6       	ldi	r31, 0x64	; 100
      908:	8f 2e       	mov	r8, r31
      90a:	91 2c       	mov	r9, r1
      90c:	f0 2d       	mov	r31, r0
