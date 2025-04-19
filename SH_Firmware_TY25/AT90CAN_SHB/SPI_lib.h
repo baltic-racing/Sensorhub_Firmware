@@ -35,6 +35,9 @@
 	
 #define SPI_Data_Reg SPDR
 
+#define SS_uC_LOW() (PORTE &= ~(1 << SS_uC))
+#define SS_uC_HIGH() (PORTE |= (1 << SS_uC))
+
 void SPI_MasterInit();
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);

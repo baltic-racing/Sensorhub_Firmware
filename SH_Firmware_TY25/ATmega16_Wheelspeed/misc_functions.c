@@ -8,6 +8,8 @@
 #include "misc_functions.h"
 
 volatile unsigned long sys_time = 0;
+volatile unsigned long time_delta_left = 0;
+volatile unsigned long time_delta_right = 0;
 
 void sys_timer_config(){
 	//Timer/Counter0 Control Register = Waveform Generation Mode | Compare Match Ouput Mode(0/1)
@@ -44,5 +46,7 @@ void fault_detected()
 
 ISR(TIMER0_COMP_vect)
 {
+	time_delta_left++;
+	time_delta_right++;
 	sys_time++;
 }

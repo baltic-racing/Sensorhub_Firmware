@@ -8,7 +8,11 @@
 #include <avr/io.h>
 #include "SPI_lib.h"
 
-extern volatile uint8_t wheelspeed;
+volatile uint8_t spi_cmd = 0;
+volatile uint8_t next_response = 0;
+volatile uint8_t awaiting_response = 0;
+volatile uint8_t response = 0;
+
 
 void SPI_MasterInit()
 {
@@ -26,6 +30,8 @@ void SPI_MasterInit()
 	
 	//Set all SS low
 	PORTB |= (1<<SS_uC);
+	
+	
 }
 
 void SPI_SlaveInit()
@@ -41,6 +47,8 @@ void SPI_SlaveInit()
 	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Interrupt_Enable);
 	
 	DDRA |= (1<<PA4);
+	
+	SPDR = 0x00;
 }
 
 char SPI_SlaveReceive()											// Use with care -> stop the uC
@@ -52,11 +60,24 @@ char SPI_SlaveReceive()											// Use with care -> stop the uC
 }																//
 
 ISR(SPI_STC_vect)
-{	
-	if(SPI_Data_Reg == 0x22){
-		SPI_Data_Reg = (wheelspeed);
-		//wheelspeed = 0;
-	}
+{		
+	// Read the received byte from the SPI Data Register
+    uint8_t received = SPDR;
+
+    // Immediately send the previously prepared response byte
+    // (this value will be shifted out during the current SPI transfer)
+    SPDR = response;
+
+    // Prepare the next response based on the received command
+    if (received == 0x01) {
+	    response = wheelspeed_left;								// Command 0x01: send left wheel speed
+	    } else if (received == 0x02) {
+	    response = wheelspeed_right;							// Command 0x02: send right wheel speed
+	    } else {
+	    response = 0xFF;										// Unknown command: send error value
+    }
+	
+	
 	
 	//if(SPI_Data_Reg == 0x33){
 		//SPI_Data_Reg = (wheelspeed);

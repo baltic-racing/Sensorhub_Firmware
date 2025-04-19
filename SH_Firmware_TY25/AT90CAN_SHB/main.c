@@ -11,13 +11,14 @@
 #include "adc_functions.h"
 #include "CAN_lib.h"
 #include "sensor_function.h"
-
+#include "SPI_lib.h"
 #include "main.h"
 
 uint8_t switchi = 1;
 uint8_t steering_sign = 0;		//indicator for steering percentage
 
 volatile uint16_t wheelspeed[2];
+volatile uint16_t test123 = 0;
 
 extern uint8_t SensorHub0_databytes[8];
 extern uint8_t SensorHub1_databytes[8];
@@ -72,21 +73,24 @@ int main(void)
 		{
 			if(switchi == 1){
  			time_10ms = sys_time;
- 			PORTE &= ~(1<<SS_uC);
- 			SPDR = 0x22;										// Write the Register will start the conversation
- 			while(!(SPSR & (1<<SPIF)));
- 			//PORTE |= (1<<SS_uC);
- 			wheelspeed [0] = SPI_Data_Reg;
+			
+			// SPI wheelspeed left
+			SS_uC_LOW();
+			SPDR = 0x01;
+			while(!(SPSR & (1 << SPIF)));
+			wheelspeed[0] = SPDR;
+			SS_uC_HIGH();
+			
+			// SPI wheelspeed right
+			SS_uC_LOW();
+			SPDR = 0x02;
+			while (!(SPSR & (1 << SPIF)));
+			wheelspeed[1] = SPDR;
+			SS_uC_HIGH(); 			
 			
 			switchi = 0;
-			}else{
-			//PORTE &= ~(1<<SS_uC);
-			//SPDR = 0x33;										// Write the Register will start the conversation
-			//while(!(SPSR & (1<<SPIF)));
-			//PORTE |= (1<<SS_uC);
-			//wheelspeed [1] = SPI_Data_Reg;
-			
-			switchi = 1;
+			}else{			
+			//switchi = 1;
 			}
 			
 		} // end of 10ms

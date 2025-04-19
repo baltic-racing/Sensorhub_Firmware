@@ -17,11 +17,14 @@
 
 //	Variables
 extern volatile unsigned long sys_time;
+extern volatile unsigned long time_delta_left;
+extern volatile unsigned long time_delta_right;
 
 extern volatile uint8_t wheelspeed;
 
 volatile unsigned long time_1ms = 0;
 volatile unsigned long time_10ms = 0;
+volatile unsigned long time_50ms = 0;
 volatile unsigned long time_100ms = 0;
 volatile unsigned long time_200ms = 0;
 volatile unsigned long time_1000ms = 0;
@@ -30,6 +33,7 @@ volatile unsigned long time_1000ms = 0;
 
 #define TIME_PASSED_1_MS	(sys_time - time_1ms) >= 1
 #define TIME_PASSED_10_MS	(sys_time - time_10ms) >= 10
+#define TIME_PASSED_50_MS	(sys_time - time_50ms) >= 50
 #define TIME_PASSED_100_MS	(sys_time - time_100ms) >= 100
 #define TIME_PASSED_200_MS	(sys_time - time_200ms) >= 200
 #define TIME_PASSED_1000_MS	(sys_time - time_1000ms) >= 1000
