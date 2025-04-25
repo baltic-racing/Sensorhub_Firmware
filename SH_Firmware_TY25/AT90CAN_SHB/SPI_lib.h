@@ -37,10 +37,14 @@
 
 #define SS_uC_LOW() (PORTE &= ~(1 << SS_uC))
 #define SS_uC_HIGH() (PORTE |= (1 << SS_uC))
+#define LEFT 0x01
+#define RIGHT 0x03
 
 void SPI_MasterInit();
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);
+uint16_t SPI_Getspeed(uint8_t side);
+uint8_t SPI_MasterTransmit(uint8_t data);
 
 
 #endif /* SPI_H_ */

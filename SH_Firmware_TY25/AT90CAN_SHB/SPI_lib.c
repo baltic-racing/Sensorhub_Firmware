@@ -6,10 +6,8 @@
  */ 
 
 #include <avr/io.h>
-
 #include "SPI_lib.h"
 
-extern volatile uint8_t wheelspeed;
 
 void SPI_MasterInit()
 {
@@ -28,6 +26,7 @@ void SPI_MasterInit()
 	
 	//Set all SS High
 	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2);
+	
 }
 
 void SPI_SlaveInit()
@@ -50,8 +49,35 @@ char SPI_SlaveReceive()
 	return SPI_Data_Reg;
 }
 
-//ISR(SPI_STC_vect)
-//{
-	//PORTE |= (1<<SS_uC);
-	//wheelspeed = SPI_Data_Reg;
+uint8_t SPI_MasterTransmit(uint8_t data) {
+	SPDR = data;
+	// Auf Übertragung warten
+	while (!(SPSR & (1 << SPIF)));
+	return SPDR;
+}
+//
+//uint16_t SPI_Getspeed(uint8_t side){
+	//SS_uC_LOW();
+	//SPDR = side;
+	//while(!(SPSR & (1 << SPIF)));
+	//SS_uC_HIGH();
+				//
+	//SS_uC_LOW();
+	//SPDR = 0xFF;
+	//while(!(SPSR & (1 << SPIF)));
+	//uint8_t lsb = SPDR;
+	//SS_uC_HIGH();
+				//
+	//SS_uC_LOW();
+	//SPDR = (side+1);
+	//while(!(SPSR & (1 << SPIF)));
+	//SS_uC_HIGH();
+	//
+	//SS_uC_LOW();
+	//SPDR = 0xFF;
+	//while(!(SPSR & (1 << SPIF)));
+	//uint8_t msb = SPDR;
+	//SS_uC_HIGH();
+	//return ((msb << 8) | lsb);
+	//
 //}

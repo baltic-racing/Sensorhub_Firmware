@@ -12,6 +12,14 @@ volatile uint8_t spi_cmd = 0;
 volatile uint8_t next_response = 0;
 volatile uint8_t awaiting_response = 0;
 volatile uint8_t response = 0;
+volatile uint8_t last_command = 0;
+volatile uint8_t spi_state = 0;
+volatile uint8_t spi_response_buffer = 0;
+uint8_t rx_count = 1;
+uint8_t rx_array[2];
+
+uint8_t switcho = 0;
+uint8_t fii = 0;
 
 
 void SPI_MasterInit()
@@ -48,10 +56,10 @@ void SPI_SlaveInit()
 	
 	DDRA |= (1<<PA4);
 	
-	SPDR = 0x00;
+	//SPDR = 0x00;
 }
 
-char SPI_SlaveReceive()											// Use with care -> stop the uC
+char SPI_SlaveReceive(void)											// Use with care -> stop the uC
 {																//
 	/* Wait for reception complete */							//
 	while(!(SPI_Status_Reg & (1<<SPI_Interrupft_Flag)));		//
@@ -59,27 +67,34 @@ char SPI_SlaveReceive()											// Use with care -> stop the uC
 	return SPI_Data_Reg;										//
 }																//
 
+void SPI_SlaveSend(uint8_t data){
+	SPDR = data;
+	while (!(SPSR & (1 << SPIF)));
+}
+
 ISR(SPI_STC_vect)
-{		
-	// Read the received byte from the SPI Data Register
-    uint8_t received = SPDR;
+{
+	
+	if(SPDR == 0x01){
+		SPDR = wheelspeed_left & 0xFF;		//lsb
+		//SPDR = 0xAA;
+	}
 
-    // Immediately send the previously prepared response byte
-    // (this value will be shifted out during the current SPI transfer)
-    SPDR = response;
+	if(SPDR == 0x02){
+		SPDR = wheelspeed_left >> 8;		//msb
+		//SPDR = 0xBB;
+	}
+	
+	
+	if (SPDR == 0x03){
+		SPDR = wheelspeed_right & 0xFF;		//lsb
+		//SPDR = 0xCC;
+	}
+	
+	if (SPDR == 0x04){
+		SPDR = wheelspeed_right >> 8;		//msb
+		//SPDR = 0xDD;
+	}
+	
 
-    // Prepare the next response based on the received command
-    if (received == 0x01) {
-	    response = wheelspeed_left;								// Command 0x01: send left wheel speed
-	    } else if (received == 0x02) {
-	    response = wheelspeed_right;							// Command 0x02: send right wheel speed
-	    } else {
-	    response = 0xFF;										// Unknown command: send error value
-    }
-	
-	
-	
-	//if(SPI_Data_Reg == 0x33){
-		//SPI_Data_Reg = (wheelspeed);
-	//}
 }
