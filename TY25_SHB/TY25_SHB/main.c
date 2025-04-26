@@ -97,7 +97,7 @@ int main(void)
 		{
 			time_100ms = sys_time;
 			
-			//cooling temp
+			//cooling temperature
 			uint16_t tempRU =  temp_calc((float)adc_get(0));
 			uint16_t tempRD =  temp_calc((float)adc_get(1));
 			uint16_t tempLU =  temp_calc((float)adc_get(2));
@@ -115,22 +115,22 @@ int main(void)
 			SensorHubB0_databytes[4]	=	0														;	
 			SensorHubB0_databytes[5]	=	0														;
 			SensorHubB0_databytes[6]	=	0														;	//SDC
-			SensorHubB0_databytes[7]	=	0														;	//SA	
+			SensorHubB0_databytes[7]	=	0														;	
 			
 			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
-			SensorHubB1_databytes[0]	=	tempRU													;	//lsb 
-			SensorHubB1_databytes[1]	=	tempRU>>8												;	//msb 
-			SensorHubB1_databytes[2]	=	tempRD													;	//lsb 
-			SensorHubB1_databytes[3]	=	tempRD>>8												;	//msb 
-			SensorHubB1_databytes[4]	=	tempLU													;	//	
-			SensorHubB1_databytes[5]	=	tempLU>>8												;	//
-			SensorHubB1_databytes[6]	=	tempLD													;
-			SensorHubB1_databytes[7]	=	tempLD>>8												;
+			SensorHubB1_databytes[0]	=	tempRU & 0xFF											;	// lsb temperature right up
+			SensorHubB1_databytes[1]	=	tempRU >> 8												;	// msb temperature right up
+			SensorHubB1_databytes[2]	=	tempRD & 0xFF											;	// lsb temperature right down
+			SensorHubB1_databytes[3]	=	tempRD >> 8												;	// msb temperature right down
+			SensorHubB1_databytes[4]	=	tempLU & 0xFF											;	// lsb temperature left up	
+			SensorHubB1_databytes[5]	=	tempLU >> 8												;	// msb temperature left up
+			SensorHubB1_databytes[6]	=	tempLD & 0xFF											;	// lsb temperature left down
+			SensorHubB1_databytes[7]	=	tempLD >> 8												;	// msb temperature left down
 			
-			SensorHubB2_databytes[0]	=	federwegRL												;	//lsb DTS_RL
-			SensorHubB2_databytes[1]	=	federwegRL>>8											;	//msb DTS_RL
-			SensorHubB2_databytes[2]	=	federwegRR												;	//lsb DTS_RR
-			SensorHubB2_databytes[3]	=	federwegRR>>8											;	//msb DTS_RR
+			SensorHubB2_databytes[0]	=	federwegRL & 0xFF										;	//lsb damper travel rear left
+			SensorHubB2_databytes[1]	=	federwegRL >> 8											;	//msb damper travel rear left
+			SensorHubB2_databytes[2]	=	federwegRR & 0xFF										;	//lsb damper travel rear right
+			SensorHubB2_databytes[3]	=	federwegRR >> 8											;	//msb damper travel rear right
 			SensorHubB2_databytes[4]	=	0														;	//
 			SensorHubB2_databytes[5]	=	0														;	//
 			SensorHubB2_databytes[6]	=	0														;
