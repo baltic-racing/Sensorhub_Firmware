@@ -18,6 +18,7 @@
 //uint16_t ADC_brake_Sensor(uint16_t data);
 double damper_poti(double dp_adc);
 uint16_t temp_calc(double ntc_adc);
+float read_max6675(void);
 
 //damper travel
 #define DAMP_ADC_MIN 68   //adc value

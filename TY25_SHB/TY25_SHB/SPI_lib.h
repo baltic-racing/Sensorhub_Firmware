@@ -28,17 +28,27 @@
 	#define SPI_Clock_Phase CPHA
 	#define SPI_Relation0 SPR0				// Attention, this also affects the clock frequency [see Table SPI_1]
 	#define SPI_Relation1 SPR1				// Attention, this also affects the clock frequency [see Table SPI_1]
+	
 
 #define SPI_Status_Reg SPSR
 	#define SPI_Interrupt_Flag SPIF
 	#define SPI_Collision_Flag WCOL
-	#define SPI_Double_Speed SPI2X			// Attention, this also affects the clock frequency [see Table SPI_1]
+	#define SPI_Double_Speed
 	
 #define SPI_Data_Reg SPDR
+	
+#define SS_uC_LOW() (PORTE &= ~(1 << SS_uC))
+#define SS_uC_HIGH() (PORTE |= (1 << SS_uC))	
+#define SS_TK1_LOW() (PORTE &= ~(1 << SS_TK1))
+#define SS_TK1_HIGH() (PORTE |= (1 << SS_TK1))
+#define SS_TK2_LOW() (PORTE &= ~(1 << SS_TK2))
+#define SS_TK2_HIGH() (PORTE |= (1 << SS_TK2))
 
 void SPI_MasterInit();
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);
+uint8_t SPI_transfer(uint8_t data);
+uint16_t TYPK_getdata();
 
 
 #endif /* SPI_H_ */

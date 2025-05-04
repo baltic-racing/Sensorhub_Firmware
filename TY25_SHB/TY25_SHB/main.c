@@ -20,6 +20,13 @@ uint8_t switchi = 1;
 uint8_t steering_sign = 0;		//indicator for steering percentage
 
 volatile uint16_t wheelspeed[2];
+uint8_t raw_typk[2];
+uint16_t TK1_temperature = 0;
+uint16_t raw_value = 0;
+float temp = 0;
+float tk1temp = 0;
+uint8_t low_byte = 0;
+uint8_t high_byte = 0;
 
 extern uint8_t SensorHubB0_databytes[8];
 extern uint8_t SensorHubB1_databytes[8];
@@ -72,24 +79,24 @@ int main(void)
 		
 		if(TIME_PASSED_10_MS)
 		{
-			if(switchi == 1){
  			time_10ms = sys_time;
- 			PORTE &= ~(1<<SS_uC);
- 			SPDR = 0x22;										// Write the Register will start the conversation
- 			while(!(SPSR & (1<<SPIF)));
- 			//PORTE |= (1<<SS_uC);
- 			wheelspeed [0] = SPI_Data_Reg;
-			
-			switchi = 0;
-			}else{
-			//PORTE &= ~(1<<SS_uC);
-			//SPDR = 0x33;										// Write the Register will start the conversation
-			//while(!(SPSR & (1<<SPIF)));
-			//PORTE |= (1<<SS_uC);
-			//wheelspeed [1] = SPI_Data_Reg;
-			
-			switchi = 1;
-			}
+			//if(switchi == 1){
+ 			//PORTE &= ~(1<<SS_uC);
+ 			//SPDR = 0x22;										// Write the Register will start the conversation
+ 			//while(!(SPSR & (1<<SPIF)));
+ 			////PORTE |= (1<<SS_uC);
+ 			//wheelspeed [0] = SPI_Data_Reg;
+			//
+			//switchi = 0;
+			//}else{
+			////PORTE &= ~(1<<SS_uC);
+			////SPDR = 0x33;										// Write the Register will start the conversation
+			////while(!(SPSR & (1<<SPIF)));
+			////PORTE |= (1<<SS_uC);
+			////wheelspeed [1] = SPI_Data_Reg;
+			//
+			//switchi = 1;
+			//}
 			
 		} // end of 10ms
 
@@ -97,13 +104,25 @@ int main(void)
 		{
 			time_100ms = sys_time;
 			
-			//cooling temperature
+			// Typ K temperature
+			SS_TK1_LOW();
+			high_byte = SPI_transfer(0x00);
+			low_byte = SPI_transfer(0x00);
+			SS_TK1_HIGH();
+			
+			raw_value = (high_byte << 8) | low_byte;	
+			
+			TK1_temperature = (raw_value >> 3) & 0x7FF;	
+			tk1temp = TK1_temperature * 0.25;
+			
+			
+			// cooling temperature
 			uint16_t tempRU =  temp_calc((float)adc_get(0));
 			uint16_t tempRD =  temp_calc((float)adc_get(1));
 			uint16_t tempLU =  temp_calc((float)adc_get(2));
 			uint16_t tempLD =  temp_calc((float)adc_get(7));
 			
-			//damper travel
+			// damper travel
 			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
 			uint16_t federwegRR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(6));
 			

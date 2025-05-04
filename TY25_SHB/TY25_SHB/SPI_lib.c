@@ -12,6 +12,9 @@
 
 extern volatile uint8_t wheelspeed;
 
+uint8_t SPIdata[2];
+uint8_t SPIcount = 0;
+
 void SPI_MasterInit()
 {
 	//Set MOSI, SCK, all SS as output
@@ -29,6 +32,7 @@ void SPI_MasterInit()
 	
 	//Set all SS High
 	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2);
+	
 }
 
 void SPI_SlaveInit()
@@ -50,6 +54,46 @@ char SPI_SlaveReceive()
 	/* Return data register */
 	return SPI_Data_Reg;
 }
+
+uint8_t SPI_transfer(uint8_t data) {
+    SPDR = data; // Sende Byte
+    while (!(SPSR & (1 << SPIF))); // Warten bis fertig
+    return SPDR; // Empfangenes Byte zurückgeben
+}
+
+//void TYPK_read(){
+	//PORTB &= ~(1<<PB0);//Switch SS on
+	//SS_TK1_LOW();//Switch CS_TYPK_1 on
+	//
+	//SPDR=0x11; //send empty byte to initiate data Transmission
+	////Then we need to go into the interrupt when the transmission of the first byte is finished
+//}
+//
+//uint16_t TYPK_getdata(){
+	////cli(); //disable Interrupts so that the SPI transfer will not corrupt our data in a way that we get the MSB of n and LSB of n-1
+	//uint16_t TYPkDATA =  ((SPIdata[0] << 8) | SPIdata[1]) >> 3;//PUT MSB shifted to left by 8 in place and or together with LSB then shift to right by three to get rid of Status bits
+	////sei(); // enable Interrupts again
+	//return TYPkDATA;	
+//}
+//
+//ISR(SPI_STC_vect){
+	////Store the data that has been pushed into SPDR via the Slave
+	//SPIdata[SPIcount] = SPDR;
+	//SPIcount++; //incrementing the counter that indicates the number of bytes that has been transmitted
+	////If the entire message has been transmitted terminate the SPI data transfer by pulling Chip Select low
+	//if (SPIcount>=2){
+		//
+		//PORTB |= (1<<PB0);//Switch SS off, High=off, Low=on
+		//SS_TK1_HIGH();//Switch SS off, High=off, Low=on
+		////PORTE |= (1<<PE0);//Switch CS_TYPK_1 off
+		//
+		//SPIcount=0;//Resetting counter for next SPI transmission
+	//}
+	//else{
+	////Initiate the next SPI transmission to get the remaining Bytes
+	//SPDR=0x11; //send empty byte to initiate data Transmission		
+	//}
+//}
 
 //ISR(SPI_STC_vect)
 //{

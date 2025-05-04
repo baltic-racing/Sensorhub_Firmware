@@ -7,8 +7,11 @@
 
 
 #include "sensor_function.h"
+#include "SPI_lib.h"
 #include <avr/io.h>
 #include <math.h>
+#include <util/delay.h>
+
 
 float beta = 3450.0f;				// optimized between 0-100°C
 float R_25C = 10000.0f;				// restistance at 25°C
@@ -46,3 +49,38 @@ double damper_poti(double dp_adc){
 	return travel;
 }
 
+//float read_max6675(void) {
+	//uint8_t high_byte, low_byte;
+	//uint16_t value;
+//
+	//// Chip Select Pin als Ausgang
+	////MAX6675_CS_DDR |= (1 << MAX6675_CS_PIN);
+	//
+	//// CS auf Low (aktiv)
+	//SS_TK1_LOW();
+	////_delay_us(10); // kleine Wartezeit
+//
+	//// Zwei Bytes vom MAX6675 lesen
+	//(void) SPI_transfer(0x00);
+	//high_byte = SPI_transfer(0x00);
+	////(void) SPI_transfer(0x00);
+	//low_byte  = SPI_transfer(0x00);
+//
+	//// CS wieder auf High (inaktiv)
+	//SS_TK1_HIGH();
+//
+	//// Bits zusammenfügen
+	//value = ((uint16_t)high_byte << 8) | low_byte;
+//
+	//// Prüfen, ob Thermoelement angeschlossen ist (Bit D2 == 1 ? Fehler)
+	//if (value & 0x0004) {
+		//return -1.0; // Fehlerwert
+	//}
+//
+	//// Bits D[14:3] enthalten Temperatur in 0,25 °C Schritten
+	//value >>= 3; // nur D[14:3] verwenden
+	////value = value & 0x0FFF;
+//
+	//// In Grad Celsius umrechnen
+	//return value * 0.25;
+//}
