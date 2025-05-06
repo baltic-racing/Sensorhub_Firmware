@@ -34,6 +34,14 @@ double damper_poti(double dp_adc);
 #define POT_MAX 1023	//adc value for full steering lock right
 #define POT_MID 512	//adc value for middle position
 
+typedef enum {
+	TK1,
+	TK2,
+	TK3,
+	TK4
+} TK_Channel;
+
 double calculate_steering_percent(double pot_adc);
+float read_TK_temperature(TK_Channel channel);
 
 #endif

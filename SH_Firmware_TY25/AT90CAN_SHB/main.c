@@ -23,6 +23,10 @@ uint16_t wheelspeed_left = 0;
 uint8_t wheelspeed_right_lsb = 0;
 uint8_t wheelspeed_right_msb = 0;
 uint16_t wheelspeed_right = 0;
+uint16_t TK1_temp = 0;
+uint16_t TK2_temp = 0;
+uint16_t TK3_temp = 0;
+uint16_t TK4_temp = 0;
 
 //steering angle
 uint8_t steering_sign = 0;		//indicator for steering percentage
@@ -31,10 +35,12 @@ uint8_t steering_sign = 0;		//indicator for steering percentage
 extern uint8_t SensorHub0_databytes[8];
 extern uint8_t SensorHub1_databytes[8];
 extern uint8_t SensorHub2_databytes[8];
+extern uint8_t SensorHub3_databytes[8];
 
 extern struct CAN_MOB can_SensorHub0_mob;
 extern struct CAN_MOB can_SensorHub1_mob;
 extern struct CAN_MOB can_SensorHub2_mob;
+extern struct CAN_MOB can_SensorHub3_mob;
 
 
 int main(void)
@@ -53,16 +59,22 @@ int main(void)
 	uint8_t SensorHub0_databytes[8] = {0};
 		
 	struct CAN_MOB can_SensorHub1_mob;
-	can_SensorHub1_mob.mob_id = 0x410;
+	can_SensorHub1_mob.mob_id = 0x401;
 	can_SensorHub1_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHub1_mob.mob_number = 1;
 	uint8_t SensorHub1_databytes[8] = {0};
 
 	struct CAN_MOB can_SensorHub2_mob;
-	can_SensorHub2_mob.mob_id = 0x420;
+	can_SensorHub2_mob.mob_id = 0x402;
 	can_SensorHub2_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHub2_mob.mob_number = 2;
 	uint8_t SensorHub2_databytes[8] = {0};
+		
+	struct CAN_MOB can_SensorHub3_mob;
+	can_SensorHub3_mob.mob_id = 0x403;
+	can_SensorHub3_mob.mob_idmask = 0xFFFF;//sent
+	can_SensorHub3_mob.mob_number = 3;
+	uint8_t SensorHub3_databytes[8] = {0};
 	
 	sei();	
 	
@@ -197,6 +209,24 @@ int main(void)
 		if (TIME_PASSED_200_MS)
 		{
 			time_200ms = sys_time;
+			
+			// Typ K temperature
+			TK1_temp = (uint16_t)read_TK_temperature(TK1);
+			TK2_temp = (uint16_t)read_TK_temperature(TK2);
+			TK3_temp = (uint16_t)read_TK_temperature(TK3);
+			TK4_temp = (uint16_t)read_TK_temperature(TK4);
+			
+			// CAN bus
+			SensorHub2_databytes[0]	=	TK1_temp & 0xFF											;	// lsb brake fluid front left
+			SensorHub2_databytes[1]	=	TK1_temp >> 8											;	// msb brake fluid front left
+			SensorHub2_databytes[2]	=	TK2_temp & 0xFF											;	// lsb brake fluid front right
+			SensorHub2_databytes[3]	=	TK2_temp >> 8											;	// msb brake fluid front right
+			SensorHub2_databytes[4]	=	TK3_temp & 0xFF											;	// lsb brake disc front left
+			SensorHub2_databytes[5]	=	TK3_temp >> 8											;	// msb brake disc front left
+			SensorHub2_databytes[6]	=	TK4_temp & 0xFF											;	// lsb brake disc front right
+			SensorHub2_databytes[7]	=	TK4_temp >> 8											;	// msb brake disc front right
+			
+			can_tx(&can_SensorHub3_mob, SensorHub3_databytes);
 			
 		} // end of 200ms
 

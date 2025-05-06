@@ -13,7 +13,7 @@ void SPI_MasterInit()
 {
 	//Set MOSI, SCK, all SS as output
 	DDRB |= (1<<MOSI) | (1<<SCK);
-	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2);
+	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
 	
 	//Set MISO as input
 	DDRB &= ~(1<<MISO);
@@ -25,7 +25,7 @@ void SPI_MasterInit()
 	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Master) | (1<<SPI_Relation1) | (0<<SPI_Relation0);
 	
 	//Set all SS High
-	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2);
+	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
 	
 }
 
@@ -49,9 +49,8 @@ char SPI_SlaveReceive()
 	return SPI_Data_Reg;
 }
 
-uint8_t SPI_MasterTransmit(uint8_t data) {
+uint8_t SPI_transfer(uint8_t data) {
 	SPDR = data;
-	// Auf Übertragung warten
 	while (!(SPSR & (1 << SPIF)));
 	return SPDR;
 }

@@ -10,10 +10,12 @@
 uint8_t SensorHub0_databytes[8];
 uint8_t SensorHub1_databytes[8];
 uint8_t SensorHub2_databytes[8];
+uint8_t SensorHub3_databytes[8];
 
 struct CAN_MOB can_SensorHub0_mob;
 struct CAN_MOB can_SensorHub1_mob;
 struct CAN_MOB can_SensorHub2_mob;
+struct CAN_MOB can_SensorHub3_mob;
 
 CAN_Init_Messages(){
 	
@@ -21,11 +23,15 @@ CAN_Init_Messages(){
 	can_SensorHub0_mob.mob_idmask = 0xFFFF; //sent
 	can_SensorHub0_mob.mob_number = 0;
 
-	can_SensorHub1_mob.mob_id = 0x410;
+	can_SensorHub1_mob.mob_id = 0x401;
 	can_SensorHub1_mob.mob_idmask = 0xFFFF; //sent
 	can_SensorHub1_mob.mob_number = 1;
 	
-	can_SensorHub1_mob.mob_id = 0x420;
-	can_SensorHub1_mob.mob_idmask = 0xFFFF; //sent
-	can_SensorHub1_mob.mob_number = 2;
+	can_SensorHub2_mob.mob_id = 0x402;
+	can_SensorHub2_mob.mob_idmask = 0xFFFF; //sent
+	can_SensorHub2_mob.mob_number = 2;
+	
+	can_SensorHub3_mob.mob_id = 0x403;
+	can_SensorHub3_mob.mob_idmask = 0xFFFF; //sent
+	can_SensorHub3_mob.mob_number = 3;
 }

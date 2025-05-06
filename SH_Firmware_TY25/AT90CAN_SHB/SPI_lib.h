@@ -16,7 +16,9 @@
 #define SCK PB1
 #define SS_uC PE4
 #define SS_TK1 PE0
-#define SS_TK2 PE1							//End
+#define SS_TK2 PE1							
+#define SS_TK3 PE2
+#define SS_TK4 PE3							//End
 
 #define SPI_Control_Reg SPCR
 	#define SPI_Interrupt_Enable SPIE
@@ -37,6 +39,14 @@
 
 #define SS_uC_LOW() (PORTE &= ~(1 << SS_uC))
 #define SS_uC_HIGH() (PORTE |= (1 << SS_uC))
+#define SS_TK1_LOW() (PORTE &= ~(1 << SS_TK1))
+#define SS_TK1_HIGH() (PORTE |= (1 << SS_TK1))
+#define SS_TK2_LOW() (PORTE &= ~(1 << SS_TK2))
+#define SS_TK2_HIGH() (PORTE |= (1 << SS_TK2))
+#define SS_TK3_LOW() (PORTE &= ~(1 << SS_TK3))
+#define SS_TK3_HIGH() (PORTE |= (1 << SS_TK3))
+#define SS_TK4_LOW() (PORTE &= ~(1 << SS_TK4))
+#define SS_TK4_HIGH() (PORTE |= (1 << SS_TK4))
 #define LEFT 0x01
 #define RIGHT 0x03
 
@@ -44,7 +54,7 @@ void SPI_MasterInit();
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);
 uint16_t SPI_Getspeed(uint8_t side);
-uint8_t SPI_MasterTransmit(uint8_t data);
+uint8_t SPI_transfer(uint8_t data);
 
 
 #endif /* SPI_H_ */
