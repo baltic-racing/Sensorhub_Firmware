@@ -19,7 +19,7 @@ void SPI_MasterInit()
 {
 	//Set MOSI, SCK, all SS as output
 	DDRB |= (1<<MOSI) | (1<<SCK);
-	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2);
+	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
 	
 	//Set MISO as input
 	DDRB &= ~(1<<MISO);

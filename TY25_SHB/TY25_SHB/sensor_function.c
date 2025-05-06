@@ -20,6 +20,8 @@ float VCC = 5.0f;
 float ADC_max = 1023.0f;
 float R_i = 3300.0f;
 
+
+// NTC temperature
 uint16_t temp_calc(double ntc_adc){
 	float U_NTC = (VCC / ADC_max) * ntc_adc;
 	float R_NTC = R_i * ((VCC / U_NTC) - 1);
@@ -30,15 +32,39 @@ uint16_t temp_calc(double ntc_adc){
 	return (uint16_t) temperature_celsius;
 }
 
-//uint16_t temp_calc(double ntc_adc){
-	//double temp = 0;
-	//
-	//
-	//temp = ((0.128479 * ntc_adc) - 8.137044) * 10; // NTC Kurve ist linearisiert im Bereich 80∞-20∞, auﬂerhalb ungenauer
-	//
-	//return temp;
-//}
 
+// Typ K temperature
+float read_TK_temperature(TK_Channel channel) {
+	uint8_t high_byte = 0;
+	uint8_t low_byte = 0;
+	uint16_t raw_value = 0;
+	float temperature = 0.0;
+
+	switch(channel) {
+		case TK1: SS_TK1_LOW(); break;
+		case TK2: SS_TK2_LOW(); break;
+		case TK3: SS_TK3_LOW(); break;
+		case TK4: SS_TK4_LOW(); break;
+	}
+
+	high_byte = SPI_transfer(0x00);
+	low_byte  = SPI_transfer(0x00);
+
+	switch(channel) {
+		case TK1: SS_TK1_HIGH(); break;
+		case TK2: SS_TK2_HIGH(); break;
+		case TK3: SS_TK3_HIGH(); break;
+		case TK4: SS_TK4_HIGH(); break;
+	}
+
+	raw_value = (high_byte << 8) | low_byte;
+	temperature = ((raw_value >> 3) & 0x7FF) * 0.25;
+
+	return temperature * 100;
+}
+
+
+// damper travel
 double damper_poti(double dp_adc){
 	double travel = 0;
 	
@@ -49,38 +75,3 @@ double damper_poti(double dp_adc){
 	return travel;
 }
 
-//float read_max6675(void) {
-	//uint8_t high_byte, low_byte;
-	//uint16_t value;
-//
-	//// Chip Select Pin als Ausgang
-	////MAX6675_CS_DDR |= (1 << MAX6675_CS_PIN);
-	//
-	//// CS auf Low (aktiv)
-	//SS_TK1_LOW();
-	////_delay_us(10); // kleine Wartezeit
-//
-	//// Zwei Bytes vom MAX6675 lesen
-	//(void) SPI_transfer(0x00);
-	//high_byte = SPI_transfer(0x00);
-	////(void) SPI_transfer(0x00);
-	//low_byte  = SPI_transfer(0x00);
-//
-	//// CS wieder auf High (inaktiv)
-	//SS_TK1_HIGH();
-//
-	//// Bits zusammenf¸gen
-	//value = ((uint16_t)high_byte << 8) | low_byte;
-//
-	//// Pr¸fen, ob Thermoelement angeschlossen ist (Bit D2 == 1 ? Fehler)
-	//if (value & 0x0004) {
-		//return -1.0; // Fehlerwert
-	//}
-//
-	//// Bits D[14:3] enthalten Temperatur in 0,25 ∞C Schritten
-	//value >>= 3; // nur D[14:3] verwenden
-	////value = value & 0x0FFF;
-//
-	//// In Grad Celsius umrechnen
-	//return value * 0.25;
-//}

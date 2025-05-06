@@ -20,13 +20,11 @@ uint8_t switchi = 1;
 uint8_t steering_sign = 0;		//indicator for steering percentage
 
 volatile uint16_t wheelspeed[2];
-uint8_t raw_typk[2];
-uint16_t TK1_temperature = 0;
-uint16_t raw_value = 0;
-float temp = 0;
-float tk1temp = 0;
-uint8_t low_byte = 0;
-uint8_t high_byte = 0;
+uint16_t TK1_temp = 0;
+uint16_t TK2_temp = 0;
+uint16_t TK3_temp = 0;
+uint16_t TK4_temp = 0;
+
 
 extern uint8_t SensorHubB0_databytes[8];
 extern uint8_t SensorHubB1_databytes[8];
@@ -47,22 +45,28 @@ int main(void)
 	CAN_Init_Messages();
 	
 	struct CAN_MOB can_SensorHubB0_mob;
-	can_SensorHubB0_mob.mob_id = 0x400;
+	can_SensorHubB0_mob.mob_id = 0x410;
 	can_SensorHubB0_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHubB0_mob.mob_number = 0;
 	uint8_t SensorHubB0_databytes[8] = {0};
 		
 	struct CAN_MOB can_SensorHubB1_mob;
-	can_SensorHubB1_mob.mob_id = 0x410;
+	can_SensorHubB1_mob.mob_id = 0x411;
 	can_SensorHubB1_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHubB1_mob.mob_number = 1;
 	uint8_t SensorHubB1_databytes[8] = {0};
 
 	struct CAN_MOB can_SensorHubB2_mob;
-	can_SensorHubB2_mob.mob_id = 0x420;
+	can_SensorHubB2_mob.mob_id = 0x412;
 	can_SensorHubB2_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHubB2_mob.mob_number = 2;
 	uint8_t SensorHubB2_databytes[8] = {0};
+		
+	struct CAN_MOB can_SensorHubB3_mob;
+	can_SensorHubB3_mob.mob_id = 0x413;
+	can_SensorHubB3_mob.mob_idmask = 0xFFFF;//sent
+	can_SensorHubB3_mob.mob_number = 3;
+	uint8_t SensorHubB3_databytes[8] = {0};
 	
 	sei();	
 	
@@ -80,41 +84,12 @@ int main(void)
 		if(TIME_PASSED_10_MS)
 		{
  			time_10ms = sys_time;
-			//if(switchi == 1){
- 			//PORTE &= ~(1<<SS_uC);
- 			//SPDR = 0x22;										// Write the Register will start the conversation
- 			//while(!(SPSR & (1<<SPIF)));
- 			////PORTE |= (1<<SS_uC);
- 			//wheelspeed [0] = SPI_Data_Reg;
-			//
-			//switchi = 0;
-			//}else{
-			////PORTE &= ~(1<<SS_uC);
-			////SPDR = 0x33;										// Write the Register will start the conversation
-			////while(!(SPSR & (1<<SPIF)));
-			////PORTE |= (1<<SS_uC);
-			////wheelspeed [1] = SPI_Data_Reg;
-			//
-			//switchi = 1;
-			//}
 			
 		} // end of 10ms
 
 		if (TIME_PASSED_100_MS)
 		{
-			time_100ms = sys_time;
-			
-			// Typ K temperature
-			SS_TK1_LOW();
-			high_byte = SPI_transfer(0x00);
-			low_byte = SPI_transfer(0x00);
-			SS_TK1_HIGH();
-			
-			raw_value = (high_byte << 8) | low_byte;	
-			
-			TK1_temperature = (raw_value >> 3) & 0x7FF;	
-			tk1temp = TK1_temperature * 0.25;
-			
+			time_100ms = sys_time;		
 			
 			// cooling temperature
 			uint16_t tempRU =  temp_calc((float)adc_get(0));
@@ -126,7 +101,7 @@ int main(void)
 			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
 			uint16_t federwegRR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(6));
 			
-			
+			// CAN bus
 			SensorHubB0_databytes[0]	=	wheelspeed[0]&0xff										;	//lsb 
 			SensorHubB0_databytes[1]	=	(wheelspeed[1]>>8)&0xff									;	//msb 
 			SensorHubB0_databytes[2]	=	0														;	//lsb 
@@ -166,6 +141,25 @@ int main(void)
 		if (TIME_PASSED_200_MS)
 		{
 			time_200ms = sys_time;
+			
+			// Typ K temperature
+			TK1_temp = (uint16_t)read_TK_temperature(TK1);
+			TK2_temp = (uint16_t)read_TK_temperature(TK2);
+			TK3_temp = (uint16_t)read_TK_temperature(TK3);
+			TK4_temp = (uint16_t)read_TK_temperature(TK4);
+			
+			
+			// CAN bus
+			SensorHubB3_databytes[0]	=	TK1_temp & 0xFF											;	// lsb brake fluid rear left
+			SensorHubB3_databytes[1]	=	TK1_temp >> 8											;	// msb brake fluid rear left
+			SensorHubB3_databytes[2]	=	TK2_temp & 0xFF											;	// lsb brake fluid rear right
+			SensorHubB3_databytes[3]	=	TK2_temp >> 8											;	// msb brake fluid rear right
+			SensorHubB3_databytes[4]	=	TK3_temp & 0xFF											;	// lsb brake disc rear left
+			SensorHubB3_databytes[5]	=	TK3_temp >> 8											;	// msb brake disc rear left
+			SensorHubB3_databytes[6]	=	TK4_temp & 0xFF											;	// lsb brake disc rear right
+			SensorHubB3_databytes[7]	=	TK4_temp >> 8											;	// msb brake disc rear right
+			
+			can_tx(&can_SensorHubB0_mob, SensorHubB0_databytes);
 			
 		} // end of 200ms
 

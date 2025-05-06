@@ -17,7 +17,9 @@
 #define SCK PB1
 #define SS_uC PE4
 #define SS_TK1 PE0
-#define SS_TK2 PE1							//End
+#define SS_TK2 PE1							
+#define SS_TK3 PE2
+#define SS_TK4 PE3							//End
 
 #define SPI_Control_Reg SPCR
 	#define SPI_Interrupt_Enable SPIE
@@ -43,6 +45,10 @@
 #define SS_TK1_HIGH() (PORTE |= (1 << SS_TK1))
 #define SS_TK2_LOW() (PORTE &= ~(1 << SS_TK2))
 #define SS_TK2_HIGH() (PORTE |= (1 << SS_TK2))
+#define SS_TK3_LOW() (PORTE &= ~(1 << SS_TK3))
+#define SS_TK3_HIGH() (PORTE |= (1 << SS_TK3))
+#define SS_TK4_LOW() (PORTE &= ~(1 << SS_TK4))
+#define SS_TK4_HIGH() (PORTE |= (1 << SS_TK4))
 
 void SPI_MasterInit();
 void SPI_SlaveInit(void);
