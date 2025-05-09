@@ -1447,13 +1447,13 @@ int main(void)
      9f4:	fc 01       	movw	r30, r24
      9f6:	20 83       	st	Z, r18
      9f8:	9e 01       	movw	r18, r28
-     9fa:	2e 5e       	subi	r18, 0xEE	; 238
+     9fa:	27 5c       	subi	r18, 0xC7	; 199
      9fc:	3f 4f       	sbci	r19, 0xFF	; 255
      9fe:	ce 01       	movw	r24, r28
-     a00:	0d 96       	adiw	r24, 0x0d	; 13
+     a00:	c4 96       	adiw	r24, 0x34	; 52
      a02:	b9 01       	movw	r22, r18
 			
-			can_tx(&can_SensorHubB0_mob, SensorHubB0_databytes);
+			can_tx(&can_SensorHubB3_mob, SensorHubB3_databytes);
      a04:	22 dd       	rcall	.-1468   	; 0x44a <can_tx>
      a06:	11 ce       	rjmp	.-990    	; 0x62a <main+0xba>
 
@@ -1809,7 +1809,7 @@ uint16_t temp_calc(double ntc_adc){
      cd0:	cf 93       	push	r28
 
 
-float read_TK_temperature(TK_Channel channel) {
+// Typ K temperature
      cd2:	df 93       	push	r29
      cd4:	cd b7       	in	r28, 0x3d	; 61
      cd6:	de b7       	in	r29, 0x3e	; 62
@@ -1820,20 +1820,20 @@ float read_TK_temperature(TK_Channel channel) {
      ce0:	0f be       	out	0x3f, r0	; 63
      ce2:	cd bf       	out	0x3d, r28	; 61
      ce4:	89 87       	std	Y+9, r24	; 0x09
-	uint8_t high_byte = 0;
+float read_TK_temperature(TK_Channel channel) {
      ce6:	19 82       	std	Y+1, r1	; 0x01
-	uint8_t low_byte = 0;
+	uint8_t high_byte = 0;
      ce8:	1a 82       	std	Y+2, r1	; 0x02
-	uint16_t raw_value = 0;
+	uint8_t low_byte = 0;
      cea:	1c 82       	std	Y+4, r1	; 0x04
      cec:	1b 82       	std	Y+3, r1	; 0x03
-	float temperature = 0.0;
+	uint16_t raw_value = 0;
      cee:	1d 82       	std	Y+5, r1	; 0x05
      cf0:	1e 82       	std	Y+6, r1	; 0x06
      cf2:	1f 82       	std	Y+7, r1	; 0x07
      cf4:	18 86       	std	Y+8, r1	; 0x08
+	float temperature = 0.0;
 
-	switch(channel) {
      cf6:	89 85       	ldd	r24, Y+9	; 0x09
      cf8:	88 2f       	mov	r24, r24
      cfa:	90 e0       	ldi	r25, 0x00	; 0
@@ -1852,7 +1852,7 @@ float read_TK_temperature(TK_Channel channel) {
      d14:	03 97       	sbiw	r24, 0x03	; 3
      d16:	f9 f0       	breq	.+62     	; 0xd56 <read_TK_temperature+0x86>
      d18:	28 c0       	rjmp	.+80     	; 0xd6a <read_TK_temperature+0x9a>
-		case TK1: SS_TK1_LOW(); break;
+	switch(channel) {
      d1a:	8e e2       	ldi	r24, 0x2E	; 46
      d1c:	90 e0       	ldi	r25, 0x00	; 0
      d1e:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1863,7 +1863,7 @@ float read_TK_temperature(TK_Channel channel) {
      d28:	fc 01       	movw	r30, r24
      d2a:	20 83       	st	Z, r18
      d2c:	1e c0       	rjmp	.+60     	; 0xd6a <read_TK_temperature+0x9a>
-		case TK2: SS_TK2_LOW(); break;
+		case TK1: SS_TK1_LOW(); break;
      d2e:	8e e2       	ldi	r24, 0x2E	; 46
      d30:	90 e0       	ldi	r25, 0x00	; 0
      d32:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1874,7 +1874,7 @@ float read_TK_temperature(TK_Channel channel) {
      d3c:	fc 01       	movw	r30, r24
      d3e:	20 83       	st	Z, r18
      d40:	14 c0       	rjmp	.+40     	; 0xd6a <read_TK_temperature+0x9a>
-		case TK3: SS_TK3_LOW(); break;
+		case TK2: SS_TK2_LOW(); break;
      d42:	8e e2       	ldi	r24, 0x2E	; 46
      d44:	90 e0       	ldi	r25, 0x00	; 0
      d46:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1885,7 +1885,7 @@ float read_TK_temperature(TK_Channel channel) {
      d50:	fc 01       	movw	r30, r24
      d52:	20 83       	st	Z, r18
      d54:	0a c0       	rjmp	.+20     	; 0xd6a <read_TK_temperature+0x9a>
-		case TK4: SS_TK4_LOW(); break;
+		case TK3: SS_TK3_LOW(); break;
      d56:	8e e2       	ldi	r24, 0x2E	; 46
      d58:	90 e0       	ldi	r25, 0x00	; 0
      d5a:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1896,18 +1896,18 @@ float read_TK_temperature(TK_Channel channel) {
      d64:	fc 01       	movw	r30, r24
      d66:	20 83       	st	Z, r18
      d68:	00 00       	nop
+		case TK4: SS_TK4_LOW(); break;
 	}
 
-	high_byte = SPI_transfer(0x00);
      d6a:	80 e0       	ldi	r24, 0x00	; 0
      d6c:	f5 d0       	rcall	.+490    	; 0xf58 <SPI_transfer>
      d6e:	89 83       	std	Y+1, r24	; 0x01
-	low_byte  = SPI_transfer(0x00);
+	high_byte = SPI_transfer(0x00);
      d70:	80 e0       	ldi	r24, 0x00	; 0
      d72:	f2 d0       	rcall	.+484    	; 0xf58 <SPI_transfer>
      d74:	8a 83       	std	Y+2, r24	; 0x02
+	low_byte  = SPI_transfer(0x00);
 
-	switch(channel) {
      d76:	89 85       	ldd	r24, Y+9	; 0x09
      d78:	88 2f       	mov	r24, r24
      d7a:	90 e0       	ldi	r25, 0x00	; 0
@@ -1926,7 +1926,7 @@ float read_TK_temperature(TK_Channel channel) {
      d94:	03 97       	sbiw	r24, 0x03	; 3
      d96:	f9 f0       	breq	.+62     	; 0xdd6 <read_TK_temperature+0x106>
      d98:	28 c0       	rjmp	.+80     	; 0xdea <read_TK_temperature+0x11a>
-		case TK1: SS_TK1_HIGH(); break;
+	switch(channel) {
      d9a:	8e e2       	ldi	r24, 0x2E	; 46
      d9c:	90 e0       	ldi	r25, 0x00	; 0
      d9e:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1937,7 +1937,7 @@ float read_TK_temperature(TK_Channel channel) {
      da8:	fc 01       	movw	r30, r24
      daa:	20 83       	st	Z, r18
      dac:	1e c0       	rjmp	.+60     	; 0xdea <read_TK_temperature+0x11a>
-		case TK2: SS_TK2_HIGH(); break;
+		case TK1: SS_TK1_HIGH(); break;
      dae:	8e e2       	ldi	r24, 0x2E	; 46
      db0:	90 e0       	ldi	r25, 0x00	; 0
      db2:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1948,7 +1948,7 @@ float read_TK_temperature(TK_Channel channel) {
      dbc:	fc 01       	movw	r30, r24
      dbe:	20 83       	st	Z, r18
      dc0:	14 c0       	rjmp	.+40     	; 0xdea <read_TK_temperature+0x11a>
-		case TK3: SS_TK3_HIGH(); break;
+		case TK2: SS_TK2_HIGH(); break;
      dc2:	8e e2       	ldi	r24, 0x2E	; 46
      dc4:	90 e0       	ldi	r25, 0x00	; 0
      dc6:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1959,7 +1959,7 @@ float read_TK_temperature(TK_Channel channel) {
      dd0:	fc 01       	movw	r30, r24
      dd2:	20 83       	st	Z, r18
      dd4:	0a c0       	rjmp	.+20     	; 0xdea <read_TK_temperature+0x11a>
-		case TK4: SS_TK4_HIGH(); break;
+		case TK3: SS_TK3_HIGH(); break;
      dd6:	8e e2       	ldi	r24, 0x2E	; 46
      dd8:	90 e0       	ldi	r25, 0x00	; 0
      dda:	2e e2       	ldi	r18, 0x2E	; 46
@@ -1970,9 +1970,9 @@ float read_TK_temperature(TK_Channel channel) {
      de4:	fc 01       	movw	r30, r24
      de6:	20 83       	st	Z, r18
      de8:	00 00       	nop
+		case TK4: SS_TK4_HIGH(); break;
 	}
 
-	raw_value = (high_byte << 8) | low_byte;
      dea:	89 81       	ldd	r24, Y+1	; 0x01
      dec:	88 2f       	mov	r24, r24
      dee:	90 e0       	ldi	r25, 0x00	; 0
@@ -1985,7 +1985,7 @@ float read_TK_temperature(TK_Channel channel) {
      dfc:	93 2b       	or	r25, r19
      dfe:	9c 83       	std	Y+4, r25	; 0x04
      e00:	8b 83       	std	Y+3, r24	; 0x03
-	temperature = ((raw_value >> 3) & 0x7FF) * 0.25;
+	raw_value = (high_byte << 8) | low_byte;
      e02:	8b 81       	ldd	r24, Y+3	; 0x03
      e04:	9c 81       	ldd	r25, Y+4	; 0x04
      e06:	96 95       	lsr	r25
@@ -2016,8 +2016,8 @@ float read_TK_temperature(TK_Channel channel) {
      e38:	9e 83       	std	Y+6, r25	; 0x06
      e3a:	af 83       	std	Y+7, r26	; 0x07
      e3c:	b8 87       	std	Y+8, r27	; 0x08
+	temperature = ((raw_value >> 3) & 0x7FF) * 0.25;
 
-	return temperature * 100;
      e3e:	20 e0       	ldi	r18, 0x00	; 0
      e40:	30 e0       	ldi	r19, 0x00	; 0
      e42:	48 ec       	ldi	r20, 0xC8	; 200
@@ -2029,7 +2029,7 @@ float read_TK_temperature(TK_Channel channel) {
      e4e:	6a d2       	rcall	.+1236   	; 0x1324 <__mulsf3>
      e50:	dc 01       	movw	r26, r24
      e52:	cb 01       	movw	r24, r22
-}
+	return temperature * 100;
      e54:	bc 01       	movw	r22, r24
      e56:	cd 01       	movw	r24, r26
      e58:	29 96       	adiw	r28, 0x09	; 9
@@ -2043,9 +2043,9 @@ float read_TK_temperature(TK_Channel channel) {
      e68:	08 95       	ret
 
 00000e6a <damper_poti>:
+}
 
 
-double damper_poti(double dp_adc){
      e6a:	cf 93       	push	r28
      e6c:	df 93       	push	r29
      e6e:	cd b7       	in	r28, 0x3d	; 61
@@ -2060,15 +2060,15 @@ double damper_poti(double dp_adc){
      e80:	7e 83       	std	Y+6, r23	; 0x06
      e82:	8f 83       	std	Y+7, r24	; 0x07
      e84:	98 87       	std	Y+8, r25	; 0x08
-	double travel = 0;
+// damper travel
      e86:	19 82       	std	Y+1, r1	; 0x01
      e88:	1a 82       	std	Y+2, r1	; 0x02
      e8a:	1b 82       	std	Y+3, r1	; 0x03
      e8c:	1c 82       	std	Y+4, r1	; 0x04
+double damper_poti(double dp_adc){
+	double travel = 0;
 	
 	//travel = (80*dp_adc)/1024;
-	
-	travel = DAMP_MM_MIN + (dp_adc-DAMP_ADC_MIN)*((DAMP_MM_MAX - DAMP_MM_MIN)/(DAMP_ADC_MAX - DAMP_ADC_MIN)); //interpolate with 2 values
      e8e:	20 e0       	ldi	r18, 0x00	; 0
      e90:	30 e0       	ldi	r19, 0x00	; 0
      e92:	48 e8       	ldi	r20, 0x88	; 136
@@ -2103,12 +2103,12 @@ double damper_poti(double dp_adc){
      ecc:	ab 83       	std	Y+3, r26	; 0x03
      ece:	bc 83       	std	Y+4, r27	; 0x04
 	
-	return travel;
+	travel = DAMP_MM_MIN + (dp_adc-DAMP_ADC_MIN)*((DAMP_MM_MAX - DAMP_MM_MIN)/(DAMP_ADC_MAX - DAMP_ADC_MIN)); //interpolate with 2 values
      ed0:	89 81       	ldd	r24, Y+1	; 0x01
      ed2:	9a 81       	ldd	r25, Y+2	; 0x02
      ed4:	ab 81       	ldd	r26, Y+3	; 0x03
      ed6:	bc 81       	ldd	r27, Y+4	; 0x04
-}
+	
      ed8:	bc 01       	movw	r22, r24
      eda:	cd 01       	movw	r24, r26
      edc:	28 96       	adiw	r28, 0x08	; 8

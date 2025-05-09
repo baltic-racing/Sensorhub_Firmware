@@ -159,7 +159,7 @@ int main(void)
 			SensorHubB3_databytes[6]	=	TK4_temp & 0xFF											;	// lsb brake disc rear right
 			SensorHubB3_databytes[7]	=	TK4_temp >> 8											;	// msb brake disc rear right
 			
-			can_tx(&can_SensorHubB0_mob, SensorHubB0_databytes);
+			can_tx(&can_SensorHubB3_mob, SensorHubB3_databytes);
 			
 		} // end of 200ms
 
