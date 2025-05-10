@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 00000737  00000000  00000000  00001441  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000528  00000000  00000000  00001b78  2**0
+  8 .debug_line   000005d9  00000000  00000000  00001b78  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000002e8  00000000  00000000  000020a0  2**2
+  9 .debug_frame  000002e8  00000000  00000000  00002154  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000046b  00000000  00000000  00002388  2**0
+ 10 .debug_str    0000046b  00000000  00000000  0000243c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000596  00000000  00000000  000027f3  2**0
+ 11 .debug_loc    00000596  00000000  00000000  000028a7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000088  00000000  00000000  00002d89  2**0
+ 12 .debug_ranges 00000088  00000000  00000000  00002e3d  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -180,10 +180,10 @@ ISR(INT0_vect){
  10c:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
  110:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
  114:	50 91 7f 00 	lds	r21, 0x007F	; 0x80007f <sys_time+0x3>
- 118:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <_edata>
- 11c:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <_edata+0x1>
- 120:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <_edata+0x2>
- 124:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <_edata+0x3>
+ 118:	80 91 60 00 	lds	r24, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 11c:	90 91 61 00 	lds	r25, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 120:	a0 91 62 00 	lds	r26, 0x0062	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+ 124:	b0 91 63 00 	lds	r27, 0x0063	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
  128:	79 01       	movw	r14, r18
  12a:	8a 01       	movw	r16, r20
  12c:	e8 1a       	sub	r14, r24
@@ -231,10 +231,10 @@ ISR(INT0_vect){
  18e:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
  192:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
  196:	b0 91 7f 00 	lds	r27, 0x007F	; 0x80007f <sys_time+0x3>
- 19a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <_edata>
- 19e:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <_edata+0x1>
- 1a2:	a0 93 62 00 	sts	0x0062, r26	; 0x800062 <_edata+0x2>
- 1a6:	b0 93 63 00 	sts	0x0063, r27	; 0x800063 <_edata+0x3>
+ 19a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
+ 19e:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
+ 1a2:	a0 93 62 00 	sts	0x0062, r26	; 0x800062 <__DATA_REGION_ORIGIN__+0x2>
+ 1a6:	b0 93 63 00 	sts	0x0063, r27	; 0x800063 <__DATA_REGION_ORIGIN__+0x3>
 }
  1aa:	00 00       	nop
  1ac:	df 91       	pop	r29

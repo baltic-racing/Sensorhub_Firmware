@@ -17,6 +17,10 @@
 uint8_t switchi = 1;
 uint8_t steering_sign = 0;		//indicator for steering percentage
 
+uint16_t APPS_value = 0;
+#define APPS_MIN 161
+#define APPS_MAX 515
+
 volatile uint16_t wheelspeed[2];
 
 extern uint8_t SensorHub0_databytes[8];
@@ -104,17 +108,17 @@ int main(void)
 			if (adc_get(2) > POT_MID){		//right from middle position
 				steering_sign = 0x00;
 			}
-			
+			APPS_value = adc_get(3);//(100/(APPS_MAX-APPS_MIN)) * (adc_get(3) - APPS_MIN);
 			
 			//damper travel
 			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
 			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(5));
 			
 			
-			SensorHub0_databytes[0]	=	0														;	//lsb APPS1
-			SensorHub0_databytes[1]	=	0														;	//msb APPS1
-			SensorHub0_databytes[2]	=	0														;	//lsb APPS2
-			SensorHub0_databytes[3]	=	0														;	//msb APPS2
+			SensorHub0_databytes[0]	=	(APPS_value>>8)		&0xFF								;	//lsb APPS1
+			SensorHub0_databytes[1]	=	(APPS_value)			&0xFF								;	//msb APPS1
+			SensorHub0_databytes[2]	=	(APPS_value>>8)		&0xFF								;	//lsb APPS2
+			SensorHub0_databytes[3]	=	(APPS_value)			&0xFF								;	//msb APPS2
 			SensorHub0_databytes[4]	=	0														;	
 			SensorHub0_databytes[5]	=	0														;
 			SensorHub0_databytes[6]	=	0														;	//SDC
