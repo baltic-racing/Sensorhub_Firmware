@@ -17,6 +17,14 @@
 //uint16_t ADC_brake_Sensor(uint16_t data);
 uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision);
 double damper_poti(double dp_adc);
+double calculate_steering_percent(double pot_adc);
+double APPS_calculation(int apps_adc);
+
+//APPS
+#define APPS1_ADC_MIN 163.0
+#define APPS1_ADC_MAX 515.0
+#define PERC_MIN 0.0
+#define PERC_MAX 100.0
 
 //damper travel
 #define DAMP_ADC_MIN 68   //adc value
@@ -41,7 +49,5 @@ typedef enum {
 	TK4
 } TK_Channel;
 
-double calculate_steering_percent(double pot_adc);
-float read_TK_temperature(TK_Channel channel);
 
 #endif

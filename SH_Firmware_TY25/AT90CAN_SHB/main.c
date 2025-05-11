@@ -27,6 +27,9 @@ uint16_t TK1_temp = 0;
 uint16_t TK2_temp = 0;
 uint16_t TK3_temp = 0;
 uint16_t TK4_temp = 0;
+double APPS1 = 0;
+double APPS2 = 0;
+
 
 //steering angle
 uint8_t steering_sign = 0;		//indicator for steering percentage
@@ -149,7 +152,11 @@ int main(void)
 				switchj = 1;
 			}		
 			
+			//APPS
+			APPS1 = APPS_calculation(adc_get(3));
+			APPS2 = APPS_calculation(adc_get(4));
 			
+			//wheelspeed
 			wheelspeed_left = (wheelspeed_left_msb << 8) | wheelspeed_left_lsb;
 			wheelspeed_right = (wheelspeed_right_msb << 8) | wheelspeed_right_lsb;
 				
@@ -170,8 +177,8 @@ int main(void)
 			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(5));
 			
 			
-			SensorHub0_databytes[0]	=	0														;	// lsb APPS1
-			SensorHub0_databytes[1]	=	0														;	// msb APPS1
+			SensorHub0_databytes[0]	=	(uint16_t) APPS1 & 0xFF											;	// lsb APPS1
+			SensorHub0_databytes[1]	=	((uint16_t) APPS1) >> 8												;	// msb APPS1
 			SensorHub0_databytes[2]	=	0														;	// lsb APPS2
 			SensorHub0_databytes[3]	=	0														;	// msb APPS2
 			SensorHub0_databytes[4]	=	0														;	
@@ -180,8 +187,8 @@ int main(void)
 			SensorHub0_databytes[7]	=	steering_sign | (steering_percentage)					;	// SA	
 			
 			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
-			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,100) & 0xff		;	// lsb BPS_F
-			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.5,4.5,100,10,5,100) >> 8		;	// msb BPS_F
+			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100) & 0xff		;	// lsb BPS_F
+			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100) >> 8		;	// msb BPS_F
 			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,100) & 0xff		;	// lsb BPS_R
 			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,100) >> 8		;	// msb BPS_R
 			SensorHub1_databytes[4]	=	wheelspeed_left & 0xff									;	// lsb wheelspeed left	

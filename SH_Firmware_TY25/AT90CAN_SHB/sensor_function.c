@@ -10,6 +10,17 @@
 #include <avr/io.h>
 #include <math.h>
 
+double APPS_calculation(int apps_adc){
+	uint16_t apps_percent = PERC_MIN + (apps_adc - APPS1_ADC_MIN) * ((PERC_MAX - PERC_MIN)/(APPS1_ADC_MAX - APPS1_ADC_MIN));
+	if (apps_percent < 0.0){
+		apps_percent = 0.0;
+	}
+	if (apps_percent > 100.0){
+		apps_percent = 100.0;
+	}
+	return apps_percent;
+}
+
 uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision){
 	uint16_t start_ADC = (pow(2,ADC_bit))/ADC_Volt*start_Volt;	
 	uint16_t end_ADC = (pow(2,ADC_bit))/ADC_Volt*end_Volt ;		
