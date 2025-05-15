@@ -25,7 +25,7 @@ CAN_Init_Messages(){
 	can_SensorHub1_mob.mob_idmask = 0xFFFF; //sent
 	can_SensorHub1_mob.mob_number = 1;
 	
-	can_SensorHub1_mob.mob_id = 0x402;
-	can_SensorHub1_mob.mob_idmask = 0xFFFF; //sent
-	can_SensorHub1_mob.mob_number = 2;
+	can_SensorHub2_mob.mob_id = 0x402;
+	can_SensorHub2_mob.mob_idmask = 0xFFFF; //sent
+	can_SensorHub2_mob.mob_number = 2;
 }
