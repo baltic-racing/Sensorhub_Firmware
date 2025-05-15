@@ -44,13 +44,13 @@ int main(void)
 	uint8_t SensorHub0_databytes[8] = {0};
 		
 	struct CAN_MOB can_SensorHub1_mob;
-	can_SensorHub1_mob.mob_id = 0x410;
+	can_SensorHub1_mob.mob_id = 0x401;
 	can_SensorHub1_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHub1_mob.mob_number = 1;
 	uint8_t SensorHub1_databytes[8] = {0};
 
 	struct CAN_MOB can_SensorHub2_mob;
-	can_SensorHub2_mob.mob_id = 0x420;
+	can_SensorHub2_mob.mob_id = 0x402;
 	can_SensorHub2_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHub2_mob.mob_number = 2;
 	uint8_t SensorHub2_databytes[8] = {0};
