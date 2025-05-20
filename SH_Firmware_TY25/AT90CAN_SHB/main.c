@@ -96,14 +96,14 @@ int main(void)
 			time_100ms = sys_time;
 			
 			//steering angle
-			uint16_t steering_percentage = calculate_steering_percent((double) adc_get(2));
+			int8_t steering_percentage = calculate_steering_percent((double) adc_get(2));
 			
-			if (adc_get(2) <= POT_MID){		//left from middle position
-				steering_sign = 0x80;
-			}
-			if (adc_get(2) > POT_MID){		//right from middle position
-				steering_sign = 0x00;
-			}
+			//if (adc_get(2) <= POT_MID){		//left from middle position
+				//steering_sign = 0x80;
+			//}
+			//if (adc_get(2) > POT_MID){		//right from middle position
+				//steering_sign = 0x00;
+			//}
 			
 			
 			//damper travel
@@ -118,7 +118,7 @@ int main(void)
 			SensorHub0_databytes[4]	=	0														;	
 			SensorHub0_databytes[5]	=	0														;
 			SensorHub0_databytes[6]	=	0														;	//SDC
-			SensorHub0_databytes[7]	=	steering_sign | (steering_percentage)					;	//SA	
+			SensorHub0_databytes[7]	=	steering_percentage										;	//SA	
 			
 			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
 			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) & 0xff		;	//lsb BPS_F
