@@ -141,7 +141,7 @@ int main(void)
 			
 			can_tx(&can_SensorHub0_mob, SensorHub0_databytes);			
 			can_tx(&can_SensorHub1_mob, SensorHub1_databytes);
-			can_tx(&can_SensorHub2_mob, SensorHub2_databytes);
+			//can_tx(&can_SensorHub2_mob, SensorHub2_databytes);
 			
 			sys_tick_heart();
 			

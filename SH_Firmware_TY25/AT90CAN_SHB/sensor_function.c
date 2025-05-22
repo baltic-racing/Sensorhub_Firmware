@@ -36,10 +36,12 @@ double calculate_steering_percent(double pot_adc) {
 	
 	if(pot_adc <= POT_MID){
 		steering_value = 100 - ((100 / (double)(POT_MID - POT_MIN)) * (pot_adc - (double)POT_MIN));
+		if (steering_value >= 100) steering_value = 100;
 	}
 
 	if(pot_adc > POT_MID){
 		steering_value = -1 * (100 - ((100 / (double)(POT_MID - POT_MAX)) * (pot_adc - (double)POT_MAX)));
+		if (steering_value >= 100) steering_value = -100;
 	}
 	
 	return steering_value;

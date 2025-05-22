@@ -30,9 +30,9 @@ double damper_poti(double dp_adc);
 #define SPRINGTRAVEL_MAX 185 //full spring travel in mm
 
 //steering angle percentage
-#define POT_MIN	108	//adc value for full steering lock right
-#define POT_MAX 877	//adc value for full steering lock left
-#define POT_MID 487	//adc value for middle position
+#define POT_MIN	106	//adc value for full steering lock right
+#define POT_MAX 883	//adc value for full steering lock left
+#define POT_MID 494	//adc value for middle position
 
 double calculate_steering_percent(double pot_adc);
 
