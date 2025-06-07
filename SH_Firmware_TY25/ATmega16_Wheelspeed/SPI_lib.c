@@ -8,7 +8,19 @@
 #include <avr/io.h>
 #include "SPI_lib.h"
 
-extern volatile uint8_t wheelspeed;
+volatile uint8_t spi_cmd = 0;
+volatile uint8_t next_response = 0;
+volatile uint8_t awaiting_response = 0;
+volatile uint8_t response = 0;
+volatile uint8_t last_command = 0;
+volatile uint8_t spi_state = 0;
+volatile uint8_t spi_response_buffer = 0;
+uint8_t rx_count = 1;
+uint8_t rx_array[2];
+
+uint8_t switcho = 0;
+uint8_t fii = 0;
+
 
 void SPI_MasterInit()
 {
@@ -51,14 +63,26 @@ char SPI_SlaveReceive()											// Use with care -> stop the uC
 	return SPI_Data_Reg;										//
 }																//
 
+void SPI_SlaveSend(uint8_t data){
+	SPDR = data;
+	while (!(SPSR & (1 << SPIF)));
+}
+
 ISR(SPI_STC_vect)
 {	
-	if(SPI_Data_Reg == 0x22){
-		SPI_Data_Reg = (wheelspeed);
-		//wheelspeed = 0;
+	if (SPDR == 0x01){
+		SPDR = wheelspeed_left & 0xFF;
 	}
 	
-	//if(SPI_Data_Reg == 0x33){
-		//SPI_Data_Reg = (wheelspeed);
-	//}
+	if (SPDR == 0x02){
+		SPDR = wheelspeed_left >> 8;
+	}
+	
+	if (SPDR == 0x03){
+		SPDR = wheelspeed_right & 0xFF;
+	}
+	
+	if (SPDR == 0x04){
+		SPDR = wheelspeed_right >> 8;
+	}
 }

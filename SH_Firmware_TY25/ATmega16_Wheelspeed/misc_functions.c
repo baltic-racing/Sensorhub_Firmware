@@ -8,6 +8,8 @@
 #include "misc_functions.h"
 
 volatile unsigned long sys_time = 0;
+volatile unsigned long time_delta_left = 0;
+volatile unsigned long time_delta_right = 0;
 
 void sys_timer_config(){
 	//Timer/Counter0 Control Register = Waveform Generation Mode | Compare Match Ouput Mode(0/1)
@@ -30,7 +32,7 @@ void sys_timer_config(){
 void sys_tick_heart()
 {
 	PORTC ^= (1<<PC0); //toggle the Heart led on Pin 4, will be used in the super loop in main.c to indicade that the loop is running correctly
-};
+}
 
 void fault_not_detected()
 {
@@ -44,5 +46,7 @@ void fault_detected()
 
 ISR(TIMER0_COMP_vect)
 {
+	time_delta_left++;
+	time_delta_right++;
 	sys_time++;
 }

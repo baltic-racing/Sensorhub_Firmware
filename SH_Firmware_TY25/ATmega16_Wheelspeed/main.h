@@ -17,6 +17,8 @@
 
 //	Variables
 extern volatile unsigned long sys_time;
+extern volatile unsigned long time_delta_left;
+extern volatile unsigned long time_delta_right;
 
 extern volatile uint8_t wheelspeed;
 

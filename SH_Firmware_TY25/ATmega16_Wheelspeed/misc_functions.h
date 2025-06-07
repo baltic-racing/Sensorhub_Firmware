@@ -11,6 +11,7 @@
 #include <avr/interrupt.h>
 
 void sys_timer_config();
+void sys_tick_heart();
 
 ISR(TIMER0_COMP_vect);
 

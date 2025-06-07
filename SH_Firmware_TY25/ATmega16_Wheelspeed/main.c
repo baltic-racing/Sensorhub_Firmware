@@ -36,7 +36,7 @@ int main(void)
 		{
 			time_100ms = sys_time;
 			
-			//wheelspeed = 32;
+			calc_speed();
 			sys_tick_heart();
 			
 		} // end of 100ms
