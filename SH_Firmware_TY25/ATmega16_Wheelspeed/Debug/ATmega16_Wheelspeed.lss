@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000300  00000000  00000000  000028bc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000005e6  00000000  00000000  00002bbc  2**0
+ 10 .debug_str    00000644  00000000  00000000  00002bbc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000596  00000000  00000000  000031a2  2**0
+ 11 .debug_loc    00000596  00000000  00000000  00003200  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000a8  00000000  00000000  00003738  2**0
+ 12 .debug_ranges 000000a8  00000000  00000000  00003796  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -96,18 +96,10 @@ Disassembly of section .text:
   8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000092 <PORT_Config>:
-volatile unsigned long time_old_ws = 0;
-volatile unsigned long int sys_time_old_ws = 0;
-//uint64_t delta_ws = 0;
-
-
-void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (PIN 12)
   92:	cf 93       	push	r28
   94:	df 93       	push	r29
   96:	cd b7       	in	r28, 0x3d	; 61
   98:	de b7       	in	r29, 0x3e	; 62
-	
-	DDRD &= ~(1 << PD2);					// set digital_input as Input
   9a:	81 e3       	ldi	r24, 0x31	; 49
   9c:	90 e0       	ldi	r25, 0x00	; 0
   9e:	21 e3       	ldi	r18, 0x31	; 49
@@ -117,7 +109,6 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
   a6:	2b 7f       	andi	r18, 0xFB	; 251
   a8:	fc 01       	movw	r30, r24
   aa:	20 83       	st	Z, r18
-	DDRB &= ~(1 << PB2);
   ac:	87 e3       	ldi	r24, 0x37	; 55
   ae:	90 e0       	ldi	r25, 0x00	; 0
   b0:	27 e3       	ldi	r18, 0x37	; 55
@@ -127,9 +118,6 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
   b8:	2b 7f       	andi	r18, 0xFB	; 251
   ba:	fc 01       	movw	r30, r24
   bc:	20 83       	st	Z, r18
-	
-	// Konfiguriere INT0 für fallende Flanke
-	MCUCR |= (1 << ISC01);					// MCUCR = SMCU Control_Reg
   be:	85 e5       	ldi	r24, 0x55	; 85
   c0:	90 e0       	ldi	r25, 0x00	; 0
   c2:	25 e5       	ldi	r18, 0x55	; 85
@@ -139,7 +127,6 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
   ca:	22 60       	ori	r18, 0x02	; 2
   cc:	fc 01       	movw	r30, r24
   ce:	20 83       	st	Z, r18
-	MCUCR &= ~(1 << ISC00);
   d0:	85 e5       	ldi	r24, 0x55	; 85
   d2:	90 e0       	ldi	r25, 0x00	; 0
   d4:	25 e5       	ldi	r18, 0x55	; 85
@@ -149,8 +136,6 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
   dc:	2e 7f       	andi	r18, 0xFE	; 254
   de:	fc 01       	movw	r30, r24
   e0:	20 83       	st	Z, r18
-	
-	MCUCSR &= ~(1 << ISC2);
   e2:	84 e5       	ldi	r24, 0x54	; 84
   e4:	90 e0       	ldi	r25, 0x00	; 0
   e6:	24 e5       	ldi	r18, 0x54	; 84
@@ -160,9 +145,6 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
   ee:	2f 7b       	andi	r18, 0xBF	; 191
   f0:	fc 01       	movw	r30, r24
   f2:	20 83       	st	Z, r18
-	
-	// Aktiviere INT0
-	GICR |= (1 << INT0);
   f4:	8b e5       	ldi	r24, 0x5B	; 91
   f6:	90 e0       	ldi	r25, 0x00	; 0
   f8:	2b e5       	ldi	r18, 0x5B	; 91
@@ -172,7 +154,6 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
  100:	20 64       	ori	r18, 0x40	; 64
  102:	fc 01       	movw	r30, r24
  104:	20 83       	st	Z, r18
-	GICR |= (1 << INT2);
  106:	8b e5       	ldi	r24, 0x5B	; 91
  108:	90 e0       	ldi	r25, 0x00	; 0
  10a:	2b e5       	ldi	r18, 0x5B	; 91
@@ -182,15 +163,12 @@ void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (P
  112:	20 62       	ori	r18, 0x20	; 32
  114:	fc 01       	movw	r30, r24
  116:	20 83       	st	Z, r18
-}
  118:	00 00       	nop
  11a:	df 91       	pop	r29
  11c:	cf 91       	pop	r28
  11e:	08 95       	ret
 
 00000120 <__vector_1>:
-
-ISR(INT0_vect){
  120:	1f 92       	push	r1
  122:	0f 92       	push	r0
  124:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7fc05f>
@@ -204,25 +182,21 @@ ISR(INT0_vect){
  136:	df 93       	push	r29
  138:	cd b7       	in	r28, 0x3d	; 61
  13a:	de b7       	in	r29, 0x3e	; 62
-	timestepdiff_left = time_delta_left;
  13c:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <time_delta_left>
  140:	90 91 81 00 	lds	r25, 0x0081	; 0x800081 <time_delta_left+0x1>
  144:	a0 91 82 00 	lds	r26, 0x0082	; 0x800082 <time_delta_left+0x2>
  148:	b0 91 83 00 	lds	r27, 0x0083	; 0x800083 <time_delta_left+0x3>
  14c:	90 93 69 00 	sts	0x0069, r25	; 0x800069 <timestepdiff_left+0x1>
  150:	80 93 68 00 	sts	0x0068, r24	; 0x800068 <timestepdiff_left>
-	time_delta_left = 0;
  154:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <time_delta_left>
  158:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <time_delta_left+0x1>
  15c:	10 92 82 00 	sts	0x0082, r1	; 0x800082 <time_delta_left+0x2>
  160:	10 92 83 00 	sts	0x0083, r1	; 0x800083 <time_delta_left+0x3>
-	steps_per_intervall_left++;
  164:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <steps_per_intervall_left>
  168:	90 91 65 00 	lds	r25, 0x0065	; 0x800065 <steps_per_intervall_left+0x1>
  16c:	01 96       	adiw	r24, 0x01	; 1
  16e:	90 93 65 00 	sts	0x0065, r25	; 0x800065 <steps_per_intervall_left+0x1>
  172:	80 93 64 00 	sts	0x0064, r24	; 0x800064 <steps_per_intervall_left>
-}
  176:	00 00       	nop
  178:	df 91       	pop	r29
  17a:	cf 91       	pop	r28
@@ -237,8 +211,6 @@ ISR(INT0_vect){
  18e:	18 95       	reti
 
 00000190 <__vector_18>:
-
-ISR(INT2_vect){
  190:	1f 92       	push	r1
  192:	0f 92       	push	r0
  194:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7fc05f>
@@ -252,25 +224,21 @@ ISR(INT2_vect){
  1a6:	df 93       	push	r29
  1a8:	cd b7       	in	r28, 0x3d	; 61
  1aa:	de b7       	in	r29, 0x3e	; 62
-	timestepdiff_right = time_delta_right;
  1ac:	80 91 84 00 	lds	r24, 0x0084	; 0x800084 <time_delta_right>
  1b0:	90 91 85 00 	lds	r25, 0x0085	; 0x800085 <time_delta_right+0x1>
  1b4:	a0 91 86 00 	lds	r26, 0x0086	; 0x800086 <time_delta_right+0x2>
  1b8:	b0 91 87 00 	lds	r27, 0x0087	; 0x800087 <time_delta_right+0x3>
  1bc:	90 93 6b 00 	sts	0x006B, r25	; 0x80006b <timestepdiff_right+0x1>
  1c0:	80 93 6a 00 	sts	0x006A, r24	; 0x80006a <timestepdiff_right>
-	time_delta_right = 0;
  1c4:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <time_delta_right>
  1c8:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <time_delta_right+0x1>
  1cc:	10 92 86 00 	sts	0x0086, r1	; 0x800086 <time_delta_right+0x2>
  1d0:	10 92 87 00 	sts	0x0087, r1	; 0x800087 <time_delta_right+0x3>
-	steps_per_intervall_right++;
  1d4:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <steps_per_intervall_right>
  1d8:	90 91 67 00 	lds	r25, 0x0067	; 0x800067 <steps_per_intervall_right+0x1>
  1dc:	01 96       	adiw	r24, 0x01	; 1
  1de:	90 93 67 00 	sts	0x0067, r25	; 0x800067 <steps_per_intervall_right+0x1>
  1e2:	80 93 66 00 	sts	0x0066, r24	; 0x800066 <steps_per_intervall_right>
-}
  1e6:	00 00       	nop
  1e8:	df 91       	pop	r29
  1ea:	cf 91       	pop	r28
@@ -285,27 +253,20 @@ ISR(INT2_vect){
  1fe:	18 95       	reti
 
 00000200 <calc_speed>:
-
-void calc_speed(void){
  200:	cf 93       	push	r28
  202:	df 93       	push	r29
  204:	cd b7       	in	r28, 0x3d	; 61
  206:	de b7       	in	r29, 0x3e	; 62
-	if (steps_per_intervall_left >= SWITCH_THERESHOLD_STEPS){
  208:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <steps_per_intervall_left>
  20c:	90 91 65 00 	lds	r25, 0x0065	; 0x800065 <steps_per_intervall_left+0x1>
  210:	05 97       	sbiw	r24, 0x05	; 5
  212:	48 f0       	brcs	.+18     	; 0x226 <calc_speed+0x26>
-		calc_speed_high(LEFT, steps_per_intervall_left);
  214:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <steps_per_intervall_left>
  218:	90 91 65 00 	lds	r25, 0x0065	; 0x800065 <steps_per_intervall_left+0x1>
  21c:	68 2f       	mov	r22, r24
  21e:	80 e0       	ldi	r24, 0x00	; 0
  220:	0e 94 16 02 	call	0x42c	; 0x42c <calc_speed_high>
  224:	12 c0       	rjmp	.+36     	; 0x24a <calc_speed+0x4a>
-	}
-	else{
-		calc_speed_low(LEFT, timestepdiff_left);
  226:	80 91 68 00 	lds	r24, 0x0068	; 0x800068 <timestepdiff_left>
  22a:	90 91 69 00 	lds	r25, 0x0069	; 0x800069 <timestepdiff_left+0x1>
  22e:	cc 01       	movw	r24, r24
@@ -320,22 +281,16 @@ void calc_speed(void){
  242:	bd 01       	movw	r22, r26
  244:	80 e0       	ldi	r24, 0x00	; 0
  246:	0e 94 66 01 	call	0x2cc	; 0x2cc <calc_speed_low>
-	}
-	
-	if (steps_per_intervall_right >= SWITCH_THERESHOLD_STEPS){
  24a:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <steps_per_intervall_right>
  24e:	90 91 67 00 	lds	r25, 0x0067	; 0x800067 <steps_per_intervall_right+0x1>
  252:	05 97       	sbiw	r24, 0x05	; 5
  254:	48 f0       	brcs	.+18     	; 0x268 <calc_speed+0x68>
-		calc_speed_high(RIGHT, steps_per_intervall_right);
  256:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <steps_per_intervall_right>
  25a:	90 91 67 00 	lds	r25, 0x0067	; 0x800067 <steps_per_intervall_right+0x1>
  25e:	68 2f       	mov	r22, r24
  260:	81 e0       	ldi	r24, 0x01	; 1
  262:	0e 94 16 02 	call	0x42c	; 0x42c <calc_speed_high>
  266:	12 c0       	rjmp	.+36     	; 0x28c <calc_speed+0x8c>
-	}else{
-		calc_speed_low(RIGHT, timestepdiff_right);
  268:	80 91 6a 00 	lds	r24, 0x006A	; 0x80006a <timestepdiff_right>
  26c:	90 91 6b 00 	lds	r25, 0x006B	; 0x80006b <timestepdiff_right+0x1>
  270:	cc 01       	movw	r24, r24
@@ -350,38 +305,28 @@ void calc_speed(void){
  284:	bd 01       	movw	r22, r26
  286:	81 e0       	ldi	r24, 0x01	; 1
  288:	0e 94 66 01 	call	0x2cc	; 0x2cc <calc_speed_low>
-	}
-	
-	if (steps_per_intervall_left == 0) wheelspeed_left = 0;
  28c:	80 91 64 00 	lds	r24, 0x0064	; 0x800064 <steps_per_intervall_left>
  290:	90 91 65 00 	lds	r25, 0x0065	; 0x800065 <steps_per_intervall_left+0x1>
  294:	89 2b       	or	r24, r25
  296:	21 f4       	brne	.+8      	; 0x2a0 <calc_speed+0xa0>
  298:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
  29c:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
-	if (steps_per_intervall_right == 0) wheelspeed_right = 0;
  2a0:	80 91 66 00 	lds	r24, 0x0066	; 0x800066 <steps_per_intervall_right>
  2a4:	90 91 67 00 	lds	r25, 0x0067	; 0x800067 <steps_per_intervall_right+0x1>
  2a8:	89 2b       	or	r24, r25
  2aa:	21 f4       	brne	.+8      	; 0x2b4 <calc_speed+0xb4>
  2ac:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <wheelspeed_right+0x1>
  2b0:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <wheelspeed_right>
-	
-	steps_per_intervall_left = 0;
  2b4:	10 92 65 00 	sts	0x0065, r1	; 0x800065 <steps_per_intervall_left+0x1>
  2b8:	10 92 64 00 	sts	0x0064, r1	; 0x800064 <steps_per_intervall_left>
-	steps_per_intervall_right = 0;
  2bc:	10 92 67 00 	sts	0x0067, r1	; 0x800067 <steps_per_intervall_right+0x1>
  2c0:	10 92 66 00 	sts	0x0066, r1	; 0x800066 <steps_per_intervall_right>
-}
  2c4:	00 00       	nop
  2c6:	df 91       	pop	r29
  2c8:	cf 91       	pop	r28
  2ca:	08 95       	ret
 
 000002cc <calc_speed_low>:
-
-void calc_speed_low(uint8_t side, double timestep_diff_ms){
  2cc:	cf 93       	push	r28
  2ce:	df 93       	push	r29
  2d0:	cd b7       	in	r28, 0x3d	; 61
@@ -397,7 +342,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  2e4:	5b 8b       	std	Y+19, r21	; 0x13
  2e6:	6c 8b       	std	Y+20, r22	; 0x14
  2e8:	7d 8b       	std	Y+21, r23	; 0x15
-	double ang_vel = timestep_diff_ms / TRIGGER_ANGLE_DEG;
  2ea:	20 e0       	ldi	r18, 0x00	; 0
  2ec:	30 e0       	ldi	r19, 0x00	; 0
  2ee:	44 eb       	ldi	r20, 0xB4	; 180
@@ -413,7 +357,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  304:	9a 83       	std	Y+2, r25	; 0x02
  306:	ab 83       	std	Y+3, r26	; 0x03
  308:	bc 83       	std	Y+4, r27	; 0x04
-	if (ang_vel == 0){
  30a:	20 e0       	ldi	r18, 0x00	; 0
  30c:	30 e0       	ldi	r19, 0x00	; 0
  30e:	a9 01       	movw	r20, r18
@@ -424,19 +367,14 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  318:	0e 94 7e 04 	call	0x8fc	; 0x8fc <__cmpsf2>
  31c:	88 23       	and	r24, r24
  31e:	61 f4       	brne	.+24     	; 0x338 <calc_speed_low+0x6c>
-		if (side == LEFT) wheelspeed_left = 0;
  320:	89 89       	ldd	r24, Y+17	; 0x11
  322:	88 23       	and	r24, r24
  324:	29 f4       	brne	.+10     	; 0x330 <calc_speed_low+0x64>
  326:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
  32a:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
  32e:	04 c0       	rjmp	.+8      	; 0x338 <calc_speed_low+0x6c>
-		else wheelspeed_right = 0;
  330:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <wheelspeed_right+0x1>
  334:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <wheelspeed_right>
-	}
-	
-	ang_vel = 1.0 / ang_vel;
  338:	29 81       	ldd	r18, Y+1	; 0x01
  33a:	3a 81       	ldd	r19, Y+2	; 0x02
  33c:	4b 81       	ldd	r20, Y+3	; 0x03
@@ -452,7 +390,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  352:	9a 83       	std	Y+2, r25	; 0x02
  354:	ab 83       	std	Y+3, r26	; 0x03
  356:	bc 83       	std	Y+4, r27	; 0x04
-	double RPS = (ang_vel / 360.0) * 1000.0;
  358:	20 e0       	ldi	r18, 0x00	; 0
  35a:	30 e0       	ldi	r19, 0x00	; 0
  35c:	44 eb       	ldi	r20, 0xB4	; 180
@@ -477,7 +414,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  386:	9e 83       	std	Y+6, r25	; 0x06
  388:	af 83       	std	Y+7, r26	; 0x07
  38a:	b8 87       	std	Y+8, r27	; 0x08
-	double speed_kmh = RPS * (TIRE_CIRCUMFERENCE_MM / 1000.0) * 3.6;
  38c:	2a e8       	ldi	r18, 0x8A	; 138
  38e:	3f ef       	ldi	r19, 0xFF	; 255
  390:	4c eb       	ldi	r20, 0xBC	; 188
@@ -502,7 +438,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  3ba:	9a 87       	std	Y+10, r25	; 0x0a
  3bc:	ab 87       	std	Y+11, r26	; 0x0b
  3be:	bc 87       	std	Y+12, r27	; 0x0c
-	double RPM = RPS * 60;
  3c0:	20 e0       	ldi	r18, 0x00	; 0
  3c2:	30 e0       	ldi	r19, 0x00	; 0
  3c4:	40 e7       	ldi	r20, 0x70	; 112
@@ -518,8 +453,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  3da:	9e 87       	std	Y+14, r25	; 0x0e
  3dc:	af 87       	std	Y+15, r26	; 0x0f
  3de:	b8 8b       	std	Y+16, r27	; 0x10
-	
-	if (side == LEFT) wheelspeed_left = (uint16_t) RPM;
  3e0:	89 89       	ldd	r24, Y+17	; 0x11
  3e2:	88 23       	and	r24, r24
  3e4:	69 f4       	brne	.+26     	; 0x400 <__DATA_REGION_LENGTH__>
@@ -532,15 +465,7 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  3f4:	cb 01       	movw	r24, r22
  3f6:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
  3fa:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
-	else wheelspeed_right = (uint16_t) RPM;
-}
  3fe:	0c c0       	rjmp	.+24     	; 0x418 <__DATA_REGION_LENGTH__+0x18>
-	double RPS = (ang_vel / 360.0) * 1000.0;
-	double speed_kmh = RPS * (TIRE_CIRCUMFERENCE_MM / 1000.0) * 3.6;
-	double RPM = RPS * 60;
-	
-	if (side == LEFT) wheelspeed_left = (uint16_t) RPM;
-	else wheelspeed_right = (uint16_t) RPM;
  400:	6d 85       	ldd	r22, Y+13	; 0x0d
  402:	7e 85       	ldd	r23, Y+14	; 0x0e
  404:	8f 85       	ldd	r24, Y+15	; 0x0f
@@ -550,7 +475,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  40e:	cb 01       	movw	r24, r22
  410:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <wheelspeed_right+0x1>
  414:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <wheelspeed_right>
-}
  418:	00 00       	nop
  41a:	65 96       	adiw	r28, 0x15	; 21
  41c:	0f b6       	in	r0, 0x3f	; 63
@@ -563,8 +487,6 @@ void calc_speed_low(uint8_t side, double timestep_diff_ms){
  42a:	08 95       	ret
 
 0000042c <calc_speed_high>:
-
-void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  42c:	cf 93       	push	r28
  42e:	df 93       	push	r29
  430:	cd b7       	in	r28, 0x3d	; 61
@@ -577,23 +499,17 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  43e:	cd bf       	out	0x3d, r28	; 61
  440:	89 8b       	std	Y+17, r24	; 0x11
  442:	6a 8b       	std	Y+18, r22	; 0x12
-	if (steps_per_intervall == 0){
  444:	8a 89       	ldd	r24, Y+18	; 0x12
  446:	88 23       	and	r24, r24
  448:	61 f4       	brne	.+24     	; 0x462 <__stack+0x3>
-		if (side == LEFT) wheelspeed_left = 0;
  44a:	89 89       	ldd	r24, Y+17	; 0x11
  44c:	88 23       	and	r24, r24
  44e:	29 f4       	brne	.+10     	; 0x45a <calc_speed_high+0x2e>
  450:	10 92 61 00 	sts	0x0061, r1	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
  454:	10 92 60 00 	sts	0x0060, r1	; 0x800060 <__DATA_REGION_ORIGIN__>
  458:	04 c0       	rjmp	.+8      	; 0x462 <__stack+0x3>
-		else wheelspeed_right = 0;
  45a:	10 92 63 00 	sts	0x0063, r1	; 0x800063 <wheelspeed_right+0x1>
  45e:	10 92 62 00 	sts	0x0062, r1	; 0x800062 <wheelspeed_right>
-	}
-	
-	double impulses_per_second = (steps_per_intervall * 1000.0) / update_frequency_simple_ms;
  462:	8a 89       	ldd	r24, Y+18	; 0x12
  464:	88 2f       	mov	r24, r24
  466:	90 e0       	ldi	r25, 0x00	; 0
@@ -628,7 +544,6 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  4a6:	9a 83       	std	Y+2, r25	; 0x02
  4a8:	ab 83       	std	Y+3, r26	; 0x03
  4aa:	bc 83       	std	Y+4, r27	; 0x04
-	double RPS = impulses_per_second / number_of_teeth;
  4ac:	20 e0       	ldi	r18, 0x00	; 0
  4ae:	30 e0       	ldi	r19, 0x00	; 0
  4b0:	40 e8       	ldi	r20, 0x80	; 128
@@ -644,7 +559,6 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  4c6:	9e 83       	std	Y+6, r25	; 0x06
  4c8:	af 83       	std	Y+7, r26	; 0x07
  4ca:	b8 87       	std	Y+8, r27	; 0x08
-	double RPM = RPS * 60;
  4cc:	20 e0       	ldi	r18, 0x00	; 0
  4ce:	30 e0       	ldi	r19, 0x00	; 0
  4d0:	40 e7       	ldi	r20, 0x70	; 112
@@ -660,7 +574,6 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  4e6:	9a 87       	std	Y+10, r25	; 0x0a
  4e8:	ab 87       	std	Y+11, r26	; 0x0b
  4ea:	bc 87       	std	Y+12, r27	; 0x0c
-	double speed_kmh = RPS * (TIRE_CIRCUMFERENCE_MM / 1000) * 3.6;
  4ec:	2a e8       	ldi	r18, 0x8A	; 138
  4ee:	3f ef       	ldi	r19, 0xFF	; 255
  4f0:	4c eb       	ldi	r20, 0xBC	; 188
@@ -685,8 +598,6 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  51a:	9e 87       	std	Y+14, r25	; 0x0e
  51c:	af 87       	std	Y+15, r26	; 0x0f
  51e:	b8 8b       	std	Y+16, r27	; 0x10
-	
-	if (side == LEFT) wheelspeed_left = (uint16_t) RPM;
  520:	89 89       	ldd	r24, Y+17	; 0x11
  522:	88 23       	and	r24, r24
  524:	69 f4       	brne	.+26     	; 0x540 <__stack+0xe1>
@@ -699,15 +610,7 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  534:	cb 01       	movw	r24, r22
  536:	90 93 61 00 	sts	0x0061, r25	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
  53a:	80 93 60 00 	sts	0x0060, r24	; 0x800060 <__DATA_REGION_ORIGIN__>
-	else wheelspeed_right = (uint16_t) RPM;
-}
  53e:	0c c0       	rjmp	.+24     	; 0x558 <__stack+0xf9>
-	double RPS = impulses_per_second / number_of_teeth;
-	double RPM = RPS * 60;
-	double speed_kmh = RPS * (TIRE_CIRCUMFERENCE_MM / 1000) * 3.6;
-	
-	if (side == LEFT) wheelspeed_left = (uint16_t) RPM;
-	else wheelspeed_right = (uint16_t) RPM;
  540:	69 85       	ldd	r22, Y+9	; 0x09
  542:	7a 85       	ldd	r23, Y+10	; 0x0a
  544:	8b 85       	ldd	r24, Y+11	; 0x0b
@@ -717,7 +620,6 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  54e:	cb 01       	movw	r24, r22
  550:	90 93 63 00 	sts	0x0063, r25	; 0x800063 <wheelspeed_right+0x1>
  554:	80 93 62 00 	sts	0x0062, r24	; 0x800062 <wheelspeed_right>
-}
  558:	00 00       	nop
  55a:	62 96       	adiw	r28, 0x12	; 18
  55c:	0f b6       	in	r0, 0x3f	; 63
@@ -730,12 +632,6 @@ void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
  56a:	08 95       	ret
 
 0000056c <main>:
-
-#include "main.h"
-
-
-int main(void)
-{
  56c:	ef 92       	push	r14
  56e:	ff 92       	push	r15
  570:	0f 93       	push	r16
@@ -744,21 +640,10 @@ int main(void)
  576:	df 93       	push	r29
  578:	cd b7       	in	r28, 0x3d	; 61
  57a:	de b7       	in	r29, 0x3e	; 62
-	sys_timer_config();
  57c:	0e 94 76 03 	call	0x6ec	; 0x6ec <sys_timer_config>
-	SPI_SlaveInit();
  580:	0e 94 f7 03 	call	0x7ee	; 0x7ee <SPI_SlaveInit>
-	PORT_Config();
  584:	0e 94 49 00 	call	0x92	; 0x92 <PORT_Config>
-	
-	sei();
  588:	78 94       	sei
-
-    while (1) 
-    {
-		//data = SPI_SlaveReceive();
-		
-		if(TIME_PASSED_1_MS)
  58a:	20 91 7c 00 	lds	r18, 0x007C	; 0x80007c <sys_time>
  58e:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
  592:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
@@ -772,8 +657,6 @@ int main(void)
  5ae:	4a 07       	cpc	r20, r26
  5b0:	5b 07       	cpc	r21, r27
  5b2:	81 f0       	breq	.+32     	; 0x5d4 <main+0x68>
-		{
-			time_1ms = sys_time;
  5b4:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
  5b8:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
  5bc:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
@@ -782,10 +665,6 @@ int main(void)
  5c8:	90 93 6d 00 	sts	0x006D, r25	; 0x80006d <time_1ms+0x1>
  5cc:	a0 93 6e 00 	sts	0x006E, r26	; 0x80006e <time_1ms+0x2>
  5d0:	b0 93 6f 00 	sts	0x006F, r27	; 0x80006f <time_1ms+0x3>
-
-		} // end of 1ms
-		
-		if(TIME_PASSED_10_MS)
  5d4:	20 91 7c 00 	lds	r18, 0x007C	; 0x80007c <sys_time>
  5d8:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
  5dc:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
@@ -806,8 +685,6 @@ int main(void)
  606:	a1 05       	cpc	r26, r1
  608:	b1 05       	cpc	r27, r1
  60a:	80 f0       	brcs	.+32     	; 0x62c <main+0xc0>
-		{
-			time_10ms = sys_time;
  60c:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
  610:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
  614:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
@@ -816,10 +693,6 @@ int main(void)
  620:	90 93 71 00 	sts	0x0071, r25	; 0x800071 <time_10ms+0x1>
  624:	a0 93 72 00 	sts	0x0072, r26	; 0x800072 <time_10ms+0x2>
  628:	b0 93 73 00 	sts	0x0073, r27	; 0x800073 <time_10ms+0x3>
-			
-		} // end of 10ms
-
-		if (TIME_PASSED_100_MS)
  62c:	20 91 7c 00 	lds	r18, 0x007C	; 0x80007c <sys_time>
  630:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
  634:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
@@ -841,8 +714,6 @@ int main(void)
  660:	a1 05       	cpc	r26, r1
  662:	b1 05       	cpc	r27, r1
  664:	a0 f0       	brcs	.+40     	; 0x68e <main+0x122>
-		{
-			time_100ms = sys_time;
  666:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
  66a:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
  66e:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
@@ -851,15 +722,8 @@ int main(void)
  67a:	90 93 75 00 	sts	0x0075, r25	; 0x800075 <time_100ms+0x1>
  67e:	a0 93 76 00 	sts	0x0076, r26	; 0x800076 <time_100ms+0x2>
  682:	b0 93 77 00 	sts	0x0077, r27	; 0x800077 <time_100ms+0x3>
-			
-			calc_speed();
  686:	0e 94 00 01 	call	0x200	; 0x200 <calc_speed>
-			sys_tick_heart();
  68a:	0e 94 91 03 	call	0x722	; 0x722 <sys_tick_heart>
-			
-		} // end of 100ms
-		
-		if (TIME_PASSED_200_MS)
  68e:	20 91 7c 00 	lds	r18, 0x007C	; 0x80007c <sys_time>
  692:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
  696:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
@@ -882,8 +746,6 @@ int main(void)
  6c4:	b1 05       	cpc	r27, r1
  6c6:	08 f4       	brcc	.+2      	; 0x6ca <main+0x15e>
  6c8:	60 cf       	rjmp	.-320    	; 0x58a <main+0x1e>
-		{
-			time_200ms = sys_time;
  6ca:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
  6ce:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
  6d2:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
@@ -892,9 +754,6 @@ int main(void)
  6de:	90 93 79 00 	sts	0x0079, r25	; 0x800079 <time_200ms+0x1>
  6e2:	a0 93 7a 00 	sts	0x007A, r26	; 0x80007a <time_200ms+0x2>
  6e6:	b0 93 7b 00 	sts	0x007B, r27	; 0x80007b <time_200ms+0x3>
-			
-		} // end of 200ms
-    }
  6ea:	4f cf       	rjmp	.-354    	; 0x58a <main+0x1e>
 
 000006ec <sys_timer_config>:
@@ -1019,12 +878,6 @@ ISR(TIMER0_COMP_vect)
  7ec:	18 95       	reti
 
 000007ee <SPI_SlaveInit>:
-}																//
-
-void SPI_SlaveSend(uint8_t data){
-	SPDR = data;
-	while (!(SPSR & (1 << SPIF)));
-}
  7ee:	cf 93       	push	r28
  7f0:	df 93       	push	r29
  7f2:	cd b7       	in	r28, 0x3d	; 61
@@ -1071,9 +924,6 @@ void SPI_SlaveSend(uint8_t data){
  844:	08 95       	ret
 
 00000846 <__vector_10>:
-
-ISR(SPI_STC_vect)
-{	
  846:	1f 92       	push	r1
  848:	0f 92       	push	r0
  84a:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7fc05f>
@@ -1089,30 +939,24 @@ ISR(SPI_STC_vect)
  860:	df 93       	push	r29
  862:	cd b7       	in	r28, 0x3d	; 61
  864:	de b7       	in	r29, 0x3e	; 62
-	if (SPDR == 0x01){
  866:	8f e2       	ldi	r24, 0x2F	; 47
  868:	90 e0       	ldi	r25, 0x00	; 0
  86a:	fc 01       	movw	r30, r24
  86c:	80 81       	ld	r24, Z
  86e:	81 30       	cpi	r24, 0x01	; 1
  870:	41 f4       	brne	.+16     	; 0x882 <__vector_10+0x3c>
-		SPDR = wheelspeed_left & 0xFF;
  872:	8f e2       	ldi	r24, 0x2F	; 47
  874:	90 e0       	ldi	r25, 0x00	; 0
  876:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
  87a:	30 91 61 00 	lds	r19, 0x0061	; 0x800061 <__DATA_REGION_ORIGIN__+0x1>
  87e:	fc 01       	movw	r30, r24
  880:	20 83       	st	Z, r18
-	}
-	
-	if (SPDR == 0x02){
  882:	8f e2       	ldi	r24, 0x2F	; 47
  884:	90 e0       	ldi	r25, 0x00	; 0
  886:	fc 01       	movw	r30, r24
  888:	80 81       	ld	r24, Z
  88a:	82 30       	cpi	r24, 0x02	; 2
  88c:	51 f4       	brne	.+20     	; 0x8a2 <__vector_10+0x5c>
-		SPDR = wheelspeed_left >> 8;
  88e:	8f e2       	ldi	r24, 0x2F	; 47
  890:	90 e0       	ldi	r25, 0x00	; 0
  892:	20 91 60 00 	lds	r18, 0x0060	; 0x800060 <__DATA_REGION_ORIGIN__>
@@ -1121,32 +965,24 @@ ISR(SPI_STC_vect)
  89c:	33 27       	eor	r19, r19
  89e:	fc 01       	movw	r30, r24
  8a0:	20 83       	st	Z, r18
-	}
-	
-	if (SPDR == 0x03){
  8a2:	8f e2       	ldi	r24, 0x2F	; 47
  8a4:	90 e0       	ldi	r25, 0x00	; 0
  8a6:	fc 01       	movw	r30, r24
  8a8:	80 81       	ld	r24, Z
  8aa:	83 30       	cpi	r24, 0x03	; 3
  8ac:	41 f4       	brne	.+16     	; 0x8be <__vector_10+0x78>
-		SPDR = wheelspeed_right & 0xFF;
  8ae:	8f e2       	ldi	r24, 0x2F	; 47
  8b0:	90 e0       	ldi	r25, 0x00	; 0
  8b2:	20 91 62 00 	lds	r18, 0x0062	; 0x800062 <wheelspeed_right>
  8b6:	30 91 63 00 	lds	r19, 0x0063	; 0x800063 <wheelspeed_right+0x1>
  8ba:	fc 01       	movw	r30, r24
  8bc:	20 83       	st	Z, r18
-	}
-	
-	if (SPDR == 0x04){
  8be:	8f e2       	ldi	r24, 0x2F	; 47
  8c0:	90 e0       	ldi	r25, 0x00	; 0
  8c2:	fc 01       	movw	r30, r24
  8c4:	80 81       	ld	r24, Z
  8c6:	84 30       	cpi	r24, 0x04	; 4
  8c8:	51 f4       	brne	.+20     	; 0x8de <__vector_10+0x98>
-		SPDR = wheelspeed_right >> 8;
  8ca:	8f e2       	ldi	r24, 0x2F	; 47
  8cc:	90 e0       	ldi	r25, 0x00	; 0
  8ce:	20 91 62 00 	lds	r18, 0x0062	; 0x800062 <wheelspeed_right>
@@ -1155,7 +991,6 @@ ISR(SPI_STC_vect)
  8d8:	33 27       	eor	r19, r19
  8da:	fc 01       	movw	r30, r24
  8dc:	20 83       	st	Z, r18
-	}
  8de:	00 00       	nop
  8e0:	df 91       	pop	r29
  8e2:	cf 91       	pop	r28

@@ -29,7 +29,6 @@ uint16_t TK4_temp = 0;
 double APPS1 = 0;
 double APPS2 = 0;
 
-uint8_t steering_sign = 0;		//indicator for steering percentage
 
 
 extern uint8_t SensorHub0_databytes[8];
@@ -140,16 +139,12 @@ int main(void)
 				switchj = 1;
 			}
 			
+			//wheelspeed
+			wheelspeed_left = (wheelspeed_left_msb << 8) | wheelspeed_left_lsb;
+			wheelspeed_right = (wheelspeed_right_msb << 8) | wheelspeed_right_lsb;
+			
 			//steering angle
-			int8_t steering_percentage = calculate_steering_percent((double) adc_get(2));
-			
-			//if (adc_get(2) <= POT_MID){		//left from middle position
-				//steering_sign = 0x80;
-			//}
-			//if (adc_get(2) > POT_MID){		//right from middle position
-				//steering_sign = 0x00;
-			//}
-			
+			int8_t steering_percentage = calculate_steering_percent((double) adc_get(2));			
 			
 			//damper travel
 			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
