@@ -49,6 +49,8 @@
 #define SS_TK3_HIGH() (PORTE |= (1 << SS_TK3))
 #define SS_TK4_LOW() (PORTE &= ~(1 << SS_TK4))
 #define SS_TK4_HIGH() (PORTE |= (1 << SS_TK4))
+#define LEFT 0x01
+#define RIGHT 0x03
 
 void SPI_MasterInit();
 void SPI_SlaveInit(void);

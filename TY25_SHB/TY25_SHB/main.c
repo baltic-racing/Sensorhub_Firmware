@@ -16,14 +16,22 @@
 #include "misc_functions.h"
 #include "main.h"
 
-uint8_t switchi = 1;
-uint8_t steering_sign = 0;		//indicator for steering percentage
+//wheelspeed
+uint8_t switchi = 0;
+uint8_t switchj = 0;
+uint8_t wheelspeed_left_lsb = 0;
+uint8_t wheelspeed_left_msb = 0;
+uint16_t wheelspeed_left = 0;
+uint8_t wheelspeed_right_lsb = 0;
+uint8_t wheelspeed_right_msb = 0;
+uint16_t wheelspeed_right = 0;
 
-volatile uint16_t wheelspeed[2];
+//Typ K
 uint16_t TK1_temp = 0;
 uint16_t TK2_temp = 0;
 uint16_t TK3_temp = 0;
 uint16_t TK4_temp = 0;
+
 
 
 extern uint8_t SensorHubB0_databytes[8];
@@ -61,12 +69,6 @@ int main(void)
 	can_SensorHubB2_mob.mob_idmask = 0xFFFF;//sent
 	can_SensorHubB2_mob.mob_number = 2;
 	uint8_t SensorHubB2_databytes[8] = {0};
-		
-	struct CAN_MOB can_SensorHubB3_mob;
-	can_SensorHubB3_mob.mob_id = 0x413;
-	can_SensorHubB3_mob.mob_idmask = 0xFFFF;//sent
-	can_SensorHubB3_mob.mob_number = 3;
-	uint8_t SensorHubB3_databytes[8] = {0};
 	
 	sei();	
 	
@@ -89,50 +91,77 @@ int main(void)
 
 		if (TIME_PASSED_100_MS)
 		{
-			time_100ms = sys_time;		
+			time_100ms = sys_time;
 			
-			// cooling temperature
-			uint16_t tempRU =  temp_calc((float)adc_get(0));
-			uint16_t tempRD =  temp_calc((float)adc_get(1));
-			uint16_t tempLU =  temp_calc((float)adc_get(2));
-			uint16_t tempLD =  temp_calc((float)adc_get(7));
+			//wheelspeed left
+			if (switchi == 0){
+				SS_uC_LOW();
+				SPDR = 0x03;
+				while(!(SPSR & (1 << SPIF)));
+				SS_uC_HIGH();
+				switchi++;
+			}
+			if (switchi == 1){
+				SS_uC_LOW();
+				SPDR = 0x02;
+				while(!(SPSR & (1 << SPIF)));
+				wheelspeed_left_lsb = SPDR;
+				SS_uC_HIGH();
+				switchi++;
+			}
+			if(switchi == 2){
+				SS_uC_LOW();
+				SPDR = 0x03;
+				while(!(SPSR & (1 << SPIF)));
+				wheelspeed_left_msb = SPDR;
+				SS_uC_HIGH();
+				switchi = 1;
+			}
+			
+			//wheelspeed right
+			if (switchj == 0){
+				SS_uC_LOW();
+				SPDR = 0x01;
+				while(!(SPSR & (1 << SPIF)));
+				SS_uC_HIGH();
+				switchj++;
+			}
+			if (switchj == 1){
+				SS_uC_LOW();
+				SPDR = 0x04;
+				while(!(SPSR & (1 << SPIF)));
+				wheelspeed_right_lsb = SPDR;
+				SS_uC_HIGH();
+				switchj++;
+			}
+			if (switchj == 2){
+				SS_uC_LOW();
+				SPDR = 0x01;
+				while(!(SPSR & (1 << SPIF)));
+				wheelspeed_right_msb = SPDR;
+				SS_uC_HIGH();
+				switchj = 1;
+			}
+			
+			//wheelspeed
+			wheelspeed_left = (wheelspeed_left_msb << 8) | wheelspeed_left_lsb;
+			wheelspeed_right = (wheelspeed_right_msb << 8) | wheelspeed_right_lsb;
 			
 			// damper travel
 			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
 			uint16_t federwegRR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(6));
 			
 			// CAN bus
-			SensorHubB0_databytes[0]	=	wheelspeed[0]&0xff										;	//lsb 
-			SensorHubB0_databytes[1]	=	(wheelspeed[1]>>8)&0xff									;	//msb 
+			SensorHubB0_databytes[0]	=	0														;	//lsb 
+			SensorHubB0_databytes[1]	=	0														;	//msb 
 			SensorHubB0_databytes[2]	=	0														;	//lsb 
 			SensorHubB0_databytes[3]	=	0														;	//msb 
-			SensorHubB0_databytes[4]	=	0														;	
-			SensorHubB0_databytes[5]	=	0														;
-			SensorHubB0_databytes[6]	=	0														;	//SDC
-			SensorHubB0_databytes[7]	=	0														;	
-			
-			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
-			SensorHubB1_databytes[0]	=	tempRU & 0xFF											;	// lsb temperature right up
-			SensorHubB1_databytes[1]	=	tempRU >> 8												;	// msb temperature right up
-			SensorHubB1_databytes[2]	=	tempRD & 0xFF											;	// lsb temperature right down
-			SensorHubB1_databytes[3]	=	tempRD >> 8												;	// msb temperature right down
-			SensorHubB1_databytes[4]	=	tempLU & 0xFF											;	// lsb temperature left up	
-			SensorHubB1_databytes[5]	=	tempLU >> 8												;	// msb temperature left up
-			SensorHubB1_databytes[6]	=	tempLD & 0xFF											;	// lsb temperature left down
-			SensorHubB1_databytes[7]	=	tempLD >> 8												;	// msb temperature left down
-			
-			SensorHubB2_databytes[0]	=	federwegRL & 0xFF										;	//lsb damper travel rear left
-			SensorHubB2_databytes[1]	=	federwegRL >> 8											;	//msb damper travel rear left
-			SensorHubB2_databytes[2]	=	federwegRR & 0xFF										;	//lsb damper travel rear right
-			SensorHubB2_databytes[3]	=	federwegRR >> 8											;	//msb damper travel rear right
-			SensorHubB2_databytes[4]	=	0														;	//
-			SensorHubB2_databytes[5]	=	0														;	//
-			SensorHubB2_databytes[6]	=	0														;
-			SensorHubB2_databytes[7]	=	0														;
+			SensorHubB0_databytes[4]	=	federwegRL & 0xFF										;	
+			SensorHubB0_databytes[5]	=	federwegRL >> 8											;
+			SensorHubB0_databytes[6]	=	federwegRR & 0xFF										;	//
+			SensorHubB0_databytes[7]	=	federwegRR >> 8											;	
 			
 			can_tx(&can_SensorHubB0_mob, SensorHubB0_databytes);			
-			can_tx(&can_SensorHubB1_mob, SensorHubB1_databytes);
-			can_tx(&can_SensorHubB2_mob, SensorHubB2_databytes);
 			
 			sys_tick_heart();
 			
@@ -142,24 +171,41 @@ int main(void)
 		{
 			time_200ms = sys_time;
 			
-			// Typ K temperature
-			TK1_temp = (uint16_t)read_TK_temperature(TK1);
-			TK2_temp = (uint16_t)read_TK_temperature(TK2);
-			TK3_temp = (uint16_t)read_TK_temperature(TK3);
-			TK4_temp = (uint16_t)read_TK_temperature(TK4);
-			
+			// cooling temperature
+			uint16_t tempRU =  temp_calc((float)adc_get(0));
+			uint16_t tempRD =  temp_calc((float)adc_get(1));
+			uint16_t tempLU =  temp_calc((float)adc_get(2));
+			uint16_t tempLD =  temp_calc((float)adc_get(7));
 			
 			// CAN bus
-			SensorHubB3_databytes[0]	=	TK1_temp & 0xFF											;	// lsb brake fluid rear left
-			SensorHubB3_databytes[1]	=	TK1_temp >> 8											;	// msb brake fluid rear left
-			SensorHubB3_databytes[2]	=	TK2_temp & 0xFF											;	// lsb brake fluid rear right
-			SensorHubB3_databytes[3]	=	TK2_temp >> 8											;	// msb brake fluid rear right
-			SensorHubB3_databytes[4]	=	TK3_temp & 0xFF											;	// lsb brake disc rear left
-			SensorHubB3_databytes[5]	=	TK3_temp >> 8											;	// msb brake disc rear left
-			SensorHubB3_databytes[6]	=	TK4_temp & 0xFF											;	// lsb brake disc rear right
-			SensorHubB3_databytes[7]	=	TK4_temp >> 8											;	// msb brake disc rear right
+			SensorHubB1_databytes[0]	=	tempRU & 0xFF											;	// lsb temperature right up
+			SensorHubB1_databytes[1]	=	tempRU >> 8												;	// msb temperature right up
+			SensorHubB1_databytes[2]	=	tempRD & 0xFF											;	// lsb temperature right down
+			SensorHubB1_databytes[3]	=	tempRD >> 8												;	// msb temperature right down
+			SensorHubB1_databytes[4]	=	tempLU & 0xFF											;	// lsb temperature left up
+			SensorHubB1_databytes[5]	=	tempLU >> 8												;	// msb temperature left up
+			SensorHubB1_databytes[6]	=	tempLD & 0xFF											;	// lsb temperature left down
+			SensorHubB1_databytes[7]	=	tempLD >> 8												;	// msb temperature left down
 			
-			can_tx(&can_SensorHubB3_mob, SensorHubB3_databytes);
+			can_tx(&can_SensorHubB1_mob, SensorHubB1_databytes);
+			
+			//// Typ K temperature
+			//TK1_temp = (uint16_t)read_TK_temperature(TK1);
+			//TK2_temp = (uint16_t)read_TK_temperature(TK2);
+			//TK3_temp = (uint16_t)read_TK_temperature(TK3);
+			//TK4_temp = (uint16_t)read_TK_temperature(TK4);
+			//
+			//SensorHubB2_databytes[0]	=	0														;	//reserved
+			//SensorHubB2_databytes[1]	=	0														;	//reserved
+			//SensorHubB2_databytes[2]	=	0														;	//reserved
+			//SensorHubB2_databytes[3]	=	0														;	//reserved
+			//SensorHubB2_databytes[4]	=	0														;	//reserved
+			//SensorHubB2_databytes[5]	=	0														;	//reserved
+			//SensorHubB2_databytes[6]	=	0														;	//reserved
+			//SensorHubB2_databytes[7]	=	0														;	//reserved
+			//
+			//can_tx(&can_SensorHubB2_mob, SensorHubB2_databytes);	//reserved
+
 			
 		} // end of 200ms
 
