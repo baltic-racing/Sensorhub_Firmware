@@ -690,7 +690,7 @@ END GROUP
  .debug_str     0x00000461       0xa5 main.o
                                 0x1b7 (size before relaxing)
  .debug_str     0x00000506       0x64 misc_functions.o
-                                0x206 (size before relaxing)
+                                0x1fe (size before relaxing)
  .debug_str     0x0000056a       0xd2 SPI_lib.o
                                 0x282 (size before relaxing)
 

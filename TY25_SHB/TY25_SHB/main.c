@@ -148,8 +148,8 @@ int main(void)
 			wheelspeed_right = (wheelspeed_right_msb << 8) | wheelspeed_right_lsb;
 			
 			// damper travel
-			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
-			uint16_t federwegRR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(6));
+			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((double)adc_get(4));	//adc 4
+			uint16_t federwegRR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((double)adc_get(6));
 			
 			// CAN bus
 			SensorHubB0_databytes[0]	=	0														;	//lsb 
@@ -172,7 +172,7 @@ int main(void)
 			time_200ms = sys_time;
 			
 			// cooling temperature
-			uint16_t tempRU =  temp_calc((float)adc_get(0));
+			uint16_t tempRU =  temp_calc((float)adc_get(7)); //adc 0
 			uint16_t tempRD =  temp_calc((float)adc_get(1));
 			uint16_t tempLU =  temp_calc((float)adc_get(2));
 			uint16_t tempLD =  temp_calc((float)adc_get(7));

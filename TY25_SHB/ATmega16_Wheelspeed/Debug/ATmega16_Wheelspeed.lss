@@ -707,7 +707,7 @@ int main(void)
  604:	0a 97       	sbiw	r24, 0x0a	; 10
  606:	a1 05       	cpc	r26, r1
  608:	b1 05       	cpc	r27, r1
- 60a:	80 f0       	brcs	.+32     	; 0x62c <main+0xc0>
+ 60a:	90 f0       	brcs	.+36     	; 0x630 <main+0xc4>
 		{
 			time_10ms = sys_time;
  60c:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
@@ -719,43 +719,44 @@ int main(void)
  624:	a0 93 72 00 	sts	0x0072, r26	; 0x800072 <time_10ms+0x2>
  628:	b0 93 73 00 	sts	0x0073, r27	; 0x800073 <time_10ms+0x3>
 			
+			calc_speed();
+ 62c:	0e 94 00 01 	call	0x200	; 0x200 <calc_speed>
+			
 		} // end of 10ms
 
 		if (TIME_PASSED_100_MS)
- 62c:	20 91 7c 00 	lds	r18, 0x007C	; 0x80007c <sys_time>
- 630:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
- 634:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
- 638:	50 91 7f 00 	lds	r21, 0x007F	; 0x80007f <sys_time+0x3>
- 63c:	80 91 74 00 	lds	r24, 0x0074	; 0x800074 <time_100ms>
- 640:	90 91 75 00 	lds	r25, 0x0075	; 0x800075 <time_100ms+0x1>
- 644:	a0 91 76 00 	lds	r26, 0x0076	; 0x800076 <time_100ms+0x2>
- 648:	b0 91 77 00 	lds	r27, 0x0077	; 0x800077 <time_100ms+0x3>
- 64c:	79 01       	movw	r14, r18
- 64e:	8a 01       	movw	r16, r20
- 650:	e8 1a       	sub	r14, r24
- 652:	f9 0a       	sbc	r15, r25
- 654:	0a 0b       	sbc	r16, r26
- 656:	1b 0b       	sbc	r17, r27
- 658:	d8 01       	movw	r26, r16
- 65a:	c7 01       	movw	r24, r14
- 65c:	84 36       	cpi	r24, 0x64	; 100
- 65e:	91 05       	cpc	r25, r1
- 660:	a1 05       	cpc	r26, r1
- 662:	b1 05       	cpc	r27, r1
- 664:	a0 f0       	brcs	.+40     	; 0x68e <main+0x122>
+ 630:	20 91 7c 00 	lds	r18, 0x007C	; 0x80007c <sys_time>
+ 634:	30 91 7d 00 	lds	r19, 0x007D	; 0x80007d <sys_time+0x1>
+ 638:	40 91 7e 00 	lds	r20, 0x007E	; 0x80007e <sys_time+0x2>
+ 63c:	50 91 7f 00 	lds	r21, 0x007F	; 0x80007f <sys_time+0x3>
+ 640:	80 91 74 00 	lds	r24, 0x0074	; 0x800074 <time_100ms>
+ 644:	90 91 75 00 	lds	r25, 0x0075	; 0x800075 <time_100ms+0x1>
+ 648:	a0 91 76 00 	lds	r26, 0x0076	; 0x800076 <time_100ms+0x2>
+ 64c:	b0 91 77 00 	lds	r27, 0x0077	; 0x800077 <time_100ms+0x3>
+ 650:	79 01       	movw	r14, r18
+ 652:	8a 01       	movw	r16, r20
+ 654:	e8 1a       	sub	r14, r24
+ 656:	f9 0a       	sbc	r15, r25
+ 658:	0a 0b       	sbc	r16, r26
+ 65a:	1b 0b       	sbc	r17, r27
+ 65c:	d8 01       	movw	r26, r16
+ 65e:	c7 01       	movw	r24, r14
+ 660:	84 36       	cpi	r24, 0x64	; 100
+ 662:	91 05       	cpc	r25, r1
+ 664:	a1 05       	cpc	r26, r1
+ 666:	b1 05       	cpc	r27, r1
+ 668:	90 f0       	brcs	.+36     	; 0x68e <main+0x122>
 		{
 			time_100ms = sys_time;
- 666:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
- 66a:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
- 66e:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
- 672:	b0 91 7f 00 	lds	r27, 0x007F	; 0x80007f <sys_time+0x3>
- 676:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <time_100ms>
- 67a:	90 93 75 00 	sts	0x0075, r25	; 0x800075 <time_100ms+0x1>
- 67e:	a0 93 76 00 	sts	0x0076, r26	; 0x800076 <time_100ms+0x2>
- 682:	b0 93 77 00 	sts	0x0077, r27	; 0x800077 <time_100ms+0x3>
+ 66a:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
+ 66e:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
+ 672:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
+ 676:	b0 91 7f 00 	lds	r27, 0x007F	; 0x80007f <sys_time+0x3>
+ 67a:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <time_100ms>
+ 67e:	90 93 75 00 	sts	0x0075, r25	; 0x800075 <time_100ms+0x1>
+ 682:	a0 93 76 00 	sts	0x0076, r26	; 0x800076 <time_100ms+0x2>
+ 686:	b0 93 77 00 	sts	0x0077, r27	; 0x800077 <time_100ms+0x3>
 			
-			calc_speed();
- 686:	0e 94 00 01 	call	0x200	; 0x200 <calc_speed>
 			sys_tick_heart();
  68a:	0e 94 91 03 	call	0x722	; 0x722 <sys_tick_heart>
 			
@@ -800,6 +801,12 @@ int main(void)
  6ea:	4f cf       	rjmp	.-354    	; 0x58a <main+0x1e>
 
 000006ec <sys_timer_config>:
+}
+
+void fault_detected()
+{
+	PORTC |= (1<<PC1); //turn on red led when called (fault present)
+}
  6ec:	cf 93       	push	r28
  6ee:	df 93       	push	r29
  6f0:	cd b7       	in	r28, 0x3d	; 61
@@ -849,6 +856,9 @@ int main(void)
  744:	08 95       	ret
 
 00000746 <__vector_19>:
+
+ISR(TIMER0_COMP_vect)
+{
  746:	1f 92       	push	r1
  748:	0f 92       	push	r0
  74a:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7fc05f>
@@ -862,6 +872,7 @@ int main(void)
  75c:	df 93       	push	r29
  75e:	cd b7       	in	r28, 0x3d	; 61
  760:	de b7       	in	r29, 0x3e	; 62
+	time_delta_left++;
  762:	80 91 80 00 	lds	r24, 0x0080	; 0x800080 <time_delta_left>
  766:	90 91 81 00 	lds	r25, 0x0081	; 0x800081 <time_delta_left+0x1>
  76a:	a0 91 82 00 	lds	r26, 0x0082	; 0x800082 <time_delta_left+0x2>
@@ -873,6 +884,7 @@ int main(void)
  77c:	90 93 81 00 	sts	0x0081, r25	; 0x800081 <time_delta_left+0x1>
  780:	a0 93 82 00 	sts	0x0082, r26	; 0x800082 <time_delta_left+0x2>
  784:	b0 93 83 00 	sts	0x0083, r27	; 0x800083 <time_delta_left+0x3>
+	time_delta_right++;
  788:	80 91 84 00 	lds	r24, 0x0084	; 0x800084 <time_delta_right>
  78c:	90 91 85 00 	lds	r25, 0x0085	; 0x800085 <time_delta_right+0x1>
  790:	a0 91 86 00 	lds	r26, 0x0086	; 0x800086 <time_delta_right+0x2>
@@ -884,6 +896,7 @@ int main(void)
  7a2:	90 93 85 00 	sts	0x0085, r25	; 0x800085 <time_delta_right+0x1>
  7a6:	a0 93 86 00 	sts	0x0086, r26	; 0x800086 <time_delta_right+0x2>
  7aa:	b0 93 87 00 	sts	0x0087, r27	; 0x800087 <time_delta_right+0x3>
+	sys_time++;
  7ae:	80 91 7c 00 	lds	r24, 0x007C	; 0x80007c <sys_time>
  7b2:	90 91 7d 00 	lds	r25, 0x007D	; 0x80007d <sys_time+0x1>
  7b6:	a0 91 7e 00 	lds	r26, 0x007E	; 0x80007e <sys_time+0x2>
