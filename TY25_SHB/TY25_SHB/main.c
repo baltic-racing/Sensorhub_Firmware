@@ -156,10 +156,10 @@ int main(void)
 			SensorHubB0_databytes[1]	=	0														;	//msb 
 			SensorHubB0_databytes[2]	=	0														;	//lsb 
 			SensorHubB0_databytes[3]	=	0														;	//msb 
-			SensorHubB0_databytes[4]	=	federwegRL & 0xFF										;	
-			SensorHubB0_databytes[5]	=	federwegRL >> 8											;
-			SensorHubB0_databytes[6]	=	federwegRR & 0xFF										;	//
-			SensorHubB0_databytes[7]	=	federwegRR >> 8											;	
+			SensorHubB0_databytes[4]	=	federwegRL & 0xFF										;	//federwegRL & 0xFF
+			SensorHubB0_databytes[5]	=	federwegRL >> 8											;	//federwegRL >> 8
+			SensorHubB0_databytes[6]	=	federwegRR & 0xFF										;	//federwegRR & 0xFF
+			SensorHubB0_databytes[7]	=	federwegRR >> 8											;	//federwegRR >> 8	
 			
 			can_tx(&can_SensorHubB0_mob, SensorHubB0_databytes);			
 			

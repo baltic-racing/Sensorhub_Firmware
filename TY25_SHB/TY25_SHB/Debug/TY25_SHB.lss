@@ -23,13 +23,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000003f8  00000000  00000000  000054cc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00009151  00000000  00000000  000058c4  2**0
+ 10 .debug_str    0000914d  00000000  00000000  000058c4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000737  00000000  00000000  0000ea15  2**0
+ 11 .debug_loc    00000737  00000000  00000000  0000ea11  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  0000f14c  2**0
+ 12 .debug_ranges 000000f0  00000000  00000000  0000f148  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  00003bbf  00000000  00000000  0000f23c  2**0
+ 13 .debug_macro  00003bbf  00000000  00000000  0000f238  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1345,13 +1345,11 @@ int main(void)
      936:	93 2b       	or	r25, r19
      938:	90 93 32 01 	sts	0x0132, r25	; 0x800132 <wheelspeed_right+0x1>
      93c:	80 93 31 01 	sts	0x0131, r24	; 0x800131 <wheelspeed_right>
-     940:	80 e0       	ldi	r24, 0x00	; 0
+     940:	84 e0       	ldi	r24, 0x04	; 4
      942:	68 dc       	rcall	.-1840   	; 0x214 <adc_get>
 			
 			// damper travel
-			//float adc_value_RL = adc_get(0);
-			//float adc_value_RR = adc_get(6);
-			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((double)adc_get(0));	//adc 4
+			uint16_t federwegRL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((double)adc_get(4));	//adc 4
      944:	cc 01       	movw	r24, r24
      946:	a0 e0       	ldi	r26, 0x00	; 0
      948:	b0 e0       	ldi	r27, 0x00	; 0
@@ -1365,8 +1363,8 @@ int main(void)
      958:	3d d2       	rcall	.+1146   	; 0xdd4 <damper_poti>
      95a:	dc 01       	movw	r26, r24
      95c:	cb 01       	movw	r24, r22
-     95e:	2d ec       	ldi	r18, 0xCD	; 205
-     960:	3c ec       	ldi	r19, 0xCC	; 204
+     95e:	23 e3       	ldi	r18, 0x33	; 51
+     960:	33 eb       	ldi	r19, 0xB3	; 179
      962:	4a ef       	ldi	r20, 0xFA	; 250
      964:	52 e4       	ldi	r21, 0x42	; 66
      966:	bc 01       	movw	r22, r24
@@ -1397,9 +1395,9 @@ int main(void)
      996:	1e d2       	rcall	.+1084   	; 0xdd4 <damper_poti>
      998:	dc 01       	movw	r26, r24
      99a:	cb 01       	movw	r24, r22
-     99c:	20 e0       	ldi	r18, 0x00	; 0
-     99e:	30 e0       	ldi	r19, 0x00	; 0
-     9a0:	4a ee       	ldi	r20, 0xEA	; 234
+     99c:	26 e6       	ldi	r18, 0x66	; 102
+     99e:	36 e6       	ldi	r19, 0x66	; 102
+     9a0:	4c ef       	ldi	r20, 0xFC	; 252
      9a2:	52 e4       	ldi	r21, 0x42	; 66
      9a4:	bc 01       	movw	r22, r24
      9a6:	cd 01       	movw	r24, r26
@@ -1427,17 +1425,17 @@ int main(void)
      9c8:	89 85       	ldd	r24, Y+9	; 0x09
 			SensorHubB0_databytes[3]	=	0														;	//msb 
      9ca:	9a 85       	ldd	r25, Y+10	; 0x0a
-			SensorHubB0_databytes[4]	=	federwegRL & 0xFF										;	
+			SensorHubB0_databytes[4]	=	federwegRL & 0xFF										;	//federwegRL & 0xFF
      9cc:	89 2f       	mov	r24, r25
      9ce:	99 27       	eor	r25, r25
-			SensorHubB0_databytes[5]	=	federwegRL >> 8											;
+			SensorHubB0_databytes[5]	=	federwegRL >> 8											;	//federwegRL >> 8
      9d0:	8f 8b       	std	Y+23, r24	; 0x17
      9d2:	8b 85       	ldd	r24, Y+11	; 0x0b
      9d4:	88 8f       	std	Y+24, r24	; 0x18
-			SensorHubB0_databytes[6]	=	federwegRR & 0xFF										;	//
+			SensorHubB0_databytes[6]	=	federwegRR & 0xFF										;	//federwegRR & 0xFF
      9d6:	8b 85       	ldd	r24, Y+11	; 0x0b
      9d8:	9c 85       	ldd	r25, Y+12	; 0x0c
-			SensorHubB0_databytes[7]	=	federwegRR >> 8											;	
+			SensorHubB0_databytes[7]	=	federwegRR >> 8											;	//federwegRR >> 8	
      9da:	89 2f       	mov	r24, r25
      9dc:	99 27       	eor	r25, r25
      9de:	89 8f       	std	Y+25, r24	; 0x19
@@ -1975,9 +1973,9 @@ double damper_poti(double dp_adc){
 	
 	travel = DAMP_MM_MIN + (dp_adc-DAMP_ADC_MIN)*((DAMP_MM_MAX - DAMP_MM_MIN)/(DAMP_ADC_MAX - DAMP_ADC_MIN)); //interpolate with 2 values
      df8:	20 e0       	ldi	r18, 0x00	; 0
-     dfa:	30 ec       	ldi	r19, 0xC0	; 192
-     dfc:	4b e2       	ldi	r20, 0x2B	; 43
-     dfe:	54 e4       	ldi	r21, 0x44	; 68
+     dfa:	30 e0       	ldi	r19, 0x00	; 0
+     dfc:	4e ea       	ldi	r20, 0xAE	; 174
+     dfe:	52 e4       	ldi	r21, 0x42	; 66
      e00:	6d 81       	ldd	r22, Y+5	; 0x05
      e02:	7e 81       	ldd	r23, Y+6	; 0x06
      e04:	8f 81       	ldd	r24, Y+7	; 0x07
@@ -1985,19 +1983,19 @@ double damper_poti(double dp_adc){
      e08:	5c d0       	rcall	.+184    	; 0xec2 <__subsf3>
      e0a:	dc 01       	movw	r26, r24
      e0c:	cb 01       	movw	r24, r22
-     e0e:	2f e6       	ldi	r18, 0x6F	; 111
-     e10:	37 e4       	ldi	r19, 0x47	; 71
-     e12:	41 eb       	ldi	r20, 0xB1	; 177
+     e0e:	2e ee       	ldi	r18, 0xEE	; 238
+     e10:	35 ee       	ldi	r19, 0xE5	; 229
+     e12:	4c e9       	ldi	r20, 0x9C	; 156
      e14:	5d eb       	ldi	r21, 0xBD	; 189
      e16:	bc 01       	movw	r22, r24
      e18:	cd 01       	movw	r24, r26
      e1a:	1f d2       	rcall	.+1086   	; 0x125a <__mulsf3>
      e1c:	dc 01       	movw	r26, r24
      e1e:	cb 01       	movw	r24, r22
-     e20:	2a e9       	ldi	r18, 0x9A	; 154
-     e22:	39 e9       	ldi	r19, 0x99	; 153
-     e24:	47 e8       	ldi	r20, 0x87	; 135
-     e26:	51 e4       	ldi	r21, 0x41	; 65
+     e20:	2d ec       	ldi	r18, 0xCD	; 205
+     e22:	3c e4       	ldi	r19, 0x4C	; 76
+     e24:	40 e9       	ldi	r20, 0x90	; 144
+     e26:	52 e4       	ldi	r21, 0x42	; 66
      e28:	bc 01       	movw	r22, r24
      e2a:	cd 01       	movw	r24, r26
      e2c:	4b d0       	rcall	.+150    	; 0xec4 <__addsf3>
