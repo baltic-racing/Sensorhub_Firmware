@@ -147,41 +147,41 @@ int main(void)
 			int8_t steering_percentage = calculate_steering_percent((double) adc_get(2));			
 			
 			//damper travel
-			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((float)adc_get(4));
-			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((float)adc_get(5));
+			uint16_t federwegFL =  SPRINGTRAVEL_MAX - DAMP_MAX_FL + damper_poti((double)adc_get(4));
+			uint16_t federwegFR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((double)adc_get(3));
 			
 			
-			SensorHub0_databytes[0]	=	0														;	//lsb APPS1
-			SensorHub0_databytes[1]	=	0														;	//msb APPS1
-			SensorHub0_databytes[2]	=	0														;	//lsb APPS2
-			SensorHub0_databytes[3]	=	0														;	//msb APPS2
+			SensorHub0_databytes[0]	=	federwegFL												;	// lsb DTS FL
+			SensorHub0_databytes[1]	=	federwegFL >> 8											;	// msb DTS FL
+			SensorHub0_databytes[2]	=	federwegFR												;	// lsb DTS FR
+			SensorHub0_databytes[3]	=	federwegFR >> 8											;	// msb DTS FR
 			SensorHub0_databytes[4]	=	0														;	
 			SensorHub0_databytes[5]	=	0														;
-			SensorHub0_databytes[6]	=	0														;	//SDC
-			SensorHub0_databytes[7]	=	steering_percentage										;	//SA	
+			SensorHub0_databytes[6]	=	0														;	// SDC
+			SensorHub0_databytes[7]	=	steering_percentage										;	// SA	
 			
 			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
-			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) & 0xFF		;	//lsb BPS_F
-			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) >> 8			;	//msb BPS_F
-			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xFF		;	//lsb BPS_R
-			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) >> 8			;	//msb BPS_R
-			SensorHub1_databytes[4]	=	wheelspeed_left & 0xFF									;	//lsb wheelspeed left	
-			SensorHub1_databytes[5]	=	wheelspeed_left >> 8									;	//msb wheelspeed left
-			SensorHub1_databytes[6]	=	wheelspeed_right & 0xFF									;	//lsb wheelspeed right
-			SensorHub1_databytes[7]	=	wheelspeed_right >> 8									;	//msb wheelspeed right
+			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) & 0xFF		;	// lsb BPS_F
+			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) >> 8			;	// msb BPS_F
+			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xFF		;	// lsb BPS_R
+			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) >> 8			;	// msb BPS_R
+			SensorHub1_databytes[4]	=	wheelspeed_left & 0xFF									;	// lsb wheelspeed left	
+			SensorHub1_databytes[5]	=	wheelspeed_left >> 8									;	// msb wheelspeed left
+			SensorHub1_databytes[6]	=	wheelspeed_right & 0xFF									;	// lsb wheelspeed right
+			SensorHub1_databytes[7]	=	wheelspeed_right >> 8									;	// msb wheelspeed right
 			
-			SensorHub2_databytes[0]	=	(uint16_t) federwegFL;									;	//lsb DTS_FL
-			SensorHub2_databytes[1]	=	((uint16_t) federwegFL)>>8;								;	//msb DTS_FL
-			SensorHub2_databytes[2]	=	(uint16_t) federwegFR;									;	//lsb DTS_FR
-			SensorHub2_databytes[3]	=	((uint16_t) federwegFR)>>8;								;	//msb DTS_FR
-			SensorHub2_databytes[4]	=	0														;	//
-			SensorHub2_databytes[5]	=	0														;	//
-			SensorHub2_databytes[6]	=	0														;
-			SensorHub2_databytes[7]	=	0														;
+			//SensorHub2_databytes[0]	=	0														;	// reserved
+			//SensorHub2_databytes[1]	=	0														;	// reserved
+			//SensorHub2_databytes[2]	=	0														;	// reserved
+			//SensorHub2_databytes[3]	=	0														;	// reserved
+			//SensorHub2_databytes[4]	=	0														;	// reserved
+			//SensorHub2_databytes[5]	=	0														;	// reserved
+			//SensorHub2_databytes[6]	=	0														;	// reserved
+			//SensorHub2_databytes[7]	=	0														;	// reserved
 			
 			can_tx(&can_SensorHub0_mob, SensorHub0_databytes);			
 			can_tx(&can_SensorHub1_mob, SensorHub1_databytes);
-			//can_tx(&can_SensorHub2_mob, SensorHub2_databytes);
+			//can_tx(&can_SensorHub2_mob, SensorHub2_databytes);										// reserved
 			
 			sys_tick_heart();
 			
