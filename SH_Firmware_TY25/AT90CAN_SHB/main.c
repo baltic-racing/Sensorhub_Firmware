@@ -161,6 +161,8 @@ int main(void)
 			SensorHub0_databytes[7]	=	steering_percentage										;	// SA	
 			
 			//uint16_t testBPS = ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,100);
+			//SensorHub1_databytes[0]	=	adc_get(0) & 0xFF		;	// lsb BPS_F
+			//SensorHub1_databytes[1]	=	adc_get(0) >> 8			;	// msb BPS_F
 			SensorHub1_databytes[0]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) & 0xFF		;	// lsb BPS_F
 			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) >> 8			;	// msb BPS_F
 			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xFF		;	// lsb BPS_R

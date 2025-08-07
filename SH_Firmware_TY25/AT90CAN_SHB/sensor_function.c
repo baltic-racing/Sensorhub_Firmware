@@ -10,12 +10,12 @@
 #include <math.h>
 
 uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision){
-	uint16_t start_ADC = (pow(2,ADC_bit))/ADC_Volt*start_Volt;	
-	uint16_t end_ADC = (pow(2,ADC_bit))/ADC_Volt*end_Volt ;		
-	float ADC_range = end_ADC - start_ADC;						
-	float sensor_factor = sensor_max/ADC_range;					
-	uint16_t Sensor_Data = (data-start_ADC)*precision*sensor_factor;
-	if (data<start_ADC){//Set sensor value to zero if below the ADC Threshold
+	uint16_t start_ADC = (pow(2,ADC_bit))/ADC_Volt*start_Volt;	//0
+	uint16_t end_ADC = (pow(2,ADC_bit))/ADC_Volt*end_Volt ;		//1023
+	float ADC_range = end_ADC - start_ADC;						//1023		
+	float sensor_factor = sensor_max/ADC_range;					//4			bar/adc
+	uint16_t Sensor_Data = (data-start_ADC)*precision*sensor_factor;//*40	bar
+	if (data<(start_ADC+5)){//Set sensor value to zero if below the ADC Threshold
 		Sensor_Data = 0;
 	}
 	return Sensor_Data;
