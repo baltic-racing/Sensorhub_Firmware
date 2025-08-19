@@ -834,7 +834,7 @@ END GROUP
  .debug_frame   0x000002d8       0xa4 sensor_function.o
  .debug_frame   0x0000037c       0x94 SPI_lib.o
 
-.debug_str      0x00000000      0x99c
+.debug_str      0x00000000      0x946
  *(.debug_str)
  .debug_str     0x00000000      0x39f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/at90can128/avr51/crtat90can128.o
  .debug_str     0x0000039f      0x1b4 adc_functions.o
@@ -849,7 +849,7 @@ END GROUP
                                 0x1f2 (size before relaxing)
  .debug_str     0x00000818       0xe4 sensor_function.o
                                 0x272 (size before relaxing)
- .debug_str     0x000008fc       0xa0 SPI_lib.o
+ .debug_str     0x000008fc       0x4a SPI_lib.o
                                 0x1cd (size before relaxing)
 
 .debug_loc      0x00000000      0x76b

@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000410  00000000  00000000  00004b1c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000099c  00000000  00000000  00004f2c  2**0
+ 10 .debug_str    00000946  00000000  00000000  00004f2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000076b  00000000  00000000  000058c8  2**0
+ 11 .debug_loc    0000076b  00000000  00000000  00005872  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  00006033  2**0
+ 12 .debug_ranges 000000f0  00000000  00000000  00005fdd  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -2182,7 +2182,7 @@ double calculate_steering_percent(double pot_adc) {
 	if(pot_adc <= POT_MID){
      f38:	20 e0       	ldi	r18, 0x00	; 0
      f3a:	30 e0       	ldi	r19, 0x00	; 0
-     f3c:	4f ee       	ldi	r20, 0xEF	; 239
+     f3c:	42 ea       	ldi	r20, 0xA2	; 162
      f3e:	53 e4       	ldi	r21, 0x43	; 67
      f40:	6d 81       	ldd	r22, Y+5	; 0x05
      f42:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2194,8 +2194,8 @@ double calculate_steering_percent(double pot_adc) {
 		steering_value = 100 - ((100 / (double)(POT_MID - POT_MIN)) * (pot_adc - (double)POT_MIN));
      f4e:	20 e0       	ldi	r18, 0x00	; 0
      f50:	30 e0       	ldi	r19, 0x00	; 0
-     f52:	4b e2       	ldi	r20, 0x2B	; 43
-     f54:	53 e4       	ldi	r21, 0x43	; 67
+     f52:	40 e0       	ldi	r20, 0x00	; 0
+     f54:	50 e4       	ldi	r21, 0x40	; 64
      f56:	6d 81       	ldd	r22, Y+5	; 0x05
      f58:	7e 81       	ldd	r23, Y+6	; 0x06
      f5a:	8f 81       	ldd	r24, Y+7	; 0x07
@@ -2203,9 +2203,9 @@ double calculate_steering_percent(double pot_adc) {
      f5e:	af d0       	rcall	.+350    	; 0x10be <__subsf3>
      f60:	dc 01       	movw	r26, r24
      f62:	cb 01       	movw	r24, r22
-     f64:	26 e7       	ldi	r18, 0x76	; 118
-     f66:	36 ec       	ldi	r19, 0xC6	; 198
-     f68:	46 ea       	ldi	r20, 0xA6	; 166
+     f64:	27 e9       	ldi	r18, 0x97	; 151
+     f66:	31 e0       	ldi	r19, 0x01	; 1
+     f68:	4f e9       	ldi	r20, 0x9F	; 159
      f6a:	5e e3       	ldi	r21, 0x3E	; 62
      f6c:	bc 01       	movw	r22, r24
      f6e:	cd 01       	movw	r24, r26
@@ -2250,7 +2250,7 @@ double calculate_steering_percent(double pot_adc) {
 	if(pot_adc > POT_MID){
      fb6:	20 e0       	ldi	r18, 0x00	; 0
      fb8:	30 e0       	ldi	r19, 0x00	; 0
-     fba:	4f ee       	ldi	r20, 0xEF	; 239
+     fba:	42 ea       	ldi	r20, 0xA2	; 162
      fbc:	53 e4       	ldi	r21, 0x43	; 67
      fbe:	6d 81       	ldd	r22, Y+5	; 0x05
      fc0:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2261,8 +2261,8 @@ double calculate_steering_percent(double pot_adc) {
      fca:	ac f5       	brge	.+106    	; 0x1036 <__DATA_REGION_LENGTH__+0x36>
 		steering_value = -1 * (100 - ((100 / (double)(POT_MID - POT_MAX)) * (pot_adc - (double)POT_MAX)));
      fcc:	20 e0       	ldi	r18, 0x00	; 0
-     fce:	30 e4       	ldi	r19, 0x40	; 64
-     fd0:	47 e4       	ldi	r20, 0x47	; 71
+     fce:	30 ec       	ldi	r19, 0xC0	; 192
+     fd0:	4d e2       	ldi	r20, 0x2D	; 45
      fd2:	54 e4       	ldi	r21, 0x44	; 68
      fd4:	6d 81       	ldd	r22, Y+5	; 0x05
      fd6:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2271,9 +2271,9 @@ double calculate_steering_percent(double pot_adc) {
      fdc:	70 d0       	rcall	.+224    	; 0x10be <__subsf3>
      fde:	dc 01       	movw	r26, r24
      fe0:	cb 01       	movw	r24, r22
-     fe2:	27 e6       	ldi	r18, 0x67	; 103
-     fe4:	30 e8       	ldi	r19, 0x80	; 128
-     fe6:	40 ea       	ldi	r20, 0xA0	; 160
+     fe2:	21 e6       	ldi	r18, 0x61	; 97
+     fe4:	31 e0       	ldi	r19, 0x01	; 1
+     fe6:	4a e8       	ldi	r20, 0x8A	; 138
      fe8:	5e e3       	ldi	r21, 0x3E	; 62
      fea:	bc 01       	movw	r22, r24
      fec:	cd 01       	movw	r24, r26
@@ -2334,10 +2334,18 @@ double calculate_steering_percent(double pot_adc) {
     1052:	08 95       	ret
 
 00001054 <SPI_MasterInit>:
+#include "SPI_lib.h"
+
+extern volatile uint8_t wheelspeed;
+
+void SPI_MasterInit()
+{
     1054:	cf 93       	push	r28
     1056:	df 93       	push	r29
     1058:	cd b7       	in	r28, 0x3d	; 61
     105a:	de b7       	in	r29, 0x3e	; 62
+	//Set MOSI, SCK, all SS as output
+	DDRB |= (1<<MOSI) | (1<<SCK);
     105c:	84 e2       	ldi	r24, 0x24	; 36
     105e:	90 e0       	ldi	r25, 0x00	; 0
     1060:	24 e2       	ldi	r18, 0x24	; 36
@@ -2347,6 +2355,7 @@ double calculate_steering_percent(double pot_adc) {
     1068:	26 60       	ori	r18, 0x06	; 6
     106a:	fc 01       	movw	r30, r24
     106c:	20 83       	st	Z, r18
+	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
     106e:	8d e2       	ldi	r24, 0x2D	; 45
     1070:	90 e0       	ldi	r25, 0x00	; 0
     1072:	2d e2       	ldi	r18, 0x2D	; 45
@@ -2356,6 +2365,9 @@ double calculate_steering_percent(double pot_adc) {
     107a:	2f 61       	ori	r18, 0x1F	; 31
     107c:	fc 01       	movw	r30, r24
     107e:	20 83       	st	Z, r18
+	
+	//Set MISO as input
+	DDRB &= ~(1<<MISO);
     1080:	84 e2       	ldi	r24, 0x24	; 36
     1082:	90 e0       	ldi	r25, 0x00	; 0
     1084:	24 e2       	ldi	r18, 0x24	; 36
@@ -2365,6 +2377,12 @@ double calculate_steering_percent(double pot_adc) {
     108c:	27 7f       	andi	r18, 0xF7	; 247
     108e:	fc 01       	movw	r30, r24
     1090:	20 83       	st	Z, r18
+	
+	// Set internal pull-up for MISO
+	//PORTB |= (1 << MISO);
+	
+	//enables SPI, Master-Mode, configure Clock_Select
+	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Master) | (1<<SPI_Relation1) | (0<<SPI_Relation0);
     1092:	8c e4       	ldi	r24, 0x4C	; 76
     1094:	90 e0       	ldi	r25, 0x00	; 0
     1096:	2c e4       	ldi	r18, 0x4C	; 76
@@ -2374,6 +2392,9 @@ double calculate_steering_percent(double pot_adc) {
     109e:	22 65       	ori	r18, 0x52	; 82
     10a0:	fc 01       	movw	r30, r24
     10a2:	20 83       	st	Z, r18
+	
+	//Set all SS High
+	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
     10a4:	8e e2       	ldi	r24, 0x2E	; 46
     10a6:	90 e0       	ldi	r25, 0x00	; 0
     10a8:	2e e2       	ldi	r18, 0x2E	; 46
@@ -2383,6 +2404,7 @@ double calculate_steering_percent(double pot_adc) {
     10b0:	2f 61       	ori	r18, 0x1F	; 31
     10b2:	fc 01       	movw	r30, r24
     10b4:	20 83       	st	Z, r18
+}
     10b6:	00 00       	nop
     10b8:	df 91       	pop	r29
     10ba:	cf 91       	pop	r28
