@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000410  00000000  00000000  00004b1c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000946  00000000  00000000  00004f2c  2**0
+ 10 .debug_str    000009a5  00000000  00000000  00004f2c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000076b  00000000  00000000  00005872  2**0
+ 11 .debug_loc    0000076b  00000000  00000000  000058d1  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  00005fdd  2**0
+ 12 .debug_ranges 000000f0  00000000  00000000  0000603c  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -201,32 +201,20 @@ Disassembly of section .text:
      138:	63 cf       	rjmp	.-314    	; 0x0 <__vectors>
 
 0000013a <adc_config>:
-uint8_t adc_next = 0;
-
-
-
-void adc_config()
-{
      13a:	cf 93       	push	r28
      13c:	df 93       	push	r29
      13e:	cd b7       	in	r28, 0x3d	; 61
      140:	de b7       	in	r29, 0x3e	; 62
-	//AREF = AVCC, PF0
-	ADMUX = (1<<REFS0) | (1<<MUX0);
      142:	8c e7       	ldi	r24, 0x7C	; 124
      144:	90 e0       	ldi	r25, 0x00	; 0
      146:	21 e4       	ldi	r18, 0x41	; 65
      148:	fc 01       	movw	r30, r24
      14a:	20 83       	st	Z, r18
-	//ADC Enable, /16, Interrupt Enable
-	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0) | (1<<ADIE);
      14c:	8a e7       	ldi	r24, 0x7A	; 122
      14e:	90 e0       	ldi	r25, 0x00	; 0
      150:	2c e8       	ldi	r18, 0x8C	; 140
      152:	fc 01       	movw	r30, r24
      154:	20 83       	st	Z, r18
-	//Start Conversion
-	ADCSRA |= (1<<ADSC);
      156:	8a e7       	ldi	r24, 0x7A	; 122
      158:	90 e0       	ldi	r25, 0x00	; 0
      15a:	2a e7       	ldi	r18, 0x7A	; 122
@@ -236,44 +224,32 @@ void adc_config()
      162:	20 64       	ori	r18, 0x40	; 64
      164:	fc 01       	movw	r30, r24
      166:	20 83       	st	Z, r18
-}
      168:	00 00       	nop
      16a:	df 91       	pop	r29
      16c:	cf 91       	pop	r28
      16e:	08 95       	ret
 
 00000170 <adc_start_conversion>:
-
-void adc_start_conversion()
-{
      170:	cf 93       	push	r28
      172:	df 93       	push	r29
      174:	cd b7       	in	r28, 0x3d	; 61
      176:	de b7       	in	r29, 0x3e	; 62
-	//start next conversion with same config
-	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (1<<ADPS0) | (1<<ADIE) | (1<<ADSC); //prescaler to 16
      178:	8a e7       	ldi	r24, 0x7A	; 122
      17a:	90 e0       	ldi	r25, 0x00	; 0
      17c:	2d ec       	ldi	r18, 0xCD	; 205
      17e:	fc 01       	movw	r30, r24
      180:	20 83       	st	Z, r18
-	//!!! Currently we have to Start the conversion manually with ADSC=1. Normally SMCR should auto trigger the conversion but as of now it does not work. neither do we know if the uC goes into Noise reduction mode
-	SMCR = (1<<SM0)|(0<<SM1)|(0<<SM2); //enable ADC noise reduction mode and starts the conversion
      182:	83 e5       	ldi	r24, 0x53	; 83
      184:	90 e0       	ldi	r25, 0x00	; 0
      186:	22 e0       	ldi	r18, 0x02	; 2
      188:	fc 01       	movw	r30, r24
      18a:	20 83       	st	Z, r18
-}
      18c:	00 00       	nop
      18e:	df 91       	pop	r29
      190:	cf 91       	pop	r28
      192:	08 95       	ret
 
 00000194 <__vector_25>:
-
-
-ISR(ADC_vect){
      194:	1f 92       	push	r1
      196:	0f 92       	push	r0
      198:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7e005f>
@@ -291,9 +267,6 @@ ISR(ADC_vect){
      1b4:	df 93       	push	r29
      1b6:	cd b7       	in	r28, 0x3d	; 61
      1b8:	de b7       	in	r29, 0x3e	; 62
-	
-	// store ADC result
-	adc_values[adc_next] = ADC;
      1ba:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
      1be:	88 2f       	mov	r24, r24
      1c0:	90 e0       	ldi	r25, 0x00	; 0
@@ -309,29 +282,19 @@ ISR(ADC_vect){
      1d4:	fc 01       	movw	r30, r24
      1d6:	31 83       	std	Z+1, r19	; 0x01
      1d8:	20 83       	st	Z, r18
-	adc_next++;
      1da:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
      1de:	8f 5f       	subi	r24, 0xFF	; 255
      1e0:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
-	
-	// reset index var
-	if(adc_next == ADCVALUES){
      1e4:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
      1e8:	85 30       	cpi	r24, 0x05	; 5
      1ea:	11 f4       	brne	.+4      	; 0x1f0 <__vector_25+0x5c>
-		adc_next = 0;
      1ec:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__DATA_REGION_ORIGIN__>
-	}
-	// select other ADC Input
-	ADMUX = (1<<REFS0) | adc_next;
      1f0:	8c e7       	ldi	r24, 0x7C	; 124
      1f2:	90 e0       	ldi	r25, 0x00	; 0
      1f4:	20 91 00 01 	lds	r18, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
      1f8:	20 64       	ori	r18, 0x40	; 64
      1fa:	fc 01       	movw	r30, r24
      1fc:	20 83       	st	Z, r18
-	
-}
      1fe:	00 00       	nop
      200:	df 91       	pop	r29
      202:	cf 91       	pop	r28
@@ -350,17 +313,12 @@ ISR(ADC_vect){
      220:	18 95       	reti
 
 00000222 <adc_get>:
-
-// getter for each adc var
-uint16_t adc_get(uint8_t adc)
-{
      222:	cf 93       	push	r28
      224:	df 93       	push	r29
      226:	1f 92       	push	r1
      228:	cd b7       	in	r28, 0x3d	; 61
      22a:	de b7       	in	r29, 0x3e	; 62
      22c:	89 83       	std	Y+1, r24	; 0x01
-	return adc_values[adc];
      22e:	89 81       	ldd	r24, Y+1	; 0x01
      230:	88 2f       	mov	r24, r24
      232:	90 e0       	ldi	r25, 0x00	; 0
@@ -377,55 +335,37 @@ uint16_t adc_get(uint8_t adc)
      248:	08 95       	ret
 
 0000024a <CAN_Init_Messages>:
-
-struct CAN_MOB can_SensorHub0_mob;
-struct CAN_MOB can_SensorHub1_mob;
-struct CAN_MOB can_SensorHub2_mob;
-
-CAN_Init_Messages(){
      24a:	cf 93       	push	r28
      24c:	df 93       	push	r29
      24e:	cd b7       	in	r28, 0x3d	; 61
      250:	de b7       	in	r29, 0x3e	; 62
-	
-	can_SensorHub0_mob.mob_id = 0x400;
      252:	80 e0       	ldi	r24, 0x00	; 0
      254:	94 e0       	ldi	r25, 0x04	; 4
      256:	90 93 37 01 	sts	0x0137, r25	; 0x800137 <can_SensorHub0_mob+0x1>
      25a:	80 93 36 01 	sts	0x0136, r24	; 0x800136 <can_SensorHub0_mob>
-	can_SensorHub0_mob.mob_idmask = 0xFFFF; //sent
      25e:	8f ef       	ldi	r24, 0xFF	; 255
      260:	9f ef       	ldi	r25, 0xFF	; 255
      262:	90 93 39 01 	sts	0x0139, r25	; 0x800139 <can_SensorHub0_mob+0x3>
      266:	80 93 38 01 	sts	0x0138, r24	; 0x800138 <can_SensorHub0_mob+0x2>
-	can_SensorHub0_mob.mob_number = 0;
      26a:	10 92 3a 01 	sts	0x013A, r1	; 0x80013a <can_SensorHub0_mob+0x4>
-
-	can_SensorHub1_mob.mob_id = 0x401;
      26e:	81 e0       	ldi	r24, 0x01	; 1
      270:	94 e0       	ldi	r25, 0x04	; 4
      272:	90 93 44 01 	sts	0x0144, r25	; 0x800144 <can_SensorHub1_mob+0x1>
      276:	80 93 43 01 	sts	0x0143, r24	; 0x800143 <can_SensorHub1_mob>
-	can_SensorHub1_mob.mob_idmask = 0xFFFF; //sent
      27a:	8f ef       	ldi	r24, 0xFF	; 255
      27c:	9f ef       	ldi	r25, 0xFF	; 255
      27e:	90 93 46 01 	sts	0x0146, r25	; 0x800146 <can_SensorHub1_mob+0x3>
      282:	80 93 45 01 	sts	0x0145, r24	; 0x800145 <can_SensorHub1_mob+0x2>
-	can_SensorHub1_mob.mob_number = 1;
      286:	81 e0       	ldi	r24, 0x01	; 1
      288:	80 93 47 01 	sts	0x0147, r24	; 0x800147 <can_SensorHub1_mob+0x4>
-	
-	can_SensorHub2_mob.mob_id = 0x402;
      28c:	82 e0       	ldi	r24, 0x02	; 2
      28e:	94 e0       	ldi	r25, 0x04	; 4
      290:	90 93 2a 01 	sts	0x012A, r25	; 0x80012a <can_SensorHub2_mob+0x1>
      294:	80 93 29 01 	sts	0x0129, r24	; 0x800129 <can_SensorHub2_mob>
-	can_SensorHub2_mob.mob_idmask = 0xFFFF; //sent
      298:	8f ef       	ldi	r24, 0xFF	; 255
      29a:	9f ef       	ldi	r25, 0xFF	; 255
      29c:	90 93 2c 01 	sts	0x012C, r25	; 0x80012c <can_SensorHub2_mob+0x3>
      2a0:	80 93 2b 01 	sts	0x012B, r24	; 0x80012b <can_SensorHub2_mob+0x2>
-	can_SensorHub2_mob.mob_number = 2;
      2a4:	82 e0       	ldi	r24, 0x02	; 2
      2a6:	80 93 2d 01 	sts	0x012D, r24	; 0x80012d <can_SensorHub2_mob+0x4>
      2aa:	00 00       	nop
@@ -434,12 +374,6 @@ CAN_Init_Messages(){
      2b0:	08 95       	ret
 
 000002b2 <can_check_free>:
-		CANPAGE = (to_receive->mob_number << MOBNB0) | (1 << AINC) | byte;
-		data[byte] = CANMSG;
-	}
-	
-	
-}
      2b2:	cf 93       	push	r28
      2b4:	df 93       	push	r29
      2b6:	00 d0       	rcall	.+0      	; 0x2b8 <can_check_free+0x6>
@@ -640,7 +574,6 @@ CAN_Init_Messages(){
      438:	08 95       	ret
 
 0000043a <can_tx>:
-void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      43a:	cf 93       	push	r28
      43c:	df 93       	push	r29
      43e:	00 d0       	rcall	.+0      	; 0x440 <can_tx+0x6>
@@ -652,11 +585,8 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      44a:	8a 83       	std	Y+2, r24	; 0x02
      44c:	7d 83       	std	Y+5, r23	; 0x05
      44e:	6c 83       	std	Y+4, r22	; 0x04
-	
-	for(uint8_t byte = 0; byte <8; byte++){
      450:	19 82       	std	Y+1, r1	; 0x01
      452:	24 c0       	rjmp	.+72     	; 0x49c <can_tx+0x62>
-		CANPAGE = (to_send->mob_number << MOBNB0) | (1 << AINC) | byte;
      454:	8d ee       	ldi	r24, 0xED	; 237
      456:	90 e0       	ldi	r25, 0x00	; 0
      458:	2a 81       	ldd	r18, Y+2	; 0x02
@@ -677,7 +607,6 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      476:	28 60       	ori	r18, 0x08	; 8
      478:	fc 01       	movw	r30, r24
      47a:	20 83       	st	Z, r18
-		CANMSG = data[byte];
      47c:	8a ef       	ldi	r24, 0xFA	; 250
      47e:	90 e0       	ldi	r25, 0x00	; 0
      480:	29 81       	ldd	r18, Y+1	; 0x01
@@ -691,23 +620,12 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      490:	20 81       	ld	r18, Z
      492:	fc 01       	movw	r30, r24
      494:	20 83       	st	Z, r18
-	
-	
-}
-void can_tx(struct CAN_MOB *to_send, uint8_t *data){
-	
-	for(uint8_t byte = 0; byte <8; byte++){
      496:	89 81       	ldd	r24, Y+1	; 0x01
      498:	8f 5f       	subi	r24, 0xFF	; 255
      49a:	89 83       	std	Y+1, r24	; 0x01
      49c:	89 81       	ldd	r24, Y+1	; 0x01
      49e:	88 30       	cpi	r24, 0x08	; 8
      4a0:	c8 f2       	brcs	.-78     	; 0x454 <can_tx+0x1a>
-		CANPAGE = (to_send->mob_number << MOBNB0) | (1 << AINC) | byte;
-		CANMSG = data[byte];
-	}
-	
-	CANPAGE = to_send->mob_number << MOBNB0;
      4a2:	8d ee       	ldi	r24, 0xED	; 237
      4a4:	90 e0       	ldi	r25, 0x00	; 0
      4a6:	2a 81       	ldd	r18, Y+2	; 0x02
@@ -718,7 +636,6 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      4b0:	20 7f       	andi	r18, 0xF0	; 240
      4b2:	fc 01       	movw	r30, r24
      4b4:	20 83       	st	Z, r18
-	if (can_check_free(to_send->mob_number)){
      4b6:	8a 81       	ldd	r24, Y+2	; 0x02
      4b8:	9b 81       	ldd	r25, Y+3	; 0x03
      4ba:	fc 01       	movw	r30, r24
@@ -727,12 +644,10 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      4c0:	88 23       	and	r24, r24
      4c2:	09 f4       	brne	.+2      	; 0x4c6 <can_tx+0x8c>
      4c4:	44 c0       	rjmp	.+136    	; 0x54e <can_tx+0x114>
-		CANSTMOB = 0;
      4c6:	8e ee       	ldi	r24, 0xEE	; 238
      4c8:	90 e0       	ldi	r25, 0x00	; 0
      4ca:	fc 01       	movw	r30, r24
      4cc:	10 82       	st	Z, r1
-		CANIDT1 = to_send->mob_id>>3;
      4ce:	83 ef       	ldi	r24, 0xF3	; 243
      4d0:	90 e0       	ldi	r25, 0x00	; 0
      4d2:	2a 81       	ldd	r18, Y+2	; 0x02
@@ -748,7 +663,6 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      4e6:	27 95       	ror	r18
      4e8:	fc 01       	movw	r30, r24
      4ea:	20 83       	st	Z, r18
-		CANIDT2 = (to_send->mob_id << 5) & 0b11100000;
      4ec:	82 ef       	ldi	r24, 0xF2	; 242
      4ee:	90 e0       	ldi	r25, 0x00	; 0
      4f0:	2a 81       	ldd	r18, Y+2	; 0x02
@@ -761,54 +675,43 @@ void can_tx(struct CAN_MOB *to_send, uint8_t *data){
      4fe:	20 7e       	andi	r18, 0xE0	; 224
      500:	fc 01       	movw	r30, r24
      502:	20 83       	st	Z, r18
-		CANIDT3 = 0;
      504:	81 ef       	ldi	r24, 0xF1	; 241
      506:	90 e0       	ldi	r25, 0x00	; 0
      508:	fc 01       	movw	r30, r24
      50a:	10 82       	st	Z, r1
-		CANIDT4 = 0;
      50c:	80 ef       	ldi	r24, 0xF0	; 240
      50e:	90 e0       	ldi	r25, 0x00	; 0
      510:	fc 01       	movw	r30, r24
      512:	10 82       	st	Z, r1
-		CANIDM1 = 0; //0b11111111;
      514:	87 ef       	ldi	r24, 0xF7	; 247
      516:	90 e0       	ldi	r25, 0x00	; 0
      518:	fc 01       	movw	r30, r24
      51a:	10 82       	st	Z, r1
-		CANIDM2 = 0; //0b11100000;
      51c:	86 ef       	ldi	r24, 0xF6	; 246
      51e:	90 e0       	ldi	r25, 0x00	; 0
      520:	fc 01       	movw	r30, r24
      522:	10 82       	st	Z, r1
-		CANIDM3 = 0;
      524:	85 ef       	ldi	r24, 0xF5	; 245
      526:	90 e0       	ldi	r25, 0x00	; 0
      528:	fc 01       	movw	r30, r24
      52a:	10 82       	st	Z, r1
-		CANIDM4 = 0;
      52c:	84 ef       	ldi	r24, 0xF4	; 244
      52e:	90 e0       	ldi	r25, 0x00	; 0
      530:	fc 01       	movw	r30, r24
      532:	10 82       	st	Z, r1
-		CANSTMOB = 0;
      534:	8e ee       	ldi	r24, 0xEE	; 238
      536:	90 e0       	ldi	r25, 0x00	; 0
      538:	fc 01       	movw	r30, r24
      53a:	10 82       	st	Z, r1
-		CANCDMOB = (1<<CONMOB0) | 1 << DLC3;
      53c:	8f ee       	ldi	r24, 0xEF	; 239
      53e:	90 e0       	ldi	r25, 0x00	; 0
      540:	28 e4       	ldi	r18, 0x48	; 72
      542:	fc 01       	movw	r30, r24
      544:	20 83       	st	Z, r18
-		CANSTMOB = 0;
      546:	8e ee       	ldi	r24, 0xEE	; 238
      548:	90 e0       	ldi	r25, 0x00	; 0
      54a:	fc 01       	movw	r30, r24
      54c:	10 82       	st	Z, r1
-	}
-	
      54e:	00 00       	nop
      550:	0f 90       	pop	r0
      552:	0f 90       	pop	r0
@@ -1686,12 +1589,6 @@ int main(void)
 
     }
      bb0:	90 e0       	ldi	r25, 0x00	; 0
-}
-
-void fault_detected()
-{
-	PORTC |= (1<<PC0); //turn on red led when called (fault present)
-}
      bb2:	27 e2       	ldi	r18, 0x27	; 39
      bb4:	30 e0       	ldi	r19, 0x00	; 0
      bb6:	f9 01       	movw	r30, r18
@@ -1759,9 +1656,6 @@ void fault_detected()
      c2a:	08 95       	ret
 
 00000c2c <__vector_16>:
-
-ISR(TIMER0_COMP_vect)
-{
      c2c:	1f 92       	push	r1
      c2e:	0f 92       	push	r0
      c30:	00 90 5f 00 	lds	r0, 0x005F	; 0x80005f <__TEXT_REGION_LENGTH__+0x7e005f>
@@ -1775,7 +1669,6 @@ ISR(TIMER0_COMP_vect)
      c42:	df 93       	push	r29
      c44:	cd b7       	in	r28, 0x3d	; 61
      c46:	de b7       	in	r29, 0x3e	; 62
-	sys_time++;
      c48:	80 91 1b 01 	lds	r24, 0x011B	; 0x80011b <sys_time>
      c4c:	90 91 1c 01 	lds	r25, 0x011C	; 0x80011c <sys_time+0x1>
      c50:	a0 91 1d 01 	lds	r26, 0x011D	; 0x80011d <sys_time+0x2>
@@ -2182,7 +2075,7 @@ double calculate_steering_percent(double pot_adc) {
 	if(pot_adc <= POT_MID){
      f38:	20 e0       	ldi	r18, 0x00	; 0
      f3a:	30 e0       	ldi	r19, 0x00	; 0
-     f3c:	42 ea       	ldi	r20, 0xA2	; 162
+     f3c:	4d ea       	ldi	r20, 0xAD	; 173
      f3e:	53 e4       	ldi	r21, 0x43	; 67
      f40:	6d 81       	ldd	r22, Y+5	; 0x05
      f42:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2194,8 +2087,8 @@ double calculate_steering_percent(double pot_adc) {
 		steering_value = 100 - ((100 / (double)(POT_MID - POT_MIN)) * (pot_adc - (double)POT_MIN));
      f4e:	20 e0       	ldi	r18, 0x00	; 0
      f50:	30 e0       	ldi	r19, 0x00	; 0
-     f52:	40 e0       	ldi	r20, 0x00	; 0
-     f54:	50 e4       	ldi	r21, 0x40	; 64
+     f52:	40 e4       	ldi	r20, 0x40	; 64
+     f54:	51 e4       	ldi	r21, 0x41	; 65
      f56:	6d 81       	ldd	r22, Y+5	; 0x05
      f58:	7e 81       	ldd	r23, Y+6	; 0x06
      f5a:	8f 81       	ldd	r24, Y+7	; 0x07
@@ -2203,9 +2096,9 @@ double calculate_steering_percent(double pot_adc) {
      f5e:	af d0       	rcall	.+350    	; 0x10be <__subsf3>
      f60:	dc 01       	movw	r26, r24
      f62:	cb 01       	movw	r24, r22
-     f64:	27 e9       	ldi	r18, 0x97	; 151
-     f66:	31 e0       	ldi	r19, 0x01	; 1
-     f68:	4f e9       	ldi	r20, 0x9F	; 159
+     f64:	2d e1       	ldi	r18, 0x1D	; 29
+     f66:	3b e4       	ldi	r19, 0x4B	; 75
+     f68:	49 e9       	ldi	r20, 0x99	; 153
      f6a:	5e e3       	ldi	r21, 0x3E	; 62
      f6c:	bc 01       	movw	r22, r24
      f6e:	cd 01       	movw	r24, r26
@@ -2250,7 +2143,7 @@ double calculate_steering_percent(double pot_adc) {
 	if(pot_adc > POT_MID){
      fb6:	20 e0       	ldi	r18, 0x00	; 0
      fb8:	30 e0       	ldi	r19, 0x00	; 0
-     fba:	42 ea       	ldi	r20, 0xA2	; 162
+     fba:	4d ea       	ldi	r20, 0xAD	; 173
      fbc:	53 e4       	ldi	r21, 0x43	; 67
      fbe:	6d 81       	ldd	r22, Y+5	; 0x05
      fc0:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2261,8 +2154,8 @@ double calculate_steering_percent(double pot_adc) {
      fca:	ac f5       	brge	.+106    	; 0x1036 <__DATA_REGION_LENGTH__+0x36>
 		steering_value = -1 * (100 - ((100 / (double)(POT_MID - POT_MAX)) * (pot_adc - (double)POT_MAX)));
      fcc:	20 e0       	ldi	r18, 0x00	; 0
-     fce:	30 ec       	ldi	r19, 0xC0	; 192
-     fd0:	4d e2       	ldi	r20, 0x2D	; 45
+     fce:	30 e0       	ldi	r19, 0x00	; 0
+     fd0:	44 e3       	ldi	r20, 0x34	; 52
      fd2:	54 e4       	ldi	r21, 0x44	; 68
      fd4:	6d 81       	ldd	r22, Y+5	; 0x05
      fd6:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2271,9 +2164,9 @@ double calculate_steering_percent(double pot_adc) {
      fdc:	70 d0       	rcall	.+224    	; 0x10be <__subsf3>
      fde:	dc 01       	movw	r26, r24
      fe0:	cb 01       	movw	r24, r22
-     fe2:	21 e6       	ldi	r18, 0x61	; 97
-     fe4:	31 e0       	ldi	r19, 0x01	; 1
-     fe6:	4a e8       	ldi	r20, 0x8A	; 138
+     fe2:	2d ef       	ldi	r18, 0xFD	; 253
+     fe4:	35 ee       	ldi	r19, 0xE5	; 229
+     fe6:	48 e8       	ldi	r20, 0x88	; 136
      fe8:	5e e3       	ldi	r21, 0x3E	; 62
      fea:	bc 01       	movw	r22, r24
      fec:	cd 01       	movw	r24, r26
@@ -2334,18 +2227,10 @@ double calculate_steering_percent(double pot_adc) {
     1052:	08 95       	ret
 
 00001054 <SPI_MasterInit>:
-#include "SPI_lib.h"
-
-extern volatile uint8_t wheelspeed;
-
-void SPI_MasterInit()
-{
     1054:	cf 93       	push	r28
     1056:	df 93       	push	r29
     1058:	cd b7       	in	r28, 0x3d	; 61
     105a:	de b7       	in	r29, 0x3e	; 62
-	//Set MOSI, SCK, all SS as output
-	DDRB |= (1<<MOSI) | (1<<SCK);
     105c:	84 e2       	ldi	r24, 0x24	; 36
     105e:	90 e0       	ldi	r25, 0x00	; 0
     1060:	24 e2       	ldi	r18, 0x24	; 36
@@ -2355,7 +2240,6 @@ void SPI_MasterInit()
     1068:	26 60       	ori	r18, 0x06	; 6
     106a:	fc 01       	movw	r30, r24
     106c:	20 83       	st	Z, r18
-	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
     106e:	8d e2       	ldi	r24, 0x2D	; 45
     1070:	90 e0       	ldi	r25, 0x00	; 0
     1072:	2d e2       	ldi	r18, 0x2D	; 45
@@ -2365,9 +2249,6 @@ void SPI_MasterInit()
     107a:	2f 61       	ori	r18, 0x1F	; 31
     107c:	fc 01       	movw	r30, r24
     107e:	20 83       	st	Z, r18
-	
-	//Set MISO as input
-	DDRB &= ~(1<<MISO);
     1080:	84 e2       	ldi	r24, 0x24	; 36
     1082:	90 e0       	ldi	r25, 0x00	; 0
     1084:	24 e2       	ldi	r18, 0x24	; 36
@@ -2377,12 +2258,6 @@ void SPI_MasterInit()
     108c:	27 7f       	andi	r18, 0xF7	; 247
     108e:	fc 01       	movw	r30, r24
     1090:	20 83       	st	Z, r18
-	
-	// Set internal pull-up for MISO
-	//PORTB |= (1 << MISO);
-	
-	//enables SPI, Master-Mode, configure Clock_Select
-	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Master) | (1<<SPI_Relation1) | (0<<SPI_Relation0);
     1092:	8c e4       	ldi	r24, 0x4C	; 76
     1094:	90 e0       	ldi	r25, 0x00	; 0
     1096:	2c e4       	ldi	r18, 0x4C	; 76
@@ -2392,9 +2267,6 @@ void SPI_MasterInit()
     109e:	22 65       	ori	r18, 0x52	; 82
     10a0:	fc 01       	movw	r30, r24
     10a2:	20 83       	st	Z, r18
-	
-	//Set all SS High
-	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
     10a4:	8e e2       	ldi	r24, 0x2E	; 46
     10a6:	90 e0       	ldi	r25, 0x00	; 0
     10a8:	2e e2       	ldi	r18, 0x2E	; 46
@@ -2404,7 +2276,6 @@ void SPI_MasterInit()
     10b0:	2f 61       	ori	r18, 0x1F	; 31
     10b2:	fc 01       	movw	r30, r24
     10b4:	20 83       	st	Z, r18
-}
     10b6:	00 00       	nop
     10b8:	df 91       	pop	r29
     10ba:	cf 91       	pop	r28
