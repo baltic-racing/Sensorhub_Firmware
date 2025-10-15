@@ -2074,9 +2074,9 @@ double calculate_steering_percent(double pot_adc) {
 	
 	if(pot_adc <= POT_MID){
      f38:	20 e0       	ldi	r18, 0x00	; 0
-     f3a:	30 e0       	ldi	r19, 0x00	; 0
-     f3c:	4d ea       	ldi	r20, 0xAD	; 173
-     f3e:	53 e4       	ldi	r21, 0x43	; 67
+     f3a:	30 e4       	ldi	r19, 0x40	; 64
+     f3c:	46 e0       	ldi	r20, 0x06	; 6
+     f3e:	54 e4       	ldi	r21, 0x44	; 68
      f40:	6d 81       	ldd	r22, Y+5	; 0x05
      f42:	7e 81       	ldd	r23, Y+6	; 0x06
      f44:	8f 81       	ldd	r24, Y+7	; 0x07
@@ -2087,8 +2087,8 @@ double calculate_steering_percent(double pot_adc) {
 		steering_value = 100 - ((100 / (double)(POT_MID - POT_MIN)) * (pot_adc - (double)POT_MIN));
      f4e:	20 e0       	ldi	r18, 0x00	; 0
      f50:	30 e0       	ldi	r19, 0x00	; 0
-     f52:	40 e4       	ldi	r20, 0x40	; 64
-     f54:	51 e4       	ldi	r21, 0x41	; 65
+     f52:	46 e1       	ldi	r20, 0x16	; 22
+     f54:	53 e4       	ldi	r21, 0x43	; 67
      f56:	6d 81       	ldd	r22, Y+5	; 0x05
      f58:	7e 81       	ldd	r23, Y+6	; 0x06
      f5a:	8f 81       	ldd	r24, Y+7	; 0x07
@@ -2096,9 +2096,9 @@ double calculate_steering_percent(double pot_adc) {
      f5e:	af d0       	rcall	.+350    	; 0x10be <__subsf3>
      f60:	dc 01       	movw	r26, r24
      f62:	cb 01       	movw	r24, r22
-     f64:	2d e1       	ldi	r18, 0x1D	; 29
-     f66:	3b e4       	ldi	r19, 0x4B	; 75
-     f68:	49 e9       	ldi	r20, 0x99	; 153
+     f64:	2c eb       	ldi	r18, 0xBC	; 188
+     f66:	3c e4       	ldi	r19, 0x4C	; 76
+     f68:	44 e8       	ldi	r20, 0x84	; 132
      f6a:	5e e3       	ldi	r21, 0x3E	; 62
      f6c:	bc 01       	movw	r22, r24
      f6e:	cd 01       	movw	r24, r26
@@ -2142,9 +2142,9 @@ double calculate_steering_percent(double pot_adc) {
 
 	if(pot_adc > POT_MID){
      fb6:	20 e0       	ldi	r18, 0x00	; 0
-     fb8:	30 e0       	ldi	r19, 0x00	; 0
-     fba:	4d ea       	ldi	r20, 0xAD	; 173
-     fbc:	53 e4       	ldi	r21, 0x43	; 67
+     fb8:	30 e4       	ldi	r19, 0x40	; 64
+     fba:	46 e0       	ldi	r20, 0x06	; 6
+     fbc:	54 e4       	ldi	r21, 0x44	; 68
      fbe:	6d 81       	ldd	r22, Y+5	; 0x05
      fc0:	7e 81       	ldd	r23, Y+6	; 0x06
      fc2:	8f 81       	ldd	r24, Y+7	; 0x07
@@ -2154,8 +2154,8 @@ double calculate_steering_percent(double pot_adc) {
      fca:	ac f5       	brge	.+106    	; 0x1036 <__DATA_REGION_LENGTH__+0x36>
 		steering_value = -1 * (100 - ((100 / (double)(POT_MID - POT_MAX)) * (pot_adc - (double)POT_MAX)));
      fcc:	20 e0       	ldi	r18, 0x00	; 0
-     fce:	30 e0       	ldi	r19, 0x00	; 0
-     fd0:	44 e3       	ldi	r20, 0x34	; 52
+     fce:	30 ec       	ldi	r19, 0xC0	; 192
+     fd0:	4a e5       	ldi	r20, 0x5A	; 90
      fd2:	54 e4       	ldi	r21, 0x44	; 68
      fd4:	6d 81       	ldd	r22, Y+5	; 0x05
      fd6:	7e 81       	ldd	r23, Y+6	; 0x06
@@ -2164,9 +2164,9 @@ double calculate_steering_percent(double pot_adc) {
      fdc:	70 d0       	rcall	.+224    	; 0x10be <__subsf3>
      fde:	dc 01       	movw	r26, r24
      fe0:	cb 01       	movw	r24, r22
-     fe2:	2d ef       	ldi	r18, 0xFD	; 253
-     fe4:	35 ee       	ldi	r19, 0xE5	; 229
-     fe6:	48 e8       	ldi	r20, 0x88	; 136
+     fe2:	23 eb       	ldi	r18, 0xB3	; 179
+     fe4:	3a e7       	ldi	r19, 0x7A	; 122
+     fe6:	47 e9       	ldi	r20, 0x97	; 151
      fe8:	5e e3       	ldi	r21, 0x3E	; 62
      fea:	bc 01       	movw	r22, r24
      fec:	cd 01       	movw	r24, r26
