@@ -16,9 +16,9 @@
 #define SCK PB1
 #define SS_uC PE4
 #define SS_TK1 PE0
-#define SS_TK2 PE1							//End
+#define SS_TK2 PE1							
 #define SS_TK3 PE2
-#define SS_TK4 PE3
+#define SS_TK4 PE3							//End
 
 #define SPI_Control_Reg SPCR
 	#define SPI_Interrupt_Enable SPIE
@@ -53,7 +53,6 @@
 void SPI_MasterInit();
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);
-uint16_t SPI_Getspeed(uint8_t side);
 uint8_t SPI_transfer(uint8_t data);
 
 
