@@ -29,10 +29,11 @@ volatile unsigned long time_200ms = 0;
 volatile unsigned long time_1000ms = 0;
 
 //	Macros
-#define TIME_PASSED_1_MS	(sys_time - time_1ms) >= 10
-#define TIME_PASSED_10_MS	(sys_time - time_10ms) >= 100
-#define TIME_PASSED_100_MS	(sys_time - time_100ms) >= 1000
-#define TIME_PASSED_200_MS	(sys_time - time_200ms) >= 2000
-#define TIME_PASSED_1000_MS	(sys_time - time_1000ms) >= 10000
+
+#define TIME_PASSED_1_MS	(sys_time - time_1ms) >= 1
+#define TIME_PASSED_10_MS	(sys_time - time_10ms) >= 10
+#define TIME_PASSED_100_MS	(sys_time - time_100ms) >= 100
+#define TIME_PASSED_200_MS	(sys_time - time_200ms) >= 200
+#define TIME_PASSED_1000_MS	(sys_time - time_1000ms) >= 1000
 
 #endif /* MAIN_H_ */

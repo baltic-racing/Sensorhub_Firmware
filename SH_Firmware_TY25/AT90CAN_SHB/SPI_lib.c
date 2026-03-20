@@ -13,31 +13,51 @@ extern volatile uint8_t wheelspeed;
 
 void SPI_MasterInit()
 {
-	//Set MOSI, SCK 
+	//Set MOSI, SCK, all SS as output
 	DDRB |= (1<<MOSI) | (1<<SCK);
+	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
 	
 	//Set MISO as input
 	DDRB &= ~(1<<MISO);
 	
-	//all SS as output
-	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
-	
-	//all SS high = inactive
-	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
-	
 	// Set internal pull-up for MISO
 	//PORTB |= (1 << MISO);
 	
-	//enables SP, Master-Mode, set SPI-frequency --> prescaler 64 --> 16MHz:64=250kHz
-	SPI_Control_Reg = (1<<SPI_Enable) | (1<<SPI_Master) | (1<<SPI_Relation1);
+	//enables SPI, Master-Mode, configure Clock_Select
+	SPI_Control_Reg |= (1<<SPI_Enable) | (1<<SPI_Master) | (1<<SPI_Relation1) | (0<<SPI_Relation0);
+	
+	//Set all SS High
+	PORTE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
 }
 
-uint8_t SPI_transfer(uint8_t data)
+void SPI_SlaveInit()
 {
-	SPDR = data;						// write in SPDR, which information to send next
+	//Set MOSI, SCK, SS as input
+	DDRB &= ~((1<<MOSI) | (1<<SCK) | (1<<SS_uC));
 	
-	while(!(SPSR & (1 << SPIF)))		// wait for SPI_Interrupt_Flag (SPIF) --> if send = transfer complete
-	{
-	}
+	//Set MISO as output
+	DDRB |= (1<<MISO);
+	
+	//enables SPI
+	SPI_Control_Reg |= (1<<SPI_Enable);
+}
+
+char SPI_SlaveReceive()
+{
+	/* Wait for reception complete */
+	while(!(SPI_Status_Reg & (1<<SPI_Interrupt_Flag)));
+	/* Return data register */
+	return SPI_Data_Reg;
+}
+
+uint8_t SPI_transfer(uint8_t data){
+	SPDR = data;
+	while(!(SPSR & (1 << SPIF)));
 	return SPDR;
 }
+
+//ISR(SPI_STC_vect)
+//{
+	//PORTE |= (1<<SS_uC);
+	//wheelspeed = SPI_Data_Reg;
+//}

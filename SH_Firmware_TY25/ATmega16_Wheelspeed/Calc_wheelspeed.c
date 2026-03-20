@@ -7,57 +7,96 @@
 
 #include "calc_wheelspeed.h"
 
-volatile uint8_t wheelspeed_left = 0;
-volatile uint8_t wheelspeed_right = 0;
-volatile uint16_t time_left = 0;
-volatile uint16_t time_right = 0;
+volatile uint16_t wheelspeed_left = 0;
+volatile uint16_t wheelspeed_right = 0;
+volatile uint16_t steps_per_intervall_left = 0;
+volatile uint16_t steps_per_intervall_right = 0;
+volatile uint16_t timestepdiff_left = 0;
+volatile uint16_t timestepdiff_right = 0;
 
-void PORT_Config(){	
+volatile unsigned long time_old_ws = 0;
+volatile unsigned long int sys_time_old_ws = 0;
+//uint64_t delta_ws = 0;
+
+
+void PORT_Config(){							//enable Pin change Interrupt on Digital_in pin PD3 (PIN 12)
 	
-	// set PD2 and PB2 as input
-	DDRD &= ~(1 << PD2);					
+	DDRD &= ~(1 << PD2);					// set digital_input as Input
 	DDRB &= ~(1 << PB2);
 	
-		// configure INT0: ISC01 = 1 && ISC02 = 0 --> INT0 = falling edge
-	MCUCR |= (1 << ISC01);					//MCUCR = SMCU Control_Reg
+	// Konfiguriere INT0 für fallende Flanke
+	MCUCR |= (1 << ISC01);					// MCUCR = SMCU Control_Reg
 	MCUCR &= ~(1 << ISC00);
 	
-		// configure INT2: ISC2 = 0 --> falling edge
 	MCUCSR &= ~(1 << ISC2);
 	
-	//General Interrupt Flag Register --> delete Flags (before activation)
-	GIFR |= (1<<INTF0) | (1<<INTF2);
-	// activate interrupts INT0 & INT2
+	// Aktiviere INT0
 	GICR |= (1 << INT0);
 	GICR |= (1 << INT2);
 }
 
-
-//Digi2-in // PD2
-ISR(INT0_vect)
-{
-	time_left = time_delta_left;	//count time in 0.1ms between two interrupt
+ISR(INT0_vect){
+	timestepdiff_left = time_delta_left;
 	time_delta_left = 0;
+	steps_per_intervall_left++;
 }
 
-
-//Digi1-in // PB2
-ISR(INT2_vect)
-{
-	time_right = time_delta_right;	//count time in 0.1ms between two interrupt
+ISR(INT2_vect){
+	timestepdiff_right = time_delta_right;
 	time_delta_right = 0;
+	steps_per_intervall_right++;
 }
 
+void calc_speed(void){
+	if (steps_per_intervall_left >= SWITCH_THERESHOLD_STEPS){
+		calc_speed_high(LEFT, steps_per_intervall_left);
+	}
+	else{
+		calc_speed_low(LEFT, timestepdiff_left);
+	}
+	
+	if (steps_per_intervall_right >= SWITCH_THERESHOLD_STEPS){
+		calc_speed_high(RIGHT, steps_per_intervall_right);
+	}else{
+		calc_speed_low(RIGHT, timestepdiff_right);
+	}
+	
+	if (steps_per_intervall_left == 0) wheelspeed_left = 0;
+	if (steps_per_intervall_right == 0) wheelspeed_right = 0;
+	
+	steps_per_intervall_left = 0;
+	steps_per_intervall_right = 0;
+}
 
-void calc_speed(void)
-{
-	wheelspeed_left = (100000/(16*time_left));			//*16 because of 16 teeths // *100000 for seconds
-	wheelspeed_right = (100000/(16*time_right));
-		
-	time_left = 0;
-	time_right = 0;
+void calc_speed_low(uint8_t side, double timestep_diff_ms){
+	double ang_vel = timestep_diff_ms / TRIGGER_ANGLE_DEG;
+	if (ang_vel == 0){
+		if (side == LEFT) wheelspeed_left = 0;
+		else wheelspeed_right = 0;
+	}
 	
+	ang_vel = 1.0 / ang_vel;
+	double RPS = (ang_vel / 360.0) * 1000.0;
+	double speed_kmh = RPS * (TIRE_CIRCUMFERENCE_MM / 1000.0) * 3.6;
+	double RPM = RPS * 60;
 	
+	if (side == LEFT) wheelspeed_left = (uint16_t) RPM;
+	else wheelspeed_right = (uint16_t) RPM;
+}
+
+void calc_speed_high(uint8_t side, uint8_t steps_per_intervall){
+	if (steps_per_intervall == 0){
+		if (side == LEFT) wheelspeed_left = 0;
+		else wheelspeed_right = 0;
+	}
+	
+	double impulses_per_second = (steps_per_intervall * 1000.0) / update_frequency_simple_ms;
+	double RPS = impulses_per_second / number_of_teeth;
+	double RPM = RPS * 60;
+	double speed_kmh = RPS * (TIRE_CIRCUMFERENCE_MM / 1000) * 3.6;
+	
+	if (side == LEFT) wheelspeed_left = (uint16_t) RPM;
+	else wheelspeed_right = (uint16_t) RPM;
 }
 
 /*  _________________________________________________________________________________________________________

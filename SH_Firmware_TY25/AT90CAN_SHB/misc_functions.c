@@ -13,20 +13,18 @@ void port_config(void)
 {
 	// Set Fault(PCO) and Heart(PC2) LED as Output
 	DDRC |= (1<<PC0) | (1<<PC2);
-	// set BPS1, BPS2, SA as input
+	//BPS1, BPS2, SA (Steering Angle)
 	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2);
 }
 
 void sys_timer_config(void)
 {
-	//CTC-Mode, prescaler 64 // Clock_f 16MHz : 64 =250kHz
-	TCCR0A = 0 | (1<<WGM01) | (1<<CS01) | (1<<CS00); 
-	
+	//CTC-Mode, /64
+	TCCR0A = 0 | (1<<WGM01) | (1<<CS01) | (1<<CS00);
 	//Compare Interrupt Enable
 	TIMSK0 = 0 | (1<<OCIE0A);
-	
-	//Compare value for 1ms
-	OCR0A = 249; // counts 250times -> 250kHz : 250 = each 1kHz = 1 interrupt 
+	//Compare value for 1ms (Formula in Datasheet)
+	OCR0A = 249; //249
 
 }
 

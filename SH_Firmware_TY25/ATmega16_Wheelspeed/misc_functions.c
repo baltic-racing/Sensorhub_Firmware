@@ -13,27 +13,20 @@ volatile unsigned long time_delta_right = 0;
 
 void sys_timer_config(){
 	//Timer/Counter0 Control Register = Waveform Generation Mode | Compare Match Ouput Mode(0/1)
-	
-	//WGM01 = 1 && WGM00 = 0 => CTC (Clear Timer on Compare Match) enabled -> Timer counts up, when OCR0 is reached, reset to 0 => double buffering disabled
-	
-	//COM01 = 0 && COM00 = 0 => Normal port operation, OC0A disconnected
-	
+	//COM01 = 0 && COM00 => Normal port operation, OC0A disconnected
+	//WGM01 = 1 && WGM00 = 0 => Clear Timer on Compare (CTC) enabled => double buffering disabled
 	//CS02 = 0 && CS01 = 1 && CS00 = 1 => CLK prescaler 64
-		// 16MHz clock /  64 Prescaer -> 250kHz 
-		
-	TCCR0 = 0 | (1<<WGM01) | (1<<CS01) | (1<<CS00); //CTC mode & presclaer 64
-
+	TCCR0 = 0 | (1<<WGM01) | (0<<COM01) | (0<<COM00) | (0<<CS02) | (1<<CS01) | (1<<CS00);
+	//Systime Calc 16Mhz external Qaurtz via AT90CAN
+	//Prescaler = 64 =>  250 kHz
 	
-	//TIMSK = Timer/Counter0 Interrupt Mask Register |= Ouput Compare Match A Interrupt Enable | Timer/Counter0 Overflow Interrupt Enable
+	//Timer/Counter0 Interrupt Mask Register |= Ouput Compare Match A Interrupt Enable | Timer/Counter0 Overflow Interrupt Enable
+	TIMSK |= (1<<OCIE0) | (1<<TOIE0); //compare interrupt enable
 	
-	TIMSK |= (1<<OCIE0); //interrupt enable	//| (1<<TOIE0); -> this interrupt was previous enabled but nowhere used
+	OCR0 = 250-1;
+	//Prescaler = 64 =>  250 kHz => 1kHz
 	
-	
-	//OCR0 = output compare match interrupt enable
-
-	OCR0 = 24; // TCCR0 -> 250kHz -> OCR0 counts 25times -> 100us interrupts	
-	
-	
+	// Goal 10 Khz set OCR0A Value accordingly to 100
 }
 
 void sys_tick_heart()
@@ -53,7 +46,6 @@ void fault_detected()
 
 ISR(TIMER0_COMP_vect)
 {
-	//1ms interrupts
 	time_delta_left++;
 	time_delta_right++;
 	sys_time++;

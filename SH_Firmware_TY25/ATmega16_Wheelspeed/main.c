@@ -5,8 +5,6 @@
  * Author : racin
  */ 
 
-//!!!!ATTENTION, sys_time is set to count in 100us not 1ms steps !!!!
-
 #include "main.h"
 
 
@@ -20,6 +18,7 @@ int main(void)
 
     while (1) 
     {
+		//data = SPI_SlaveReceive();
 		
 		if(TIME_PASSED_1_MS)
 		{
@@ -30,13 +29,14 @@ int main(void)
 		if(TIME_PASSED_10_MS)
 		{
 			time_10ms = sys_time;
-			calc_speed();
+			
 		} // end of 10ms
 
 		if (TIME_PASSED_100_MS)
 		{
 			time_100ms = sys_time;
-
+			
+			calc_speed();
 			sys_tick_heart();
 			
 		} // end of 100ms
