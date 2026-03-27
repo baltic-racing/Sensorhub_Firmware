@@ -42,9 +42,9 @@ double damper_poti(double dp_adc);
 //#define POT_MAX 702	//adc value for full steering lock left
 //#define POT_MID 355	//adc value for middle position
 
-#define POT_MIN 150	//adc value for full steering lock right
-#define POT_MAX 875	//adc value for full steering lock left
-#define POT_MID 537	//adc value for middle position
+#define POT_MIN 196	//adc value for full steering lock right
+#define POT_MAX 883	//adc value for full steering lock left
+#define POT_MID 568	//adc value for middle position
 
 double calculate_steering_percent(double pot_adc);
 

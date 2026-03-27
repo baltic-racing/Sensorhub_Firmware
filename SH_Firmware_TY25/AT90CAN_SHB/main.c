@@ -140,9 +140,18 @@ int main(void)
 			}
 			
 			//wheelspeed
+		
 			wheelspeed_left = (wheelspeed_left_msb << 8) | wheelspeed_left_lsb;
 			wheelspeed_right = (wheelspeed_right_msb << 8) | wheelspeed_right_lsb;
 			
+			if( wheelspeed_right == 255)
+			{
+				wheelspeed_right = 0;
+			}
+			if( wheelspeed_left == 255)
+			{
+				wheelspeed_left = 0;
+			}
 			//steering angle
 			int8_t steering_percentage = calculate_steering_percent((double) adc_get(2));			
 			
@@ -167,10 +176,10 @@ int main(void)
 			SensorHub1_databytes[1]	=	ADC2Sensor(adc_get(0),0.0,5.0,100,10,5,10) >> 8			;	// msb BPS_F
 			SensorHub1_databytes[2]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) & 0xFF		;	// lsb BPS_R
 			SensorHub1_databytes[3]	=	ADC2Sensor(adc_get(1),0.5,4.5,100,10,5,10) >> 8			;	// msb BPS_R
-			SensorHub1_databytes[4]	=	wheelspeed_left & 0xFF									;	// lsb wheelspeed left	
-			SensorHub1_databytes[5]	=	wheelspeed_left >> 8									;	// msb wheelspeed left
-			SensorHub1_databytes[6]	=	wheelspeed_right & 0xFF									;	// lsb wheelspeed right
-			SensorHub1_databytes[7]	=	wheelspeed_right >> 8									;	// msb wheelspeed right
+			SensorHub1_databytes[5]	=	0								;	// lsb wheelspeed left	
+			SensorHub1_databytes[4]	=	wheelspeed_left									;	// msb wheelspeed left
+			SensorHub1_databytes[7]	=	0								;	// lsb wheelspeed right
+			SensorHub1_databytes[6]	=	wheelspeed_right									;	// msb wheelspeed right
 			
 			//SensorHub2_databytes[0]	=	0														;	// reserved
 			//SensorHub2_databytes[1]	=	0														;	// reserved
