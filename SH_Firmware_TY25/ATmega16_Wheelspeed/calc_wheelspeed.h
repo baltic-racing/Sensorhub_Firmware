@@ -15,8 +15,6 @@
 #define RIGHT 1
 
 extern volatile unsigned long sys_time;
-extern volatile unsigned long time_delta_left;
-extern volatile unsigned long time_delta_right;
 
 void PORT_Config();
 void calc_speed(void);

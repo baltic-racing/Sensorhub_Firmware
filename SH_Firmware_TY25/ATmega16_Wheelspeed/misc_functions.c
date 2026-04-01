@@ -8,8 +8,6 @@
 #include "misc_functions.h"
 
 volatile unsigned long sys_time = 0;
-volatile unsigned long time_delta_left = 0;
-volatile unsigned long time_delta_right = 0;
 
 void sys_timer_config(){
 	//Timer/Counter0 Control Register = Waveform Generation Mode | Compare Match Ouput Mode(0/1)
@@ -24,7 +22,7 @@ void sys_timer_config(){
 	TCCR0 = 0 | (1<<WGM01) | (1<<CS01) | (1<<CS00); //CTC mode & presclaer 64
 
 	
-	//TIMSK = Timer/Counter0 Interrupt Mask Register |= Ouput Compare Match A Interrupt Enable | Timer/Counter0 Overflow Interrupt Enable
+	//TIMSK = Timer/Counter0 Interrupt Mask Register |= Output Compare Match A Interrupt Enable | Timer/Counter0 Overflow Interrupt Enable
 	
 	TIMSK |= (1<<OCIE0); //interrupt enable	//| (1<<TOIE0); -> this interrupt was previous enabled but nowhere used
 	
@@ -53,8 +51,6 @@ void fault_detected()
 
 ISR(TIMER0_COMP_vect)
 {
-	//1ms interrupts
-	time_delta_left++;
-	time_delta_right++;
+	//100us interrupts
 	sys_time++;
 }

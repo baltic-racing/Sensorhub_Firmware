@@ -7,10 +7,12 @@
 
 #include "calc_wheelspeed.h"
 
-volatile uint8_t wheelspeed_left = 0;
-volatile uint8_t wheelspeed_right = 0;
+volatile uint8_t wheelspeed_left;
+volatile uint8_t wheelspeed_right;
 volatile uint16_t time_left = 0;
 volatile uint16_t time_right = 0;
+volatile uint32_t old_time_left = 0;
+volatile uint32_t old_time_right = 0;
 
 void PORT_Config(){	
 	
@@ -36,29 +38,48 @@ void PORT_Config(){
 //Digi2-in // PD2
 ISR(INT0_vect)
 {
-	time_left = time_delta_left;	//count time in 0.1ms between two interrupt
-	time_delta_left = 0;
+	time_left = sys_time - old_time_left;	//count time in 0.1ms between two interrupt
+	old_time_left = sys_time;
 }
 
 
 //Digi1-in // PB2
 ISR(INT2_vect)
 {
-	time_right = time_delta_right;	//count time in 0.1ms between two interrupt
-	time_delta_right = 0;
+	time_right = sys_time - old_time_right;	//count time in 0.1ms between two interrupt
+	old_time_right = sys_time;
 }
 
 
 void calc_speed(void)
 {
-	wheelspeed_left = (100000/(16*time_left));			//*16 because of 16 teeths // *100000 for seconds
-	wheelspeed_right = (100000/(16*time_right));
+	cli();
+	
+	if((time_left < 1250)&& (time_left >0))				//check if vehicle is moving (t=1250 == 0.5U/s) and t>0 to prevent division by zero
+	{
+		wheelspeed_left = (100000/(16*time_left));	
+	}
+		else
+		{
+			wheelspeed_left = 0;
+		}
 		
-	time_left = 0;
-	time_right = 0;
-	
-	
-}
+	if((time_right < 1250)&& (time_right >0)){
+		wheelspeed_right = (100000/(16*time_right));
+	}
+		else
+		{
+			wheelspeed_right = 0;
+		}
+	sei();
+}														// end calc_wheelspeed
+
+	/*
+		16 teeth per revolution
+		255 bits for data -> unit = U/s -> max = 25.5U/s -> max_v = 25.5U/s * 1.5m/U = 38.25m/s = 137.7km/h
+		
+		uC runs with 
+	*/
 
 /*  _________________________________________________________________________________________________________
 	H	ISC11	H	ISC10	H	Descrition																	H

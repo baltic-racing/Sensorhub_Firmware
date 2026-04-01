@@ -19,6 +19,9 @@ void SPI_MasterInit()
 	//Set MISO as input
 	DDRB &= ~(1<<MISO);
 	
+	//sez Hardware-SS-Pin as Output. otherwise AT90CAN is selected as Slave by an other uC
+	DDRB |= (1<<PB0);
+	
 	//all SS as output
 	DDRE |= (1<<SS_uC) | (1<<SS_TK1) | (1<<SS_TK2) | (1<<SS_TK3) | (1<<SS_TK4);
 	

@@ -9,6 +9,7 @@
 
 // array to store the adc data in
 uint16_t adc_values[ADCVALUES]; //Defined in the Header file (2 right now)
+
 // index var to know which adc will come next
 uint8_t adc_next = 0;
 
@@ -18,8 +19,10 @@ void adc_config()
 {
 	//AREF = AVCC, PF0
 	ADMUX = (1<<REFS0) | (1<<MUX0);
+	
 	//ADC Enable, /16, Interrupt Enable
 	ADCSRA = (1<<ADEN) | (1<<ADPS2) | (0<<ADPS1) | (0<<ADPS0) | (1<<ADIE);
+	
 	//Start Conversion
 	ADCSRA |= (1<<ADSC);
 }

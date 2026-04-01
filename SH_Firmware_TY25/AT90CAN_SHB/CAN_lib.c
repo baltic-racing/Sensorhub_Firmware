@@ -49,9 +49,9 @@ void can_cfg(){
 		}
 	}
 
-	CANBT1 = 0x02;// Set Baudrate
-	CANBT2 = 0x0C;// 500kBaud according
-	CANBT3 = 0x37;// to Datasheet S. 267
+	CANBT1 = 0x02;			// Set Baudrate
+	CANBT2 = 0x0C;			// 500kBaud according
+	CANBT3 = 0x37;			// to Datasheet S. 267
 
 	CANGIE = 0;
 

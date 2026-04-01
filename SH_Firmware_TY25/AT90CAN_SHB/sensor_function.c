@@ -5,20 +5,51 @@
  *  Author: pasca
  */ 
 
+
+#include "SPI_lib.h"
 #include "sensor_function.h"
 #include <avr/io.h>
 #include <math.h>
 
-uint16_t ADC2Sensor(uint16_t data, float start_Volt, float end_Volt, uint8_t sensor_max, uint16_t ADC_bit, uint8_t ADC_Volt, uint16_t precision){
-	uint16_t start_ADC = (pow(2,ADC_bit))/ADC_Volt*start_Volt;	//0
-	uint16_t end_ADC = (pow(2,ADC_bit))/ADC_Volt*end_Volt ;		//1023
-	float ADC_range = end_ADC - start_ADC;						//1023		
-	float sensor_factor = sensor_max/ADC_range;					//4			bar/adc
-	uint16_t Sensor_Data = (data-start_ADC)*precision*sensor_factor;//*40	bar
-	if (data<(start_ADC+5)){//Set sensor value to zero if below the ADC Threshold
-		Sensor_Data = 0;
+uint8_t getwheelspeed(uint8_t side)
+{
+	uint8_t wheelspeed_function = 0;
+	
+	if (side == 0x01)											// wheelspeed left
+	{
+		//wheelspeed_left
+		SS_uC_LOW();											// select uC  for SPI-communication
+		SPI_transfer(0x01);										// for 0x01: slave put ws_left in SPDR
+		wheelspeed_function = SPI_transfer(0x00);				// Slave send 8bit of wheelspeed_left
+		SS_uC_HIGH();											// deselect uC for SPI-communication
 	}
-	return Sensor_Data;
+	
+	if (side == 0x03)											// wheelspeed right
+	{
+		//wheelspeed_right
+		SS_uC_LOW();											// select uC  for SPI-communication
+		SPI_transfer(0x03);										// for 0x03: slave put ws_right in SPDR
+		wheelspeed_function = SPI_transfer(0x00);				// Slave send 8bit of wheelspeed_left
+		SS_uC_HIGH();											// deselect uC for SPI-communication
+	}
+	
+	return wheelspeed_function;
+}
+
+uint16_t calculate_BP(uint16_t adc_BP_data)						//sensor 0.5V-4.5V		//0.5V = 102.3 ADC		//4.5V = 921 ADC
+{
+	uint16_t value_BP = 0;
+	
+	if(adc_BP_data > BP_MIN)
+	{
+			value_BP = (adc_BP_data-100)/(0.5453);		//in 0.1bar
+	}
+	else
+	{
+		value_BP = 0;
+	}
+	
+	return value_BP;											//return BP  in 0.1bar 
 }
 
 double damper_poti(double dp_adc){

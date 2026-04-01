@@ -24,7 +24,7 @@ int main(void)
 		if(TIME_PASSED_1_MS)
 		{
 			time_1ms = sys_time;
-
+			
 		} // end of 1ms
 		
 		if(TIME_PASSED_10_MS)
@@ -36,9 +36,8 @@ int main(void)
 		if (TIME_PASSED_100_MS)
 		{
 			time_100ms = sys_time;
-
 			sys_tick_heart();
-			
+
 		} // end of 100ms
 		
 		if (TIME_PASSED_200_MS)

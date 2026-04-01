@@ -13,8 +13,8 @@ void port_config(void)
 {
 	// Set Fault(PCO) and Heart(PC2) LED as Output
 	DDRC |= (1<<PC0) | (1<<PC2);
-	// set BPS1, BPS2, SA as input
-	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2);
+	// set BPS1, BPS2, SA, damperTravelFR, damperTravelFL as input
+	DDRF &= ~(1<<PF0) & ~(1<<PF1) & ~(1<<PF2) & ~(1<<PF3) & ~(1<<PF4);
 }
 
 void sys_timer_config(void)
