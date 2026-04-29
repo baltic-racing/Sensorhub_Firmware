@@ -64,11 +64,11 @@ int main(void)
 	can_SensorHubB1_mob.mob_number = 1;
 	uint8_t SensorHubB1_databytes[8] = {0};
 
-	struct CAN_MOB can_SensorHubB2_mob;
-	can_SensorHubB2_mob.mob_id = 0x412;
-	can_SensorHubB2_mob.mob_idmask = 0xFFFF;//sent
-	can_SensorHubB2_mob.mob_number = 2;
-	uint8_t SensorHubB2_databytes[8] = {0};
+	//struct CAN_MOB can_SensorHubB2_mob;
+	//can_SensorHubB2_mob.mob_id = 0x412;
+	//can_SensorHubB2_mob.mob_idmask = 0xFFFF;//sent
+	//can_SensorHubB2_mob.mob_number = 2;
+	//uint8_t SensorHubB2_databytes[8] = {0};
 	
 	sei();	
 	
@@ -172,7 +172,7 @@ int main(void)
 			time_200ms = sys_time;
 			
 			// cooling temperature
-			uint16_t tempRU =  temp_calc((float)adc_get(7)); //adc 0
+			uint16_t tempRU =  temp_calc((float)adc_get(0));
 			uint16_t tempRD =  temp_calc((float)adc_get(1));
 			uint16_t tempLU =  temp_calc((float)adc_get(2));
 			uint16_t tempLD =  temp_calc((float)adc_get(7));
