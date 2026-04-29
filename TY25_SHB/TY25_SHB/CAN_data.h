@@ -11,6 +11,6 @@
 #include <avr/io.h>
 #include "Can_lib.h"
 
-void CAN_Init_Messages();
+void CAN_Init_Messages(void);
 
 #endif /* CAN_DATA_H_ */

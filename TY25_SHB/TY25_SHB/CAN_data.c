@@ -16,7 +16,7 @@ struct CAN_MOB can_SensorHubB0_mob;
 struct CAN_MOB can_SensorHubB1_mob;
 struct CAN_MOB can_SensorHubB2_mob;
 
-CAN_Init_Messages(){
+void CAN_Init_Messages(void){
 	
 	can_SensorHubB0_mob.mob_id = 0x410;
 	can_SensorHubB0_mob.mob_idmask = 0xFFFF; //sent

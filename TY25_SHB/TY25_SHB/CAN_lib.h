@@ -20,7 +20,7 @@ struct CAN_MOB{
 
 
 uint8_t can_check_free(uint8_t mobnum);
-void can_cfg();
+void can_cfg(void);
 void can_rx(struct CAN_MOB *to_receive, uint8_t *data);
 void can_tx(struct CAN_MOB *to_send, uint8_t *data);
 

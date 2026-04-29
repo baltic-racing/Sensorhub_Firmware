@@ -21,8 +21,8 @@ uint16_t adc_get(uint8_t adc);
 
 /*	FUNCTION PROTOTYPES	*/
 
-void adc_config();
-void adc_start_conversion();
+void adc_config(void);
+void adc_start_conversion(void);
 
 /*	Interrupt Service Routines	*/
 

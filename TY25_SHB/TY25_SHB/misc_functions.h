@@ -12,8 +12,8 @@
 #include <avr/interrupt.h>
 
 void port_config(void);
-void sys_timer_config();
-void sys_tick_heart();
+void sys_timer_config(void);
+void sys_tick_heart(void);
 
 ISR(TIMER0_COMP_vect);
 

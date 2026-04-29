@@ -52,11 +52,11 @@
 #define LEFT 0x01
 #define RIGHT 0x03
 
-void SPI_MasterInit();
+void SPI_MasterInit(void);
 void SPI_SlaveInit(void);
 char SPI_SlaveReceive(void);
 uint8_t SPI_transfer(uint8_t data);
-uint16_t TYPK_getdata();
+uint16_t TYPK_getdata(void);
 
 
 #endif /* SPI_H_ */
