@@ -152,10 +152,10 @@ int main(void)
 			uint16_t federwegRR =  SPRINGTRAVEL_MAX - DAMP_MAX_FR + damper_poti((double)adc_get(6));
 			
 			// CAN bus
-			SensorHubB0_databytes[0]	=	0														;	//lsb 
-			SensorHubB0_databytes[1]	=	0														;	//msb 
-			SensorHubB0_databytes[2]	=	0														;	//lsb 
-			SensorHubB0_databytes[3]	=	0														;	//msb 
+			SensorHubB0_databytes[0]	=	wheelspeed_left	& 0xFF									;	//lsb 
+			SensorHubB0_databytes[1]	=	wheelspeed_left >> 8									;	//msb 
+			SensorHubB0_databytes[2]	=	wheelspeed_right & 0xFF									;	//lsb 
+			SensorHubB0_databytes[3]	=	wheelspeed_right >> 8									;	//msb 
 			SensorHubB0_databytes[4]	=	federwegRL & 0xFF										;	//federwegRL & 0xFF
 			SensorHubB0_databytes[5]	=	federwegRL >> 8											;	//federwegRL >> 8
 			SensorHubB0_databytes[6]	=	federwegRR & 0xFF										;	//federwegRR & 0xFF
